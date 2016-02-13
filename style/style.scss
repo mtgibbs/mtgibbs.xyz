@@ -1,0 +1,61 @@
+@import 'branding';
+@import 'theme';
+
+body {
+  color: $color-black;
+
+  font-family: 'Oxygen Mono', ;
+
+  .code-hero {
+    background-color: $color-black;
+    color: $color-white;
+    height: 450px;
+    overflow: auto;
+    white-space: nowrap;
+    position: relative;
+    code {
+      background-color: transparent;
+      color: inherit;
+      font-family: 'Inconsolata', 'Menlo', 'Monaco', 'Consolas';
+    }
+    .typed-cursor {
+      opacity: 1;
+      -webkit-animation: blink 0.7s infinite;
+      -moz-animation: blink 0.7s infinite;
+      animation: blink 0.7s infinite;
+    }
+  }
+}
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,8 @@
+@import 'branding';
+
+nav.navbar {
+  &.navbar-default {
+    background: $color-black;
+    border-radius: 0;
+  }
+}
