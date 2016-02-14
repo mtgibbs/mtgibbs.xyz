@@ -1,4 +1,8 @@
 @import 'branding';
+
+.jumbotron {
+  border-radius: 0 !important;
+}
 nav.navbar {
   &.navbar-default {
     background: $color-black;
