@@ -2,7 +2,10 @@
 @import 'theme';
 body {
   color: $color-black;
-  font-family: 'Oxygen Mono',;
+  background: $color-black;
+  // font-family: 'Oxygen Mono',;
+  font-family: 'Poiret One', cursive;
+  font-size: 16px;
   .code-hero {
     background-color: $color-black;
     color: $color-white;
@@ -65,6 +68,10 @@ body {
         background: $color-alt1;
         color: $color-white;
       }
+      &:last-child {
+        background: $color-alt2;
+        color: $color-white;
+      }
       > i {
         font-size: 5em;
         text-align: center;
@@ -110,7 +117,7 @@ body {
   }
 }
  ::-webkit-scrollbar {
-  width: 6px;
+  width: 12px;
   /* for vertical scrollbars */
   height: 12px;
   /* for horizontal scrollbars */
