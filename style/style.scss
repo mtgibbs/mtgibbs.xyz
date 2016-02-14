@@ -9,20 +9,81 @@ body {
   .code-hero {
     background-color: $color-black;
     color: $color-white;
-    height: 450px;
+    height: 300px;
     overflow: auto;
     white-space: nowrap;
     position: relative;
+
+    .hero-title {
+      position: absolute;
+      transform: translateY(-50%);
+      top: 50%;
+      left: 0;
+      right: 0;
+      margin: auto;
+      text-align: center;
+      font-family: 'Poiret One', cursive;
+      font-weight: 900;
+      font-size: 3em;
+      color: $color-primary;
+      z-index: 200;
+    }
+
+    .hero-shadow-panel {
+      content: ' ';
+      background: $color-black;
+      width: 400px;
+      top: 50%;
+      left: 0;
+      right: 0;
+      margin: auto;
+      transform: translateY(-50%);
+      height: 100px;
+      display: block;
+      position: absolute;
+      z-index: 99;
+      opacity: .8;
+    }
+
     code {
       background-color: transparent;
       color: inherit;
       font-family: 'Inconsolata', 'Menlo', 'Monaco', 'Consolas';
+      opacity: .3;
     }
+
     .typed-cursor {
       opacity: 1;
       -webkit-animation: blink 0.7s infinite;
       -moz-animation: blink 0.7s infinite;
       animation: blink 0.7s infinite;
+    }
+  }
+
+  .info-cells {
+    > div {
+
+
+
+      &:first-child {
+        background: $color-primary;
+color: $color-white;
+      }
+
+      &:nth-child(2) {
+        background: $color-alt1;
+        color: $color-white;
+      }
+
+      > i {
+        font-size: 5em;
+        text-align: center;
+        display: block;
+      }
+
+      > h2 {
+        text-align: center;
+      }
     }
   }
 }
