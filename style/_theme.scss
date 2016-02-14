@@ -2,6 +2,7 @@
 
 .jumbotron {
   border-radius: 0 !important;
+  border: 3px solid $color-primary;
 }
 nav.navbar {
   &.navbar-default {
@@ -15,8 +16,10 @@ nav.navbar {
       > li {
         > a {
           text-shadow: none;
+          color: $color-white;
+
           &:hover {
-            color: $color-white;
+            color: $color-alt2;
           }
         }
       }
