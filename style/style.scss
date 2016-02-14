@@ -1,19 +1,18 @@
 @import 'branding';
 @import 'theme';
-
 body {
   color: $color-black;
-
-  font-family: 'Oxygen Mono', ;
-
+  font-family: 'Oxygen Mono',;
   .code-hero {
     background-color: $color-black;
     color: $color-white;
-    height: 300px;
-    overflow: auto;
-    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
     position: relative;
-
+    .code-typing-container {
+      height: 300px;
+      overflow: auto;
+    }
     .hero-title {
       position: absolute;
       transform: translateY(-50%);
@@ -28,7 +27,6 @@ body {
       color: $color-primary;
       z-index: 200;
     }
-
     .hero-shadow-panel {
       content: ' ';
       background: $color-black;
@@ -42,16 +40,14 @@ body {
       display: block;
       position: absolute;
       z-index: 99;
-      opacity: .8;
+      opacity: 0.8;
     }
-
     code {
       background-color: transparent;
       color: inherit;
       font-family: 'Inconsolata', 'Menlo', 'Monaco', 'Consolas';
-      opacity: .3;
+      opacity: 0.3;
     }
-
     .typed-cursor {
       opacity: 1;
       -webkit-animation: blink 0.7s infinite;
@@ -59,28 +55,21 @@ body {
       animation: blink 0.7s infinite;
     }
   }
-
   .info-cells {
     > div {
-
-
-
       &:first-child {
         background: $color-primary;
-color: $color-white;
+        color: $color-white;
       }
-
       &:nth-child(2) {
         background: $color-alt1;
         color: $color-white;
       }
-
       > i {
         font-size: 5em;
         text-align: center;
         display: block;
       }
-
       > h2 {
         text-align: center;
       }
@@ -119,4 +108,16 @@ color: $color-white;
   100% {
     opacity: 1;
   }
+}
+ ::-webkit-scrollbar {
+  width: 6px;
+  /* for vertical scrollbars */
+  height: 12px;
+  /* for horizontal scrollbars */
+}
+ ::-webkit-scrollbar-track {
+  background: rgba($color-black, 0.1);
+}
+ ::-webkit-scrollbar-thumb {
+  background: rgba(darken($color-black, 20%), 0.5);
 }
