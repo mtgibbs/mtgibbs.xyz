@@ -14,7 +14,9 @@ body {
     position: relative;
     .code-typing-container {
       height: 300px;
-      overflow: auto;
+      overflow-y: auto;
+      overflow-x: hidden;
+      word-break: break-all;
     }
     .hero-title {
       position: absolute;
