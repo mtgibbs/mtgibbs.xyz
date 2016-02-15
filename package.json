@@ -9,9 +9,6 @@
   },
   "author": "Matt Gibbs",
   "license": "MIT",
-  "devDependencies": {
-
-  },
   "dependencies": {
     "express": "^4.13.4",
     "bower": "^1.7.7",

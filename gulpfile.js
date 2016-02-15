@@ -71,4 +71,4 @@ gulp.task('prod', function() {
   });
 })
 
-gulp.task('default', ['css', 'script', 'prod']);
+gulp.task('build', ['css', 'script']);
