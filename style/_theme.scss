@@ -5,9 +5,18 @@
   border: 3px solid $color-primary;
 }
 nav.navbar {
+
+  .navbar-collapse {
+    border-color: $color-primary;
+    border-width: 2px;
+  }
+
   &.navbar-default {
+    // border-color: $color-primary;
     background: $color-black;
     border-radius: 0;
+    border: none;
+    border-bottom: 3px solid $color-primary;
     .navbar-brand {
       text-shadow: none;
       color: $color-white;
