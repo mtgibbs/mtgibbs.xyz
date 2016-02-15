@@ -62,17 +62,22 @@ body {
   }
   .info-cells {
     > div {
+      color: $color-white;
+      padding: 30px;
       &:first-child {
-        background: $color-primary;
-        color: $color-white;
+        > i {
+          color: $color-primary;
+        }
       }
       &:nth-child(2) {
-        background: $color-alt1;
-        color: $color-white;
+        > i {
+          color: $color-alt1;
+        }
       }
       &:last-child {
-        background: $color-alt2;
-        color: $color-white;
+        > i {
+          color: $color-alt2;
+        }
       }
       > i {
         font-size: 5em;
@@ -119,7 +124,7 @@ body {
   }
 }
  ::-webkit-scrollbar {
-  width: 12px;
+  width: 6px;
   /* for vertical scrollbars */
   height: 12px;
   /* for horizontal scrollbars */
@@ -128,5 +133,5 @@ body {
   background: rgba($color-black, 0.1);
 }
  ::-webkit-scrollbar-thumb {
-  background: rgba(darken($color-black, 20%), 0.5);
+  background: $color-alt2;
 }
