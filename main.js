@@ -8,8 +8,6 @@ $(function() {
     'https://raw.githubusercontent.com/mtgibbs/inkscape-stroke-to-path/master/stroke-to-path.ps1'
   ];
 
-
-
   $.get(files[Math.floor(Math.random() * files.length)]).done(function(response) {
     response = response.replace(/(\n)+/g, '   ');
 
