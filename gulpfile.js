@@ -62,7 +62,13 @@ gulp.task('develop', function() {
     .on('start', ['watch']);
 });
 
-//Watch task
-gulp.task('default', function() {
-  gulp.watch('style/**/*.scss', ['sass']);
-});
+gulp.task('prod', function() {
+  nodemon({
+    script: './server.js',
+    env: {
+      'NODE_ENV': 'production'
+    }
+  });
+})
+
+gulp.task('default', ['css', 'script', 'prod']);
