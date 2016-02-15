@@ -10,6 +10,10 @@
   "author": "Matt Gibbs",
   "license": "MIT",
   "devDependencies": {
+
+  },
+  "dependencies": {
+    "express": "^4.13.4",
     "bower": "^1.7.7",
     "event-stream": "^3.3.2",
     "gulp": "^3.9.1",
@@ -19,8 +23,5 @@
     "gulp-nodemon": "^2.0.6",
     "gulp-sass": "^2.2.0",
     "gulp-uglify": "^1.5.2"
-  },
-  "dependencies": {
-    "express": "^4.13.4"
   }
 }
