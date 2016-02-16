@@ -1,18 +1,14 @@
 @import 'branding';
-
 .jumbotron {
   border-radius: 0 !important;
   border: 3px solid $color-primary;
 }
 nav.navbar {
-
   .navbar-collapse {
     border-color: $color-primary;
     border-width: 2px;
   }
-
   &.navbar-default {
-    // border-color: $color-primary;
     background: $color-black;
     border-radius: 0;
     border: none;
@@ -21,12 +17,28 @@ nav.navbar {
       text-shadow: none;
       color: $color-white;
     }
+    .navbar-toggle {
+      border-radius: 0;
+      border-color: $color-alt2;
+      border-width: 2px;
+
+      span.icon-bar {
+        background-color: $color-white;
+      }
+
+      &:hover, &:focus {
+        background-color: $color-alt2;
+
+        // span.icon-bar {
+        //   background-color: $color-white;
+        // }
+      }
+    }
     ul.navbar-nav {
       > li {
         > a {
           text-shadow: none;
           color: $color-white;
-
           &:hover {
             color: $color-alt2;
           }
