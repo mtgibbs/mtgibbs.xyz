@@ -4,6 +4,8 @@ $(function() {
     'https://raw.githubusercontent.com/mtgibbs/gulp-less-branding-js/master/index.js',
     'https://raw.githubusercontent.com/mtgibbs/chartist-plugin-barlabels/master/src/scripts/chartist-plugin-barlabels.js',
     'https://raw.githubusercontent.com/mtgibbs/estudu/master/js/main.js',
+    'https://raw.githubusercontent.com/mtgibbs/NapkinTour/master/napkin.tour.js',
+    'https://raw.githubusercontent.com/mtgibbs/gulp-less-branding-js/master/test/main.js'
   ];
 
   $.get(files[Math.floor(Math.random() * files.length)]).done(function(response) {
