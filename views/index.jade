@@ -1,0 +1,52 @@
+include ./_mixins.jade
+
+- var placeholderText = 'Bacon ipsum dolor amet jowl biltong pig bresaola flank short ribs beef ribs pork belly pork chop doner frankfurter drumstick. Tail landjaeger rump prosciutto. Turducken ham hock tri-tip frankfurter, ground round andouille sirloin prosciutto doner jerky drumstick swine. Swine drumstick kielbasa sirloin spare ribs strip steak prosciutto leberkas doner corned beef meatloaf cupim kevin. Flank cow leberkas, sausage shoulder kielbasa chuck kevin.'
+
+html
+  head
+    title= 'mtgibbs.xyz'
+    include ./_styles.jade
+  body
+    nav(class='navbar navbar-default navbar-dark')
+      div.container-fluid
+        div.navbar-header
+          button(
+            type='button'
+            class='navbar-toggle'
+            data-toggle='collapse'
+            data-target='#navbar'
+          )
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='#') mtgibbs.xyz
+        #navbar.navbar-collapse.collapse
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href='https://github.com/mtgibbs')
+                | GitHub 
+                i.fa.fa-github-square
+            li
+              a(href='https://www.linkedin.com/in/mtgibbs21')
+                | LinkedIn 
+                i.fa.fa-linkedin-square
+    // end nav
+    
+    div.container
+      div.jumbotron.code-hero
+        div.row
+          div.col-md-12.code-typing-container
+            code#typingThing
+            
+        span.hero-title Hi.  I'm Matt.
+        div.hero-shadow-panel
+        
+      div.info-cells
+        +info-cell('fa-code', 'Developer', placeholderText)
+        +info-cell('fa-gamepad', 'Game Enthusiast', placeholderText)
+        +info-cell('fa-question', 'TODO', placeholderText)
+    
+    include ./_scripts.jade
+        
+        
