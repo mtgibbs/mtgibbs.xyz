@@ -62,13 +62,4 @@ gulp.task('develop', function() {
     .on('start', ['watch']);
 });
 
-gulp.task('prod', function() {
-  nodemon({
-    script: './server.js',
-    env: {
-      'NODE_ENV': 'production'
-    }
-  });
-})
-
 gulp.task('build', ['css', 'script']);
