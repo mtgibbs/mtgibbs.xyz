@@ -35,13 +35,13 @@ body {
     .hero-shadow-panel {
       content: ' ';
       background: $color-black;
-      width: 400px;
+      width: 325px;
+      height: 75px;
       top: 50%;
       left: 0;
       right: 0;
       margin: auto;
       transform: translateY(-50%);
-      height: 100px;
       display: block;
       position: absolute;
       z-index: 99;
