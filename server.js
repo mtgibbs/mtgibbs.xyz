@@ -11,7 +11,7 @@ app.get('/', function (req, res) {
   res.render('index');
 });
 
-var port = process.env.PORT || 8081;
+var port = process.env.PORT || 1337;
 app.listen(port, function() {
   console.log('App listening on port :' + port);
 });
