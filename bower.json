@@ -19,6 +19,6 @@
     "typed.js": "~1.1.1",
     "jquery": "^2.2.0",
     "bootstrap": "^3.3.6",
-    "entypo": "entypo-css-only#^1.0.0"
+    "Ionicons": "ionicons#^2.0.1"
   }
 }
