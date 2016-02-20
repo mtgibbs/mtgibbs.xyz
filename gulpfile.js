@@ -18,7 +18,7 @@ gulp.task('sass', function() {
 });
 
 gulp.task('fonts', function() {
-  return gulp.src('bower_components/Ionicons/fonts/ionicons.*')
+  return gulp.src('bower_components/entypo/dist/fonts/EntypoPlus.*')
     .pipe(gulp.dest('dist/fonts'));
 });
 
@@ -26,7 +26,7 @@ gulp.task('css', function() {
   var bowerStyles = gulp.src([
     'bower_components/bootstrap/dist/css/bootstrap.min.css',
     'bower_components/bootstrap/dist/css/bootstrap-theme.min.css',
-    'bower_components/Ionicons/css/ionicons.min.css'
+    'bower_components/entypo/dist/css/EntypoPlus.min.css'
   ]);
   var myStyles = gulp.src('style/**/*.scss')
     .pipe(sass({
