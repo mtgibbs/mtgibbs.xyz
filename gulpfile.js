@@ -59,7 +59,6 @@ gulp.task('watch', function() {
 gulp.task('dev', function() {
   gulp.start('script');
   gulp.start('css');
-  gulp.start('fonts');
   nodemon({
       script: './server.js',
       env: {
@@ -70,4 +69,4 @@ gulp.task('dev', function() {
     .on('start', ['watch']);
 });
 
-gulp.task('build', ['css', 'script', 'fonts']);
+gulp.task('build', ['css', 'script']);
