@@ -56,7 +56,7 @@ gulp.task('watch', function() {
   gulp.watch('scripts/**/*.js', ['script']);
 });
 
-gulp.task('develop', function() {
+gulp.task('dev', function() {
   gulp.start('script');
   gulp.start('css');
   gulp.start('fonts');
