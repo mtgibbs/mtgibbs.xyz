@@ -30,15 +30,15 @@ html
             li
               a(href='https://github.com/mtgibbs')
                 | GitHub 
-                i.fa.fa-github-square
+                i.icon.icon-github
             li
               a(href='https://www.linkedin.com/in/mtgibbs21')
                 | LinkedIn 
-                i.fa.fa-linkedin-square
+                i.icon.icon-linkedin
             li
               a(href='mailto:matt@mtgibbs.xyz')
                 | Email 
-                i.fa.fa-envelope-square
+                i.icon.icon-email
     // end nav
     
     div.container
@@ -51,9 +51,9 @@ html
         div.hero-shadow-panel
         
       div.info-cells
-        +info-cell('fa-code', 'Developer', placeholderText)
-        +info-cell('fa-gamepad', 'Game Enthusiast', placeholderText)
-        +info-cell('fa-question', 'TODO', placeholderText)
+        +info-cell('icon-code', 'Developer', placeholderText)
+        +info-cell('icon-game-controller', 'Game Enthusiast', placeholderText)
+        +info-cell('icon-text', 'TODO', placeholderText)
     
     include ./_scripts.jade
         
