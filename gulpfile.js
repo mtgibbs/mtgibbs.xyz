@@ -7,7 +7,6 @@ var autoprefixer = require('gulp-autoprefixer');
 var nodemon = require('gulp-nodemon');
 var eventstream = require('event-stream');
 
-
 gulp.task('sass', function() {
   gulp.src('style/**/*.scss')
     .pipe(sass().on('error', sass.logError))
@@ -17,16 +16,10 @@ gulp.task('sass', function() {
     .pipe(gulp.dest('dist/css'));
 });
 
-gulp.task('fonts', function() {
-  return gulp.src('bower_components/entypo/dist/fonts/EntypoPlus.*')
-    .pipe(gulp.dest('dist/fonts'));
-});
-
 gulp.task('css', function() {
   var bowerStyles = gulp.src([
     'bower_components/bootstrap/dist/css/bootstrap.min.css',
-    'bower_components/bootstrap/dist/css/bootstrap-theme.min.css',
-    'bower_components/entypo/dist/css/EntypoPlus.min.css'
+    'bower_components/bootstrap/dist/css/bootstrap-theme.min.css'
   ]);
   var myStyles = gulp.src('style/**/*.scss')
     .pipe(sass({
