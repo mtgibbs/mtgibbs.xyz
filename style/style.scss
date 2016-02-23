@@ -1,6 +1,7 @@
 @import 'branding';
 @import 'theme';
 body {
+  user-select: none;  
   color: $color-black;
   background: $color-black;
   // font-family: 'Oxygen Mono',;
