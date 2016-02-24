@@ -2,15 +2,15 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
-var minifyCss = require('gulp-minify-css');
 var autoprefixer = require('gulp-autoprefixer');
 var nodemon = require('gulp-nodemon');
 var eventstream = require('event-stream');
+var cssnano = require('gulp-cssnano');
 
 gulp.task('sass', function() {
   gulp.src('style/**/*.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(minifyCss())
+    .pipe(cssnano())
     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9'))
     .pipe(concat('style.min.css'))
     .pipe(gulp.dest('dist/css'));
@@ -26,7 +26,7 @@ gulp.task('css', function() {
       style: 'compressed'
     }).on('error', sass.logError));
   return eventstream.concat(bowerStyles, myStyles)
-    .pipe(minifyCss())
+    .pipe(cssnano())
     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9'))
     .pipe(concat('style.min.css'))
     .pipe(gulp.dest('dist/css'));
