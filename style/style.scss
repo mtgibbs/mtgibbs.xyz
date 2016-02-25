@@ -1,7 +1,7 @@
 @import 'branding';
 @import 'theme';
 body {
-  user-select: none;  
+  user-select: none;
   color: $color-black;
   background: $color-black;
   // font-family: 'Oxygen Mono',;
@@ -67,25 +67,33 @@ body {
       color: $color-white;
       padding: 30px;
       &:first-child {
-        > i {
+        a {
           color: $color-primary;
         }
       }
       &:nth-child(2) {
-        > i {
+        a {
           color: $color-alt1;
         }
       }
       &:last-child {
-        > i {
+        a {
           color: $color-alt2;
         }
       }
-      > i {
-        font-size: 5em;
-        text-align: center;
-        display: block;
+
+      > a {
+        > i {
+          font-size: 5em;
+          text-align: center;
+          display: block;
+        }
+
+        &:hover {
+          text-decoration: none !important;
+        }
       }
+
       > h2 {
         text-align: center;
       }

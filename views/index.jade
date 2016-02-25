@@ -40,21 +40,40 @@ html
                 | Email 
                 i.fa.fa-envelope-square
     // end nav
-    
+
     div.container
       div.jumbotron.code-hero
         div.row
           div.col-md-12.code-typing-container
             code#typingThing
-            
+
         span.hero-title Hi.  I'm Matt.
         div.hero-shadow-panel
-        
+
       div.info-cells
-        +info-cell('fa-code', 'Developer', placeholderText)
-        +info-cell('fa-gamepad', 'Game Enthusiast', placeholderText)
-        +info-cell('fa-question', 'TODO', placeholderText)
-    
+        div.col-md-4
+          a(href='https://github.com/mtgibbs')
+            i.fa.fa-code
+          h2 Developer
+          p Actually more of just a problem solver.  I am a full stack developer
+            | currently working primarily in C#, Typescript, and javascript on
+            | Hewlett-Packard Enterprise's Fortify on Demand product.
+            | My interests lie in web technologies, user experience, and most
+            | recently the "Internet of Things."
+            
+        div.col-md-4
+          a
+            i.fa.fa-gamepad
+          h2 Game Enthusiast
+          p Text goes here
+          
+        div.col-md-4
+          a(href='http://blog.mtgibbs.xyz')
+            i.fa.fa-rss
+          h2 Blog
+          p Here is the lack of a collection of thoughts that I made because
+            | I was interested in seeing how Jekyll worked.  It exists solely
+            | for practice with something new and potentially as practice for
+            | making ideas concrete by putting them into words.
+
     include ./_scripts.jade
-        
-        
