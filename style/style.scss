@@ -66,6 +66,7 @@ body {
     > div {
       color: $color-white;
       padding: 30px;
+
       &:first-child {
         a {
           color: $color-primary;
@@ -79,6 +80,17 @@ body {
       &:last-child {
         a {
           color: $color-alt2;
+        }
+      }
+
+      > p {
+        > a {
+          color: $color-white !important;
+          text-decoration: underline;
+
+          &:hover {
+            color: $color-alt2 !important;
+          }
         }
       }
 
