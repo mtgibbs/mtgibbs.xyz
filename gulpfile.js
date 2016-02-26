@@ -4,32 +4,21 @@ var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var autoprefixer = require('gulp-autoprefixer');
 var nodemon = require('gulp-nodemon');
-var eventstream = require('event-stream');
+var streamqueue = require('streamqueue');
 var cssnano = require('gulp-cssnano');
 
-gulp.task('sass', function() {
-  gulp.src('style/**/*.scss')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(cssnano())
-    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9'))
-    .pipe(concat('style.min.css'))
-    .pipe(gulp.dest('dist/css'));
-});
-
 gulp.task('css', function() {
-  var bowerStyles = gulp.src([
-    'bower_components/bootstrap/dist/css/bootstrap.min.css',
-    'bower_components/bootstrap/dist/css/bootstrap-theme.min.css'
-  ]);
-  var myStyles = gulp.src('style/**/*.scss')
-    .pipe(sass({
-      style: 'compressed'
-    }).on('error', sass.logError));
-  return eventstream.concat(bowerStyles, myStyles)
-    .pipe(cssnano())
-    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9'))
-    .pipe(concat('style.min.css'))
-    .pipe(gulp.dest('dist/css'));
+  return streamqueue({objectMode: true},
+    gulp.src([
+      'bower_components/bootstrap/dist/css/bootstrap.min.css',
+      'bower_components/bootstrap/dist/css/bootstrap-theme.min.css'
+    ]),
+    gulp.src('style/**/*.scss').pipe(sass({ style: 'compressed' }))
+  )
+  .pipe(concat('style.min.css'))
+  .pipe(cssnano())
+  .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9'))
+  .pipe(gulp.dest('dist/css'));
 });
 
 gulp.task('script', function() {
