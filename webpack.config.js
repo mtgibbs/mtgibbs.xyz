@@ -36,7 +36,7 @@ const config = {
         ]
     },
     plugins: [
-        new Webpack.optimize.UglifyJsPlugin(),
+        // new Webpack.optimize.UglifyJsPlugin(),
         new Webpack.optimize.OccurrenceOrderPlugin(),
         new ExtractTextPlugin({
             filename: 'style.css',
