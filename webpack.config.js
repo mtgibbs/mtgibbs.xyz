@@ -72,7 +72,16 @@ const config = {
         new Webpack.optimize.AggressiveMergingPlugin(),
         new Webpack.optimize.OccurrenceOrderPlugin(),
         new Webpack.optimize.UglifyJsPlugin({
-            compress: { warnings: false }
+            compress: {
+                warnings: false,
+                dead_code: true,
+                unused: true,
+                drop_console: true,
+                drop_debugger: true,                
+                booleans: true,
+                sequences: true,
+                conditionals: true
+            }
         }),
         new ExtractTextPlugin({
             filename: 'style.css',
