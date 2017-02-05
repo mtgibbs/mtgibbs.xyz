@@ -15,7 +15,8 @@
     "express": "^4.13.4",
     "jquery": "^3.1.1",
     "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react-dom": "^15.4.2",
+    "typed.js": "git+https://github.com/mattboldt/typed.js.git#v1.1.4"
   },
   "devDependencies": {
     "@types/react": "^15.0.6",
