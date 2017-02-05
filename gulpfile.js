@@ -6,6 +6,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var nodemon = require('gulp-nodemon');
 var streamqueue = require('streamqueue');
 var cssnano = require('gulp-cssnano');
+var webpack = require('gulp-webpack');
 
 gulp.task('css', function() {
   return streamqueue({objectMode: true},
@@ -36,6 +37,12 @@ gulp.task('script', function() {
 gulp.task('watch', function() {
   gulp.watch('style/**/*.scss', ['css']);
   gulp.watch('scripts/**/*.js', ['script']);
+});
+
+gulp.task('webpack', function() {
+  return gulp.src('src/')
+    .pipe(webpack( require('./webpack.config.js') ))
+    .pipe(gulp.dest('dist/'))
 });
 
 gulp.task('dev', function() {
