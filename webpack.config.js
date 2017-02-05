@@ -5,7 +5,7 @@ const config = {
     entry: './src/index.tsx',
     output: {
         filename: 'bundle.js',
-        path: __dirname + '/dist/js'
+        path: __dirname + '/dist'
     },
 
     resolve: {
@@ -14,7 +14,9 @@ const config = {
             '.web.js',
             '.ts',
             '.tsx',
-            '.js'
+            '.js',
+            '.scss',
+            '.css'
         ]
     },
     module: {
@@ -23,14 +25,17 @@ const config = {
             { test: /\.tsx?$/, loader: 'ts-loader' },
             {
                 test: /\.scss$/,
-                loaders: ExtractTextPlugin.extract('css!sass')
+                loaders: ExtractTextPlugin.extract( {
+                    fallback: 'style-loader',
+                    use: 'css-loader!sass-loader'
+                })
             }
         ]
     },
     plugins: [
         new Webpack.optimize.UglifyJsPlugin(),
         new ExtractTextPlugin({
-            filename: 'dist/style.css',
+            filename: 'style.css',
             allChunks: true
         })
     ]
