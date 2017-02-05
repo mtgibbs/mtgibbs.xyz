@@ -10,8 +10,15 @@
   "author": "Matt Gibbs",
   "license": "MIT",
   "dependencies": {
-    "bower": "^1.7.7",
     "express": "^4.13.4",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
+  },
+  "devDependencies": {
+    "gulp-webpack": "^1.5.0",
+    "ts-loader": "^2.0.0",
+    "typescript": "^2.1.5",
+    "webpack": "^2.2.1",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-concat": "^2.6.0",
@@ -19,7 +26,9 @@
     "gulp-nodemon": "^2.0.6",
     "gulp-sass": "^2.2.0",
     "gulp-uglify": "^1.5.2",
-    "jade": "^1.11.0",
+    "@types/react": "^15.0.6",
+    "@types/react-dom": "^0.14.22",
+    "bower": "^1.7.7",
     "streamqueue": "^1.1.1"
   }
 }
