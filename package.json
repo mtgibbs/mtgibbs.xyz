@@ -19,6 +19,7 @@
     "typed.js": "git+https://github.com/mattboldt/typed.js.git#v1.1.4"
   },
   "devDependencies": {
+    "@types/jquery": "^2.0.40",
     "@types/react": "^15.0.6",
     "@types/react-dom": "^0.14.22",
     "bower": "^1.7.7",
