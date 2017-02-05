@@ -39,8 +39,6 @@ const config = {
             },
             {
                 test: /\.woff2?$/,
-                // Inline small woff files and output them below font/.
-                // Set mimetype just in case.
                 loader: 'url-loader',
                 options: {
                     name: 'fonts/[hash].[ext]',
