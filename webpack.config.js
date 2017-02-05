@@ -10,7 +10,6 @@ const config = {
 
     resolve: {
         extensions: [
-            '',
             '.webpack.js',
             '.web.js',
             '.ts',
