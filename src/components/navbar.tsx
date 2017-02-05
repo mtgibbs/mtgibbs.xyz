@@ -8,11 +8,15 @@ interface NavbarLinkProps {
 
 class NavbarLinkListItem extends React.Component<NavbarLinkProps, undefined> {
     render() {
-        return <li>
+        return <li key={this.getKey()}>
             <a href={this.props.uri}>
                 {this.props.text} <i className={this.props.iconClass}></i>
             </a>
         </li>
+    }
+
+    private getKey() {
+        return this.props.text;
     }
 }
 
