@@ -12,7 +12,9 @@ export class CodeHero extends React.Component<any, undefined> {
         'https://raw.githubusercontent.com/mtgibbs/chartist-plugin-barlabels/master/src/scripts/chartist-plugin-barlabels.js',
         'https://raw.githubusercontent.com/mtgibbs/estudu/master/js/main.js',
         'https://raw.githubusercontent.com/mtgibbs/NapkinTour/master/napkin.tour.js',
-        'https://raw.githubusercontent.com/mtgibbs/gulp-less-branding-js/master/test/main.js'
+        'https://raw.githubusercontent.com/mtgibbs/gulp-less-branding-js/master/test/main.js',
+        'https://raw.githubusercontent.com/mtgibbs/hubot-fod/master/src/hubot-fod.ts',
+        'https://raw.githubusercontent.com/mtgibbs/hubot-fod/master/index.ts'
     ];
 
     render() {
