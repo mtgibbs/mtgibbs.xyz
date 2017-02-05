@@ -23,7 +23,10 @@ const config = {
             '.eot',
             '.woff2',
             '.woff'
-        ]
+        ],
+        alias: {
+            jquery: 'jquery/src/jquery'
+        }
     },
     module: {
 
@@ -69,11 +72,6 @@ const config = {
         new ExtractTextPlugin({
             filename: 'style.css',
             allChunks: true
-        }),
-        new Webpack.ProvidePlugin({
-            jQuery: 'jquery',
-            $: 'jquery',
-            jquery: 'jquery'
         })
     ]
 };
