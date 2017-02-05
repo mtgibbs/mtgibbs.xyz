@@ -5,9 +5,12 @@ import { InfoCard } from './components/infocard';
 import { NavBar } from './components/navbar';
 import { CodeHero } from './components/codehero';
 
+// script
 import 'jquery';
 import 'bootstrap';
 import '../node_modules/bootstrap/dist/css/bootstrap'
+
+// styles
 import '../node_modules/bootstrap/dist/css/bootstrap-theme'
 import '../style/style.scss';
 
