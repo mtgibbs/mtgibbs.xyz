@@ -1,4 +1,7 @@
+/// <reference path="../../custom.d.ts"/>
+
 import * as React from 'react';
+
 import 'jquery';
 
 export class CodeHero extends React.Component<any, undefined> {
@@ -28,8 +31,16 @@ export class CodeHero extends React.Component<any, undefined> {
     }
 
     componentDidMount() {
+        const $typingThing =  $('#typingThing');
+
         $.get(this._files[Math.floor(Math.random() * this._files.length)]).done(response => {
             response = response.replace(/(\n)+/g, '   ');
+
+            $('#typingThing').typed({
+                strings: [response],
+                typeSpeed: 1,
+                contentType: 'text'
+            });
         });
     }
 }
