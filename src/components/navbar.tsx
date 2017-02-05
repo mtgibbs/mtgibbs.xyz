@@ -58,11 +58,13 @@ export class NavBar extends React.Component<any, undefined> {
         return <nav className="navbar navbar-default navbar-dark">
             <div className="container-fluid">
                 <div className="navbar-header">
-                    <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#navbar"></button>
-                    <span className="sr-only"></span>
-                    <span className="icon-bar"></span>
-                    <span className="icon-bar"></span>
-                    <span className="icon-bar"></span>
+                    <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                        <span className="sr-only"></span>
+                        <span className="icon-bar"></span>
+                        <span className="icon-bar"></span>
+                        <span className="icon-bar"></span>
+                    </button>
+                    <a href="#" className="navbar-brand">mtgibbs.xyz</a>
                 </div>
                 <NavbarLinkList id="navbar" />
             </div>

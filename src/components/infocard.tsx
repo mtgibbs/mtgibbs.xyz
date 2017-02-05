@@ -3,8 +3,7 @@ import * as React from 'react';
 export interface InfoCardProps {
     title: string,
     uri: string,
-    iconClass: string,
-    body: string
+    iconClass: string
 }
 
 export class InfoCard extends React.Component<InfoCardProps, undefined> {
@@ -14,7 +13,7 @@ export class InfoCard extends React.Component<InfoCardProps, undefined> {
                 <i className={this.props.iconClass}></i>
             </a>
             <h2>{this.props.title}</h2>
-            <p>{this.props.body}</p>
+            {this.props.children}
         </div>
     }
 }
