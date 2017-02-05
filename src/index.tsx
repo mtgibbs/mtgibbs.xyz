@@ -1,17 +1,22 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import {InfoCard} from './components/infocard';
-import {NavBar} from './components/navbar';
+import { InfoCard } from './components/infocard';
+import { NavBar } from './components/navbar';
+import { CodeHero } from './components/codehero';
 
 import 'jquery';
 import 'bootstrap';
 import '../node_modules/bootstrap/dist/css/bootstrap'
+import '../node_modules/bootstrap/dist/css/bootstrap-theme'
 import '../style/style.scss';
 
 class App extends React.Component<any, undefined> {
     render() {
-        return <NavBar />
+        return <div>
+            <NavBar />
+            <CodeHero />
+        </div>
     }
 }
 
