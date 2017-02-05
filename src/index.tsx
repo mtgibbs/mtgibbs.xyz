@@ -6,6 +6,7 @@ import {NavBar} from './components/navbar';
 
 import 'jquery';
 import 'bootstrap';
+import '../node_modules/bootstrap/dist/css/bootstrap'
 import '../style/style.scss';
 
 class App extends React.Component<any, undefined> {
