@@ -9,6 +9,7 @@ import { CodeHero } from './components/codehero';
 import 'jquery';
 import 'bootstrap';
 import '../node_modules/bootstrap/dist/css/bootstrap'
+import '../node_modules/typed.js/js/typed'
 
 // styles
 import '../node_modules/bootstrap/dist/css/bootstrap-theme'
