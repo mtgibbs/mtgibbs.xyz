@@ -69,10 +69,11 @@ const config = {
 
     },
     plugins: [
+        new Webpack.optimize.AggressiveMergingPlugin(),
+        new Webpack.optimize.OccurrenceOrderPlugin(),
         new Webpack.optimize.UglifyJsPlugin({
             compress: { warnings: false }
         }),
-        new Webpack.optimize.OccurrenceOrderPlugin(),
         new ExtractTextPlugin({
             filename: 'style.css',
             allChunks: true
