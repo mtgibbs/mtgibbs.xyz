@@ -1,5 +1,7 @@
 const Webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
 
 const config = {
     entry: './src/index.tsx',
@@ -67,11 +69,16 @@ const config = {
 
     },
     plugins: [
-        // new Webpack.optimize.UglifyJsPlugin(),
+        new Webpack.optimize.UglifyJsPlugin({
+            compress: { warnings: false }
+        }),
         new Webpack.optimize.OccurrenceOrderPlugin(),
         new ExtractTextPlugin({
             filename: 'style.css',
             allChunks: true
+        }),
+        new OptimizeCssAssetsPlugin({
+            assetNameRegExp: /\.css$/
         })
     ]
 };
