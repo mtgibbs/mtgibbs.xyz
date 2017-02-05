@@ -17,7 +17,10 @@ const config = {
             '.js',
             '.scss',
             '.css'
-        ]
+        ],
+        alias: {
+            jquery: "jquery/src/jquery"
+        }
     },
     module: {
         loaders: [
