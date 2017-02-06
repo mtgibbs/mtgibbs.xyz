@@ -36,7 +36,7 @@ export class CodeHero extends React.Component<any, undefined> {
         const $typingThing =  $('#typingThing');
 
         $.get(this._files[Math.floor(Math.random() * this._files.length)]).done(response => {
-            response = response.replace(/\/\/\s+.*\n/g, '');
+            response = response.replace(/\/\/\/?\s+.*\n/g, '');
             response = response.replace(/(\n)+/g, '   ');
 
             $('#typingThing').typed({
