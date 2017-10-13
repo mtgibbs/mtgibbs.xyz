@@ -26,7 +26,7 @@ class App extends React.Component<any, undefined> {
                         <p>
                             Actually more of just a problem solver.  I am a full stack developer
                             currently working primarily in C#, Typescript, and javascript on
-                            Hewlett-Packard Enterprise's <a href="https://hpfod.com"> Fortify on Demand</a> product.
+                            <a href="https://ams.fortify.com"> Fortify on Demand</a>.
                             My interests lie in web technologies, user experience, and most
                             recently the "Internet of Things."  I've worked in several
                             industries, from insurance to software security, and in several
