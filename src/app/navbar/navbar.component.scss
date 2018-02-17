@@ -1,4 +1,9 @@
+@import "../../_branding.scss";
+
 nav {
+
+    background-color: $color-black;
+
     @media (min-width: 992px) {
 
         text-align: center;
