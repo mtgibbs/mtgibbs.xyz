@@ -6,6 +6,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ExperienceItemComponent } from './experience-item/experience-item.component';
 import { ExperienceItemListComponent } from './experience-item-list/experience-item-list.component';
 import { ProfessionalConnectionLinkComponent } from './professional-connection-link/professional-connection-link.component';
+import { DevIconComponent } from './dev-icon/dev-icon.component';
+import { DevIconListComponent } from './dev-icon-list/dev-icon-list.component';
 
 @NgModule({
   declarations: [
@@ -13,7 +15,9 @@ import { ProfessionalConnectionLinkComponent } from './professional-connection-l
     NavbarComponent,
     ExperienceItemComponent,
     ExperienceItemListComponent,
-    ProfessionalConnectionLinkComponent
+    ProfessionalConnectionLinkComponent,
+    DevIconComponent,
+    DevIconListComponent
   ],
   imports: [
     BrowserModule
