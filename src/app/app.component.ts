@@ -4,6 +4,7 @@ import { IProfessionalConnectionLink } from './professional-connection-link/prof
 
 import { EXPERIENCE } from './data/experience-items'
 import { LINKS } from './data/professional-links';
+import { EDUCATION } from './data/education-items';
 
 @Component({
   selector: 'app-root',
@@ -15,4 +16,5 @@ export class AppComponent {
 
   public experience: IExperienceItem[] = EXPERIENCE;
   public links: IProfessionalConnectionLink[] = LINKS;
+  public education: IExperienceItem[] = EDUCATION;
 }
