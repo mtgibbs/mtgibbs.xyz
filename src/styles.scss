@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/bootstrap/scss/bootstrap";
+@import "./_branding.scss";
 
 html, body {
     font-family: 'Lato', sans-serif;
@@ -15,4 +16,12 @@ h2 {
 
 section {
     min-height: 100vh;
+}
+
+a {
+    color: $color-primary;
+
+    &:hover {
+        color: $color-alt2;
+    }
 }
