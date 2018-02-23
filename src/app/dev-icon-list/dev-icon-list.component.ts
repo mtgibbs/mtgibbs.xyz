@@ -13,6 +13,7 @@ export class DevIconListComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
 
 }
