@@ -11,7 +11,7 @@
                         <small>Software Developer</small>
                     </h1>
 
-                    <p>
+                    <p class="my-5">
                         Actually more of just a problem solver. I am a full stack developer currently working in C#, Java, and Typescript on
                         <a href="https://ams.fortify.com">Fortify on Demand</a>. My interests lie in Web Technologies, User Experience, and most recently the
                         Continuous Integration. I've worked in several industries, from insurance to software security, and
@@ -19,11 +19,11 @@
                         and web interfaces.
                     </p>
 
-                    <ul>
-                        <li *ngFor="let link of links">
+                    <div class="d-flex flex-wrap justify-content-center">
+                        <div class="p-2" *ngFor="let link of links">
                             <app-professional-connection-link [link]="link"></app-professional-connection-link>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                 </div>
             </section>
 
