@@ -7,6 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
+  public isCollapsed: boolean = true;
+
   @Input() title: string;
 
   constructor() { }
