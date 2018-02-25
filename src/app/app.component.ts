@@ -14,7 +14,8 @@ import { ICON_OPTIONS } from './data/skills-icons';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'app';
+  
+  title = 'mtgibbs.xyz';
 
   public experience: IExperienceItem[] = EXPERIENCE;
   public links: IProfessionalConnectionLink[] = LINKS;
