@@ -2,6 +2,10 @@
 
 nav {
 
+    .navbar-brand {
+        margin-right: initial;
+    }
+
     background-color: $color-black;
 
     @media (min-width: 992px) {
