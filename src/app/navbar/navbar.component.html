@@ -15,19 +15,19 @@
   <div class="navbar-collapse collapse" id="navItems" [ngbCollapse]="isCollapsed">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link js-scroll-trigger active" href="#about">About</a>
+        <a class="nav-link js-scroll-trigger active" (click)="isCollapsed = true" href="#about">About</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link js-scroll-trigger" href="#experience">Experience</a>
+        <a class="nav-link js-scroll-trigger" (click)="isCollapsed = true" href="#experience">Experience</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link js-scroll-trigger" href="#education">Education</a>
+        <a class="nav-link js-scroll-trigger" (click)="isCollapsed = true" href="#education">Education</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link js-scroll-trigger" href="#skills">Skills</a>
+        <a class="nav-link js-scroll-trigger" (click)="isCollapsed = true" href="#skills">Skills</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link js-scroll-trigger" href="#interests">Interests</a>
+        <a class="nav-link js-scroll-trigger" (click)="isCollapsed = true" href="#interests">Interests</a>
       </li>
     </ul>
   </div>
