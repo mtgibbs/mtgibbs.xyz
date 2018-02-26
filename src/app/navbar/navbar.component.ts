@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class NavbarComponent implements OnInit {
 
   public isCollapsed: boolean = true;
+  public currentTarget: string = '#about';
 
   @Input() title: string;
 
@@ -16,4 +17,8 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
   }
 
+  public onClick(e) {
+    this.currentTarget = e.srcElement.attributes['href'].value;
+    this.isCollapsed = true;
+  }
 }

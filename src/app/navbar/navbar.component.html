@@ -15,19 +15,19 @@
   <div class="navbar-collapse collapse" id="navItems" [ngbCollapse]="isCollapsed">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link js-scroll-trigger active" (click)="isCollapsed = true" href="#about">About</a>
+        <a class="nav-link js-scroll-trigger" [ngClass]="{'active': currentTarget == '#about'}" (click)="onClick($event)" href="#about">About</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link js-scroll-trigger" (click)="isCollapsed = true" href="#experience">Experience</a>
+        <a class="nav-link js-scroll-trigger" [ngClass]="{'active': currentTarget == '#experience'}" (click)="onClick($event)" href="#experience">Experience</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link js-scroll-trigger" (click)="isCollapsed = true" href="#education">Education</a>
+        <a class="nav-link js-scroll-trigger" [ngClass]="{'active': currentTarget == '#education'}" (click)="onClick($event)" href="#education">Education</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link js-scroll-trigger" (click)="isCollapsed = true" href="#skills">Skills</a>
+        <a class="nav-link js-scroll-trigger" [ngClass]="{'active': currentTarget == '#skills'}" (click)="onClick($event)" href="#skills">Skills</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link js-scroll-trigger" (click)="isCollapsed = true" href="#interests">Interests</a>
+        <a class="nav-link js-scroll-trigger" [ngClass]="{'active': currentTarget == '#interests'}" (click)="onClick($event)" href="#interests">Interests</a>
       </li>
     </ul>
   </div>
