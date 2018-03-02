@@ -7,6 +7,7 @@ import { EXPERIENCE } from './data/experience-items';
 import { LINKS } from './data/professional-links';
 import { EDUCATION } from './data/education-items';
 import { ICON_OPTIONS } from './data/skills-icons';
+import { INTERESTS } from './data/interest-items';
 
 @Component({
   selector: 'app-root',
@@ -21,4 +22,5 @@ export class AppComponent {
   public links: IProfessionalConnectionLink[] = LINKS;
   public education: IExperienceItem[] = EDUCATION;
   public skillIcons: IDevIconOptions[] = ICON_OPTIONS;
+  public interests: IExperienceItem[] = INTERESTS;
 }

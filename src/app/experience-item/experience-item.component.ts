@@ -18,8 +18,8 @@ export class ExperienceItemComponent implements OnInit {
 
 export interface IExperienceItem {
   title: string;
-  subTitle: string | null;
+  subTitle?: string | null | undefined;
   description: string;
-  startDate: string;
-  endDate: string;
+  startDate?: string | null | undefined;
+  endDate?: string | null | undefined;
 }
