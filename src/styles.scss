@@ -19,6 +19,10 @@ h2 {
 
 section {
     min-height: 100vh;
+
+    @media (min-width: 1800px) {
+        font-size: 1.2em;
+    }
 }
 
 a {
