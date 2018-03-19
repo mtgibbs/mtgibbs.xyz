@@ -26,12 +26,11 @@ export const ICON_OPTIONS: IDevIconOptions[] = [
         isColor: true,
         isWordmark: false
     },
-    // this one doesn't fit the naming pattern...
-    // {
-    //     icon: 'express',
-    //     isColor: true,
-    //     isWordmark: false
-    // },
+    {
+        icon: 'nodejs',
+        isColor: true,
+        isWordmark: false
+    },
     {
         icon: 'grunt',
         isColor: true,
@@ -46,6 +45,16 @@ export const ICON_OPTIONS: IDevIconOptions[] = [
         icon: 'vuejs',
         isColor: true,
         isWordmark: true
+    },
+    {
+        icon: 'react',
+        isColor: true,
+        isWordmark: true
+    },
+    {
+        icon: 'angularjs',
+        isColor: true,
+        isWordmark: false
     },
     {
         icon: 'visualstudio',
@@ -82,10 +91,16 @@ export const ICON_OPTIONS: IDevIconOptions[] = [
         isColor: true,
         isWordmark: false
     },
+    
+    {
+        icon: 'dot-net',
+        isColor: true,
+        isWordmark: true
+    },
     {
         icon: 'intellij',
         isColor: true,
-        isWordmark: true
+        isWordmark: false
     },
     {
         icon: 'java',
