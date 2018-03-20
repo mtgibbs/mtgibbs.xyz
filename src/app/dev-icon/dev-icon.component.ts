@@ -13,9 +13,8 @@ export class DevIconComponent implements OnInit {
 
   ngOnInit() {
   }
-
   
-  get class() {
+  get class(): string {
 
     // how's this for bad patterns?
     // likelihood half of the icons don't work now is quite high
