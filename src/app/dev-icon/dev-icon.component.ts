@@ -28,6 +28,10 @@ export class DevIconComponent implements OnInit {
     return result;
   }
 
+  get title(): string {
+    return this.options.icon;
+  }
+
 }
 
 export interface IDevIconOptions {
