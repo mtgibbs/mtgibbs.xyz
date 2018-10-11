@@ -5,7 +5,7 @@ export const INTERESTS: IExperienceItem[] = [
         title: 'Game Enthusiast',
         description: 'Games are what developed my passion for software.  They often provide scenarios that let the user dissect patterns, iterate on solutions, and \
                       feel the rush of accomplishment when they have finally executed or arrived at the solution.  All of this with a framework of defined rulesets and \
-                      a tight feedback loop.  It\'s not really a surprise that someone with an intereste in software would also have an interest in games.',
+                      a tight feedback loop.  It\'s not really a surprise that someone with an interest in software would also have an interest in games.',
     },
     {
         title: 'Weightlifting',
