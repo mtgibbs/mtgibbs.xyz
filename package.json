@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@angular/language-service": "5.2.5",
-    "@types/jasmine": "2.8.6",
+    "@types/jasmine": "2.8.17",
     "@types/jasminewd2": "2.0.3",
     "@types/node": "6.0.101",
     "codelyzer": "4.1.0",
