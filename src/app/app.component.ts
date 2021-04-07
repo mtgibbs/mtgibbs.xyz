@@ -3,7 +3,10 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   template: `
-    <mtg-code-hero></mtg-code-hero>
+    <div class="bg-gray-200 h-screen">
+      <mtg-code-hero></mtg-code-hero>
+    
+    </div>
   `,
   styles: []
 })
