@@ -2,11 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'mtg-nav',
-  template: `
-    <p>
-      nav works!
-    </p>
-  `,
+  templateUrl: './nav.component.html',
   styles: [
   ]
 })
