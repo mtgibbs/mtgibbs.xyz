@@ -1,0 +1,39 @@
+@mixin leftItemSet() {
+    @apply ml-4 sm:ml-8 md:ml-16 rounded-l-md;
+}
+
+@mixin rightItemSet() {
+    @apply mr-4 sm:mr-8 md:mr-16 rounded-r-md;
+}
+
+div.experience-item-container {
+
+    @apply container mx-auto;
+
+    >div {
+
+        @apply bg-gray-100 shadow-md p-8 rounded-none sm:rounded-md mx-0 sm:mx-8;
+
+        &[index="0"] {
+            @include leftItemSet();
+        }
+
+        &[index="1"] {
+            @include rightItemSet();
+        }
+
+        &[index="2"] {
+            @include leftItemSet();
+        }
+
+        &[index="3"] {
+            @include rightItemSet();
+        }
+
+        &[index="4"] {
+            @include leftItemSet();
+        }
+    }
+
+}
+
