@@ -13,7 +13,7 @@ import { EXPERIENCE, ICON_OPTIONS } from 'src/data';
           Bacon ipsum dolor amet rump kielbasa hamburger fatback filet mignon pig porchetta chuck, turkey short ribs corned beef ground round. Bacon capicola fatback bresaola jerky shank picanha pancetta salami pork, short loin tenderloin hamburger pork loin alcatra. Ground round bresaola alcatra ball tip tongue, leberkas capicola short loin ribeye burgdoggen sirloin kevin boudin. Bacon spare ribs burgdoggen turkey. Tail bresaola boudin beef ribs meatball ham hock, turkey spare ribs porchetta pork tri-tip bacon prosciutto. Porchetta alcatra pork belly turkey beef pig.
         </p>
       </section>
-      <section class="w-full h-full py-24 bg-indigo-light">
+      <section class="w-full h-full py-24 bg-gradient-to-tl from-indigo-lightest via-indigo-light to-indigo bg-indigo-light">
         <mtg-section-title title="Experience"></mtg-section-title>
         <mtg-experience-list [experienceItems]="EXPERIENCE"></mtg-experience-list>
       </section>
