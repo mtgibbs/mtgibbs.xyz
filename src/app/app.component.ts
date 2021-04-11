@@ -7,15 +7,15 @@ import { EXPERIENCE, ICON_OPTIONS } from 'src/data';
 
     <!-- <mtg-nav></mtg-nav> -->
     <main class="max-h-screen overflow-y-scroll">
-      <section class="w-full h-screen bg-gray-200 snap-start">
+      <section class="w-full h-full py-24 bg-gray-200">
         <mtg-code-hero [titleText]="codeHeroLabelText"></mtg-code-hero>
       </section>
-      <section class="w-full h-screen bg-indigo-light snap-start">
-        <h1 class="text-lg font-bold bg-orange-light text-gray-100 w-96 px-8 py-4 transform -rotate-3 text-center rounded-md shadow-lg tracking-wider">EXPERIENCE</h1>
+      <section class="w-full h-full py-24 bg-indigo-light">
+        <h1 class="text-lg font-bold bg-orange text-gray-100 w-96 px-8 py-4 -mt-24 transform -rotate-3 text-center rounded-sm shadow-xl tracking-wider">EXPERIENCE</h1>
         <mtg-experience-list [experienceItems]="EXPERIENCE"></mtg-experience-list>
       </section>
-      <section class="w-full h-screen bg-gray-200 snap-start">
-      <h1 class="text-lg font-bold bg-orange-light text-gray-100 w-96 px-8 py-4 transform -rotate-3 text-center rounded-md shadow-lg tracking-wider">TECHNOLOGIES</h1>
+      <section class="w-full h-full py-24 bg-gray-200">
+      <h1 class="text-lg font-bold bg-orange text-gray-100 w-96 px-8 py-4 -mt-24 transform -rotate-3 text-center rounded-md shadow-lg tracking-wider">TECHNOLOGIES</h1>
         <mtg-dev-icon-list [icons]="ICON_OPTIONS"></mtg-dev-icon-list>
       </section>
       <!-- <section class="w-full h-screen bg-indigo-200 snap-start">
