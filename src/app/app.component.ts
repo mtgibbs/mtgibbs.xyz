@@ -21,12 +21,6 @@ import { EXPERIENCE, ICON_OPTIONS } from 'src/data';
         <mtg-section-title title="Technologies"></mtg-section-title>
         <mtg-dev-icon-list [icons]="ICON_OPTIONS"></mtg-dev-icon-list>
       </section>
-      <!-- <section class="w-full h-screen bg-indigo-200 snap-start">
-        Section 4
-      </section>
-      <section class="w-full h-screen bg-yellow-200 snap-start">
-        Section 5
-      </section> -->
     </main>
   `,
   styles: []
