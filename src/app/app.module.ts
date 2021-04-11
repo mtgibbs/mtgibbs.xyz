@@ -7,11 +7,13 @@ import { CodeHeroModule } from './code-hero/code-hero.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ExperienceListModule } from './experience-list/experience-list.module';
 import { DevIconListModule } from './dev-icon-list/dev-icon-list.module';
+import { SectionTitleComponent } from './section-title/section-title.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
+    SectionTitleComponent,
   ],
   imports: [
     BrowserModule,

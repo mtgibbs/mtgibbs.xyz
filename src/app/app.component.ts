@@ -11,11 +11,11 @@ import { EXPERIENCE, ICON_OPTIONS } from 'src/data';
         <mtg-code-hero [titleText]="codeHeroLabelText"></mtg-code-hero>
       </section>
       <section class="w-full h-full py-24 bg-indigo-light">
-        <h1 class="text-lg font-bold bg-orange text-gray-100 w-96 px-8 py-4 -mt-24 transform -rotate-3 text-center rounded-sm shadow-xl tracking-wider">EXPERIENCE</h1>
+        <mtg-section-title title="Experience"></mtg-section-title>
         <mtg-experience-list [experienceItems]="EXPERIENCE"></mtg-experience-list>
       </section>
       <section class="w-full h-full py-24 bg-gray-200">
-      <h1 class="text-lg font-bold bg-orange text-gray-100 w-96 px-8 py-4 -mt-24 transform -rotate-3 text-center rounded-md shadow-lg tracking-wider">TECHNOLOGIES</h1>
+        <mtg-section-title title="Technologies"></mtg-section-title>
         <mtg-dev-icon-list [icons]="ICON_OPTIONS"></mtg-dev-icon-list>
       </section>
       <!-- <section class="w-full h-screen bg-indigo-200 snap-start">

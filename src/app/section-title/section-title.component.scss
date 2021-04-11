@@ -1,0 +1,18 @@
+h1 {
+    @apply 
+        text-lg 
+        font-bold 
+        bg-orange 
+        text-gray-100 
+        w-96 
+        px-8 
+        py-4 
+        -mt-24 
+        transform 
+        -rotate-3 
+        text-center 
+        rounded-md 
+        shadow-lg 
+        tracking-wider 
+        uppercase;
+}
