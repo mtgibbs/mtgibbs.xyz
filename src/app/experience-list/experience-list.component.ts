@@ -4,7 +4,7 @@ import { IExperienceItem } from './model/experience-list-item';
 @Component({
   selector: 'mtg-experience-list',
   template: `
-    <div class="my-12 flex flex-col space-y-12">
+    <div class="my-12 flex flex-col space-y-24">
       <mtg-experience-item *ngFor="let exp of experienceItems; let i = index;" [experienceItem]="exp" [index]="i"></mtg-experience-item>
     </div>
   `,
