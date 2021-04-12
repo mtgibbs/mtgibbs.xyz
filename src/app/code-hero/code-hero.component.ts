@@ -12,8 +12,11 @@ import { Component, Input, OnInit } from '@angular/core';
           <mtg-code-hero-text [codeText]="codeText" [characterPointerLocation]="index"></mtg-code-hero-text>
         </div>
       </div>
-      <div *ngIf="titleText" class="absolute w-full inset-y-1/2 h-9 object-center text-center z-20">
-        <span class="bg-gray-900 text-2xl text-orange font-bold p-8 sm:rounded-3xl border-4 border-orange">{{ titleText }}</span>
+      <div *ngIf="titleText" class="absolute w-full inset-y-1/2 h-9 object-center text-center z-20 transform -translate-x-24">
+        <span class="bg-gray-800 text-2xl text-orange font-bold p-8 sm:rounded-3xl border-4 border-orange">{{ titleText }}</span>
+      </div>
+      <div class="absolute w-full inset-y-1/2 h-8 object-center text-center z-20 animate-pulse transform translate-x-24 translate-y-12 -rotate-12">
+        <span class="bg-transparent text-2xl text-teal-lightest font-bold p-8 sm:rounded-0 border-4 border-teal-lightest ">SOFTWARE DEVELOPER</span>
       </div>
     </div>
    
