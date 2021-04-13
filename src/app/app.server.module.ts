@@ -3,6 +3,8 @@ import { ServerModule } from '@angular/platform-server';
 
 import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
+import { WindowService } from './window.service';
+import { ServerWindowService } from './server-window.service';
 
 @NgModule({
   imports: [
@@ -10,5 +12,9 @@ import { AppComponent } from './app.component';
     ServerModule,
   ],
   bootstrap: [AppComponent],
+  providers: [{
+    provide: WindowService,
+    useClass: ServerWindowService,
+  }]
 })
 export class AppServerModule {}

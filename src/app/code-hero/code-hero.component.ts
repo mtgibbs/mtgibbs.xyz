@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
+import { WindowService } from '../window.service';
 
 @Component({
   selector: 'mtg-code-hero',
@@ -19,7 +20,6 @@ import { Component, Input, OnInit } from '@angular/core';
         <span class="bg-gray-800 bg-opacity-25 backdrop-blur-xl text-2xl text-teal-lightest font-bold p-8 sm:rounded-0 border-4 border-teal-lightest tracking-wide">{{ secondText }}</span>
       </div>
     </div>
-   
   `,
   styles: [
   ]
@@ -44,16 +44,42 @@ export class CodeHeroComponent implements OnInit {
   index: number = 0;
 
   constructor(
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private windowService: WindowService,
   ) { }
 
   ngOnInit(): void {
 
     const randomFile = this._files[Math.floor(Math.random() * this._files.length)];
-    this.httpClient.get(randomFile, { responseType: 'text' }).subscribe(codeText => {
-      this.codeText = codeText;
-      this.startTypingTimer(this.codeText.length, 45, 15);
-    });
+
+    const isSSR = this.windowService.isSSR();
+
+    if (isSSR) {
+
+      this.codeText = `
+// It seem's that you've loaded my site with javascript disabled,
+// that or I've managed to mess up my site's caching.
+// Please consider supporting starving javascript developers maintaining obscure npm packages
+// and surviving off the the scraps of npm installs by enabling javascript in your browser.
+
+
+
+
+// Some people would say to you, "Browse without javascript for a safer experience." and I tell you those
+// people are heretics!  These people don't understand the beauty of a sleek user experience, but since
+// I do, I've prepared this text for your enjoyment so you don't lose the entire effect of my backdrop.
+// I'll just assume you're a fellow gentleman who care's about the precious megabytes we waste shipping
+// sleek frameworks.
+      `;
+      this.index = this.codeText.length;
+    } else {
+      
+
+      this.httpClient.get(randomFile, { responseType: 'text' }).subscribe(codeText => {
+        this.codeText = codeText;
+        this.startTypingTimer(this.codeText.length, 45, 15);
+      });
+    }
 
   }
 
@@ -70,7 +96,7 @@ export class CodeHeroComponent implements OnInit {
       const nextTimeoutDelay = delay + driftTime;
       this.index++;
 
-      window.setTimeout(timerCb, nextTimeoutDelay);
+      this.windowService.setTimeout(timerCb, nextTimeoutDelay);
     };
 
     timerCb();
