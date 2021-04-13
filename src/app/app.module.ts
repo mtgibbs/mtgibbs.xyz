@@ -18,7 +18,7 @@ import { ProfessionalConnectionLinkComponent } from './professional-connection-l
     ProfessionalConnectionLinkComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     HttpClientModule,
     CodeHeroModule,
     ExperienceListModule,
