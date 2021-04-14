@@ -8,7 +8,9 @@
     "dev:ssr": "ng run mtgibbs-xyz:serve-ssr",
     "serve:ssr": "node dist/mtgibbs-xyz/server/main.js",
     "build:ssr": "ng build --prod && ng run mtgibbs-xyz:server:production",
-    "prerender": "ng run mtgibbs-xyz:prerender"
+    "prerender": "ng run mtgibbs-xyz:prerender",
+    "start:heroku": "node dist/server",
+    "postinstall": "npm run build:ssr"
   },
   "private": true,
   "dependencies": {
