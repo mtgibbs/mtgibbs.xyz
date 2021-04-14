@@ -18,9 +18,9 @@ export const EXPERIENCE: IExperienceItem[] = [
     {
         title: 'Lead Software Engineer',
         subTitle: 'Fortify on Demand',
-        description: 'I am currently a lead engineer on the Fortify on Demand product and portal.  I lead several initiatives within the product, from the general UI/UX around navigation and management of issues \
-                      to integration between all of the scanning technologies that Fortify offers.  Within Fortify, I champion code reuse across our various teams to help grow our inner-source initiative through shareable \
-                      components and libraries.  I also help guide the team on our open-source engagement and CI integration for security analysis.',
+        description: 'I was the lead engineer on the Fortify on Demand product and portal.  I led several initiatives within the product, from the general UI/UX around navigation and management of issues \
+                      to integration between all of the scanning technologies that Fortify offers.  Within Fortify, I championed code reuse across our various teams to help grow our inner-source initiative through shareable \
+                      components and libraries.  I also helped guide the team on our open-source engagement and CI integration for security analysis in its infancy.',
         startDate: 'August 2013',
         endDate: 'June 2018'
     },

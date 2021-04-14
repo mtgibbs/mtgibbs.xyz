@@ -4,7 +4,7 @@ import { IProfessionalConnectionLink } from './model/professional-connection-lin
 @Component({
   selector: 'mtg-professional-connection-link',
   template: `
-    <a class="decoration-slice bg-gradient-to-b min-w-min from-orange-light to-orange-dark text-center text-transparent bg-clip-text py-2 px-4 text-2xl" [href]="uri">
+    <a [attr.aria-label]="text" class="decoration-slice bg-gradient-to-b min-w-min from-orange-light to-orange-dark text-center text-transparent bg-clip-text py-2 px-4 text-2xl" [href]="uri">
       {{ text }} <i [class]="icon"></i>
     </a>
   `,
