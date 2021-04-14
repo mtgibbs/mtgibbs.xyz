@@ -22,9 +22,9 @@ export const EXPERIENCE: IExperienceItem[] = [
         title: 'Lead Software Engineer',
         subTitle: 'Fortify on Demand',
         description: 'I was a lead engineer for Fortify\'s SaaS Product, Fortify on Demand.  I was responsible for design and development of \
-                      features to manage the state of application security portfolios across 65000 applications *with millions of vulnerabilities* \
+                      features to manage the state of application security portfolios across 65000 applications \
                       and over 20000 users.  Within Fortify, I championed code reuse across our various teams to help grow our inner-source initiative through shareable \
-                      components and libraries.  I also helped guide the team on our open-source engagement and CI integration for security analysis in its infancy.',
+                      components and libraries.  I helped guide the team on our open-source engagement and CI integration for security analysis in its infancy.',
         startDate: 'August 2013',
         endDate: 'June 2018'
     },
