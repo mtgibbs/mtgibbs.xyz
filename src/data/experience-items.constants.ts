@@ -4,22 +4,26 @@ export const EXPERIENCE: IExperienceItem[] = [
     {
         title: 'Software Development Manager',
         subTitle: 'DataScan',
-        description: 'Bacon ipsum dolor amet tongue burgdoggen pancetta, biltong jowl ham hock shankle cow flank ball tip cupim tenderloin boudin bresaola. Rump t-bone pancetta brisket swine salami filet mignon bresaola chicken meatball kielbasa buffalo corned beef. Fatback tongue beef ribs brisket pastrami bresaola. Short loin pork chop pork, flank jerky beef turducken jowl landjaeger. Venison pork chop frankfurter pig.',
+        description: '// TODO: Figure out why',
         startDate: 'June 2020',
         endDate: 'Present'
     },
     {
         title: 'Lead Software Developer',
         subTitle: 'DataScan',
-        description: 'Bacon ipsum dolor amet tongue burgdoggen pancetta, biltong jowl ham hock shankle cow flank ball tip cupim tenderloin boudin bresaola. Rump t-bone pancetta brisket swine salami filet mignon bresaola chicken meatball kielbasa buffalo corned beef. Fatback tongue beef ribs brisket pastrami bresaola. Short loin pork chop pork, flank jerky beef turducken jowl landjaeger. Venison pork chop frankfurter pig.',
+        description: 'I was the lead UI Engineer responsible for establishing strong CI tool \
+                        integration for code quality and consistency.  Getting such strong coding \
+                        standards for a large scale Legacy UI Rewrite early in the process is \
+                        necessary to ensure the success of the project.',
         startDate: 'June 2018',
         endDate: 'June 2020'
     },
     {
         title: 'Lead Software Engineer',
         subTitle: 'Fortify on Demand',
-        description: 'I was the lead engineer on the Fortify on Demand product and portal.  I led several initiatives within the product, from the general UI/UX around navigation and management of issues \
-                      to integration between all of the scanning technologies that Fortify offers.  Within Fortify, I championed code reuse across our various teams to help grow our inner-source initiative through shareable \
+        description: 'I was a lead engineer for Fortify\'s SaaS Product, Fortify on Demand.  I was responsible for design and development of \
+                      features to manage the state of application security portfolios across 65000 applications *with millions of vulnerabilities* \
+                      and over 20000 users.  Within Fortify, I championed code reuse across our various teams to help grow our inner-source initiative through shareable \
                       components and libraries.  I also helped guide the team on our open-source engagement and CI integration for security analysis in its infancy.',
         startDate: 'August 2013',
         endDate: 'June 2018'
@@ -27,8 +31,8 @@ export const EXPERIENCE: IExperienceItem[] = [
     {
         title: 'Software Engineer',
         subTitle: 'InComm',
-        description: 'I was a lead developer of a team striving to implement a new Master Data Management system to consolidate and validate company-wide data using Postgresql, Spring, and JSF Primefaces. \
-                      With this new system we were able to implement a variety of systems and features.  From fraud detection and prevention to an easy interface for the user to modify and update records \
+        description: 'I was a lead developer of a team striving to implement a new Master Data Management platform to consolidate and validate company-wide data using Postgresql, Spring, and JSF Primefaces. \
+                      With this new system we were able to implement feature sets from fraud detection and prevention to an easy interface for the user to modify and update records \
                       in an understandable and validated UI.',
         startDate: 'July 2012',
         endDate: 'August 2013'
