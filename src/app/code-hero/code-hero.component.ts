@@ -6,7 +6,7 @@ import { WindowService } from '../window.service';
   selector: 'mtg-code-hero',
   template: `
 
-    <div class="container relative mx-auto">
+    <div aria-hidden role=”presentation” class="container relative mx-auto">
       <div class="absolute z-0 inset-0 bg-gradient-to-r from-orange to-indigo-light shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
       <div class="relative z-10 h-96 p-4 sm:rounded-3xl  bg-gray-800 border-gray-900 shadow-md ">
         <div class="object-cover font-mono text-gray-200 h-full py-4 overflow-scroll scrollbar-thin scrollbar-thumb-gray-900 scrollbar-track-transparent scrollbar-thumb-rounded select-none">
