@@ -70,11 +70,14 @@ export class CodeHeroComponent implements OnInit {
 // I do, I've prepared this text for your enjoyment so you don't lose the entire effect of my backdrop.
 // I'll just assume you're a fellow gentleman who care's about the precious megabytes we waste shipping
 // sleek frameworks.
+
+
+
+
+// Oh! You scrolled down?  ¯\\_(ツ)_/¯
       `;
       this.index = this.codeText.length;
     } else {
-      
-
       this.httpClient.get(randomFile, { responseType: 'text' }).subscribe(codeText => {
         this.codeText = codeText;
         this.startTypingTimer(this.codeText.length, 45, 15);
