@@ -12,9 +12,9 @@ export const EXPERIENCE: IExperienceItem[] = [
         title: 'Lead Software Developer',
         subTitle: 'DataScan',
         description: 'I was the lead UI Engineer responsible for establishing strong CI tool \
-                        integration for code quality and consistency.  Getting such strong coding \
-                        standards for a large scale Legacy UI Rewrite early in the process is \
-                        necessary to ensure the success of the project.',
+                        integration for code quality and consistency. Ensuring quality \
+                        offered me the opportunity to teach junior developers new technologies, \
+                        standards, and practices.',
         startDate: 'June 2018',
         endDate: 'June 2020'
     },
