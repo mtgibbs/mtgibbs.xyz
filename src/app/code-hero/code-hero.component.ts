@@ -37,7 +37,7 @@ export class CodeHeroComponent implements OnInit {
     'https://raw.githubusercontent.com/mtgibbs/NapkinTour/master/napkin.tour.js',
     'https://raw.githubusercontent.com/mtgibbs/gulp-less-branding-js/master/test/main.js',
     'https://raw.githubusercontent.com/mtgibbs/hubot-fod/master/src/hubot-fod.ts',
-    'https://raw.githubusercontent.com/mtgibbs/hubot-fod/master/index.ts'
+    'https://raw.githubusercontent.com/mtgibbs/hubot-fod/master/index.ts',
   ];
 
   @Input() titleText = '';
@@ -81,10 +81,16 @@ export class CodeHeroComponent implements OnInit {
       `;
       this.index = this.codeText.length;
     } else {
-      this.httpClient.get(randomFile, { responseType: 'text' }).subscribe(codeText => {
-        this.codeText = codeText;
-        this.startTypingTimer(this.codeText.length, 45, 15);
-      });
+      this.httpClient.get(randomFile, { responseType: 'text' }).subscribe(
+        codeText => {
+          this.codeText = codeText;
+          this.startTypingTimer(this.codeText.length, 45, 15);
+        },
+        error => {
+          this.codeText = JSON.stringify(error, null, 3);
+          this.startTypingTimer(this.codeText.length, 45, 15);
+        }
+      );
     }
 
   }
