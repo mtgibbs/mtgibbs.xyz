@@ -77,7 +77,7 @@ export const ICON_OPTIONS: IDevIconOptions[] = [
     {
         icon: 'jasmine',
         isColor: false,
-        isWordmark: true,
+        isWordmark: false,
         style: DevIconStyles.Plain,
     },
     {
