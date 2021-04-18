@@ -7,7 +7,7 @@ import { EXPERIENCE, ICON_OPTIONS, LINKS } from 'src/data';
 
     <!-- <mtg-nav></mtg-nav> -->
     <main class="max-h-screen overflow-y-scroll">
-      <section class="w-full h-full py-12 sm:py-16 md:py-20 bg-gray-200">
+      <section class="w-full h-full px-0 sm:px-5 py-12 sm:py-16 md:py-20 bg-gray-200">
         <mtg-code-hero [titleText]="codeHeroLabelText" [secondText]="codeHeroSecondText"></mtg-code-hero>
         <p class="container mx-auto py-16 sm:pt-24 px-8 sm:px-24">
         Actually more of just a problem solver. I am currently a Software Development Manager leading a team of
@@ -22,11 +22,11 @@ import { EXPERIENCE, ICON_OPTIONS, LINKS } from 'src/data';
             [link]="link" ></mtg-professional-connection-link>
         </div>
       </section>
-      <section class="w-full h-full py-24 bg-gradient-to-tl from-indigo-lightest via-indigo-light to-indigo bg-indigo-light">
+      <section class="w-full h-full px-0 sm:px-5 py-24 bg-gradient-to-tl from-indigo-lightest via-indigo-light to-indigo bg-indigo-light">
         <mtg-section-title title="Experience"></mtg-section-title>
         <mtg-experience-list [experienceItems]="EXPERIENCE"></mtg-experience-list>
       </section>
-      <section class="w-full h-full py-24 bg-gray-200">
+      <section class="w-full h-full px-0 sm:px-5 py-24 bg-gray-200">
         <mtg-section-title title="Technologies"></mtg-section-title>
         <mtg-dev-icon-list [icons]="ICON_OPTIONS"></mtg-dev-icon-list>
       </section>
