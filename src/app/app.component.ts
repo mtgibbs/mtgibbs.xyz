@@ -9,7 +9,7 @@ import { EXPERIENCE, ICON_OPTIONS, LINKS } from 'src/data';
     <main class="max-h-screen overflow-y-scroll">
       <section class="w-full h-full py-24 bg-gray-200">
         <mtg-code-hero [titleText]="codeHeroLabelText" [secondText]="codeHeroSecondText"></mtg-code-hero>
-        <p class="container mx-auto py-16 pt-24 px-24">
+        <p class="container mx-auto py-16 pt-24 px-8 sm:px-24">
         Actually more of just a problem solver. I am currently a Software Development Manager leading a team of
         six full-stack engineers working on a legacy UI modernization project on <a href="https://www.onedatascan.com/solutions/wholesale-intelligence/">DataScan's Wholesale Intelligence Platform</a>.
         I've worked in several industries, from insurance to software security, and in several problem domains like high volume transaction processing systems,
