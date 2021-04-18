@@ -6,7 +6,7 @@ import { WindowService } from '../window.service';
   selector: 'mtg-code-hero',
   template: `
 
-    <div aria-hidden role=”presentation” class="container relative mx-auto">
+    <div aria-hidden role=”presentation” class="container relative mx-auto overflow-hidden">
       <div class="absolute z-0 inset-0 bg-gradient-to-r from-orange to-indigo-light shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
       <div class="relative z-10 h-96 p-4 sm:rounded-3xl  bg-gray-800 border-gray-900 shadow-md ">
         <div class="object-cover font-mono text-gray-200 h-full py-4 overflow-scroll scrollbar-thin scrollbar-thumb-gray-900 scrollbar-track-transparent scrollbar-thumb-rounded select-none">
@@ -14,10 +14,10 @@ import { WindowService } from '../window.service';
         </div>
       </div>
       <div *ngIf="titleText" class="absolute w-full inset-y-1/2 h-9 object-center text-center z-20 transform -translate-x-24 -translate-y-6">
-        <span class="bg-gray-800 text-2xl text-orange font-bold p-8 sm:rounded-3xl border-4 border-orange tracking-wide">{{ titleText }}</span>
+        <span class="bg-gray-800 text-2xl text-orange font-bold p-8 border-4 border-orange sm:rounded-md tracking-wide whitespace-nowrap">{{ titleText }}</span>
       </div>
-      <div *ngIf="secondText" class="absolute w-full inset-y-1/2 h-8 object-center text-center z-20 animate-pulse transform translate-x-24 translate-y-6 -rotate-12 ">
-        <span class="bg-gray-800 bg-opacity-25 backdrop-blur-xl text-2xl text-teal-lightest font-bold p-8 sm:rounded-0 border-4 border-teal-lightest tracking-wide">{{ secondText }}</span>
+      <div *ngIf="secondText" class="absolute w-full inset-y-1/2 h-8 object-center text-center z-20 animate-pulse transform translate-x-24 translate-y-6 -rotate-12">
+        <span class="bg-gray-800 bg-opacity-25 backdrop-blur-xl text-2xl text-teal-lightest font-bold p-8 sm:rounded-0 border-4 border-teal-lightest tracking-wide whitespace-nowrap">{{ secondText }}</span>
       </div>
     </div>
   `,
