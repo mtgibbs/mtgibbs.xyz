@@ -6,7 +6,7 @@ export const ICON_OPTIONS: IDevIconOptions[] = [
         icon: 'github',
         isColor: false,
         isWordmark: true,
-        style: DevIconStyles.Plain,
+        style: DevIconStyles.Original,
     },
     {
         icon: 'gitlab',
