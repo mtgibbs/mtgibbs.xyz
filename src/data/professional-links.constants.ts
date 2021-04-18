@@ -4,16 +4,16 @@ export const LINKS: IProfessionalConnectionLink[] = [
     {
         text: 'Github',
         uri: 'https://github.com/mtgibbs',
-        icon: 'fa fa-github-square'
+        icon: 'fab fa-github-square'
     },
     {
         text: 'LinkedIn',
         uri: 'https://www.linkedin.com/in/mtgibbs21',
-        icon: 'fa fa-linkedin-square'
+        icon: 'fab fa-linkedin'
     },
     {
         text: 'Email',
         uri: 'mailto:matt@mtgibbs.xyz',
-        icon: 'fa fa-envelope-square'
+        icon: 'fas fa-envelope-square'
     }
 ];
