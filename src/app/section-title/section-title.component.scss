@@ -1,18 +1,24 @@
 h1 {
     @apply 
         text-lg 
-        font-bold 
+        font-bold
         bg-orange 
         text-gray-100 
-        w-96 
-        px-8 
-        py-4 
-        -mt-24 
-        transform 
-        -rotate-3 
-        text-center 
-        rounded-md 
-        shadow-lg 
+        text-center
         tracking-wider 
-        uppercase;
+        uppercase
+        shadow-lg
+
+        w-full
+        sm:w-96
+        px-8
+        py-4 
+        -mt-24
+
+        transform 
+        -skew-y-2 
+        sm:skew-y-0
+        sm:-rotate-3 
+        sm:rounded-md
+    ;
 }
