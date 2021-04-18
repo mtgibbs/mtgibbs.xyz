@@ -9,7 +9,7 @@
     "serve:ssr": "node dist/mtgibbs-xyz/server/main.js",
     "build:ssr": "ng build --prod && ng run mtgibbs-xyz:server:production",
     "prerender": "ng run mtgibbs-xyz:prerender",
-    "start:heroku": "node dist/server",
+    "start:heroku": "node dist/mtgibbs-xyz/server/main.js",
     "postinstall": "npm run build:ssr"
   },
   "private": true,
