@@ -2,7 +2,9 @@ h1 {
     @apply 
         text-lg 
         font-bold
-        bg-orange 
+        bg-gradient-to-tr
+        from-orange
+        to-orange-light
         text-gray-100 
         text-center
         tracking-wider 

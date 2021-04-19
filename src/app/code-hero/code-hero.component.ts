@@ -7,7 +7,7 @@ import { WindowService } from '../window.service';
   template: `
 
     <div aria-hidden role=”presentation” class="container relative mx-auto">
-      <div class="absolute z-0 inset-0 bg-gradient-to-r from-orange-light to-indigo-lightest shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-lg"></div>
+      <div class="absolute z-0 inset-0 bg-gradient-to-r from-indigo-lightest to-orange-light shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-lg"></div>
       <div class="relative z-10 h-96 p-4 sm:rounded-lg  bg-gray-800 border-gray-900 shadow-md ">
         <div class="object-cover font-mono text-gray-200 h-full py-4 overflow-scroll scrollbar-thin scrollbar-thumb-gray-900 scrollbar-track-transparent scrollbar-thumb-rounded select-none">
           <mtg-code-hero-text [codeText]="codeText" [characterPointerLocation]="index"></mtg-code-hero-text>
@@ -21,7 +21,6 @@ import { WindowService } from '../window.service';
           <span class="bg-gray-800 bg-opacity-25 backdrop-blur-xl text-2xl text-teal-lightest font-bold p-8 sm:rounded-0 border-4 border-teal-lightest tracking-wide whitespace-nowrap">{{ secondText }}</span>
         </div>
       </div>
-     
     </div>
   `,
   styles: [
