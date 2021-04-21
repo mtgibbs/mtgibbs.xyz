@@ -15,7 +15,7 @@ import { EXPERIENCE, ICON_OPTIONS, LINKS } from 'src/data';
         I've worked in several industries, from insurance to software security, and in several problem domains like high volume transaction processing systems,
         legacy modernization, and web interfaces.
         </p>
-        <div class="flex flex-col sm:flex-row h-24 sm:h-auto justify-center content-evenly items-center">
+        <div class="flex flex-col sm:flex-row h-24 sm:h-auto mt-4 mb-8 sm:my-0 justify-center content-evenly items-center">
           <mtg-professional-connection-link 
             class="text-center my-2"
             *ngFor="let link of LINKS"

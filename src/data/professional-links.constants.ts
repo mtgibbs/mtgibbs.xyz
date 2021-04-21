@@ -15,5 +15,10 @@ export const LINKS: IProfessionalConnectionLink[] = [
         text: 'Email',
         uri: 'mailto:matt@mtgibbs.xyz',
         icon: 'fas fa-envelope-square'
+    },
+    {
+        text: 'Discord',
+        uri: 'https://discordapp.com/users/pwnysenpai#6317/',
+        icon: 'fab fa-discord'
     }
 ];
