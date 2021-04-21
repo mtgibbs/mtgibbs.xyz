@@ -22,11 +22,11 @@ import { EXPERIENCE, ICON_OPTIONS, LINKS } from 'src/data';
             [link]="link" ></mtg-professional-connection-link>
         </div>
       </section>
-      <section class="w-full h-full px-0 sm:px-5 py-24 bg-gradient-to-tl from-indigo-lightest via-indigo-light to-indigo">
+      <section class="w-full h-full px-0 sm:px-5 py-24 pb-16 bg-gradient-to-tl from-indigo-lightest via-indigo-light to-indigo">
         <mtg-section-title title="Experience"></mtg-section-title>
         <mtg-experience-list [experienceItems]="EXPERIENCE"></mtg-experience-list>
       </section>
-      <section class="w-full h-full px-0 sm:px-5 py-24 bg-gray-200">
+      <section class="w-full h-full px-0 sm:px-5 py-24 pb-16 bg-gray-200">
         <mtg-section-title title="Technologies"></mtg-section-title>
         <mtg-dev-icon-list [icons]="ICON_OPTIONS"></mtg-dev-icon-list>
       </section>
