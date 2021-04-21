@@ -22,7 +22,7 @@ import { EXPERIENCE, ICON_OPTIONS, LINKS } from 'src/data';
             [link]="link" ></mtg-professional-connection-link>
         </div>
       </section>
-      <section class="w-full h-full px-0 sm:px-5 py-24 bg-gradient-to-tl from-indigo-lightest via-indigo-light to-indigo bg-indigo-light">
+      <section class="w-full h-full px-0 sm:px-5 py-24 bg-gradient-to-tl from-indigo-lightest via-indigo-light to-indigo">
         <mtg-section-title title="Experience"></mtg-section-title>
         <mtg-experience-list [experienceItems]="EXPERIENCE"></mtg-experience-list>
       </section>
