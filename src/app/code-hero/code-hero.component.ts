@@ -30,13 +30,16 @@ export class CodeHeroComponent implements OnInit {
 
   private _files = [
     'https://raw.githubusercontent.com/mtgibbs/chartist-plugin-labelclasses/master/src/scripts/chartist-plugin-labelclasses.js',
-    'https://raw.githubusercontent.com/mtgibbs/gulp-less-branding-js/master/index.js',
-    'https://raw.githubusercontent.com/mtgibbs/chartist-plugin-barlabels/master/src/scripts/chartist-plugin-barlabels.js',
-    'https://raw.githubusercontent.com/mtgibbs/estudu/master/js/main.js',
-    'https://raw.githubusercontent.com/mtgibbs/NapkinTour/master/napkin.tour.js',
-    'https://raw.githubusercontent.com/mtgibbs/gulp-less-branding-js/master/test/main.js',
     'https://raw.githubusercontent.com/mtgibbs/hubot-fod/master/src/hubot-fod.ts',
     'https://raw.githubusercontent.com/mtgibbs/hubot-fod/master/index.ts',
+    'https://raw.githubusercontent.com/mtgibbs/d3-source-sink/master/src/d3-source-sink.ts',
+    'https://raw.githubusercontent.com/mtgibbs/inkscape-stroke-to-path/master/stroke-to-path.ps1',
+    'https://raw.githubusercontent.com/mtgibbs/iot-gd/master/gd-service.py',
+    'https://raw.githubusercontent.com/mtgibbs/recipecate-api/master/routes/ingredient.routes.js',
+    'https://raw.githubusercontent.com/mtgibbs/recipecate-api/master/routes/mealplan.routes.js',
+    'https://raw.githubusercontent.com/mtgibbs/recipecate-ui/master/src/app/components/meal-plan-create-wizard/meal-plan-create-wizard.component.html',
+    'https://raw.githubusercontent.com/mtgibbs/mtgibbs.xyz/mater/src/app/code-hero/code-hero.component.ts',
+    'https://raw.githubusercontent.com/mtgibbs/mtgibbs.xyz/mater/src/app/experience-list/experience-item.component.scss',
   ];
 
   @Input() titleText = '';
