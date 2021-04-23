@@ -1,38 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
-@import "../node_modules/bootstrap/scss/bootstrap";
-@import "./_branding.scss";
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
-html, body {
-    font-family: 'Lato', sans-serif;
-    color: $color-black;
-    scroll-behavior: smooth;
-    background: $color-white;
-}
-
-small {
-    font-weight: 100;
-}
-
-h2 {
-    text-transform: uppercase;
-}
-
-section {
-    min-height: 100vh;
-
-    @media (min-width: 1800px) {
-        font-size: 1.2em;
+@layer utilities {
+    .snap {
+        scroll-snap-type: var(--scroll-snap-direction) var(--scroll-snap-constraint);
     }
-}
 
-a {
-    color: $color-primary;
-
-    &:hover {
-        color: $color-alt1;
+    .snap-y {
+        --scroll-snap-direction: y;
     }
-}
 
-.text-primary {
-    color: $color-primary !important;
+    .snap-mandatory {
+        --scroll-snap-constraint: mandatory;
+    }
+
+    .snap-start {
+        scroll-snap-align: start;
+    }
 }

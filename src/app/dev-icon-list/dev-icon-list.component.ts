@@ -1,19 +1,25 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IDevIconOptions } from '../dev-icon/dev-icon.component';
+import { IDevIconOptions } from './model/dev-icon-options';
 
 @Component({
-  selector: 'app-dev-icon-list',
-  templateUrl: './dev-icon-list.component.html',
-  styleUrls: ['./dev-icon-list.component.scss']
+  selector: 'mtg-dev-icon-list',
+  template: `
+    <div class="container mx-auto flex flex-row flex-wrap content-center justify-center h-full p-12">
+      <div class="p-2" *ngFor="let option of icons">
+        <mtg-dev-icon [options]="option"></mtg-dev-icon>
+      </div>
+    </div>
+  `,
+  styles: [
+  ]
 })
 export class DevIconListComponent implements OnInit {
 
-  @Input() icons: IDevIconOptions[];
+  @Input() icons: IDevIconOptions[] = [];
 
   constructor() { }
 
-  ngOnInit() {
-    
+  ngOnInit(): void {
   }
 
 }

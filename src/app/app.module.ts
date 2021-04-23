@@ -1,28 +1,26 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { ExperienceItemComponent } from './experience-item/experience-item.component';
-import { ExperienceItemListComponent } from './experience-item-list/experience-item-list.component';
+import { CodeHeroModule } from './code-hero/code-hero.module';
+import { HttpClientModule } from '@angular/common/http';
+import { ExperienceListModule } from './experience-list/experience-list.module';
+import { DevIconListModule } from './dev-icon-list/dev-icon-list.module';
+import { SectionTitleComponent } from './section-title/section-title.component';
 import { ProfessionalConnectionLinkComponent } from './professional-connection-link/professional-connection-link.component';
-import { DevIconComponent } from './dev-icon/dev-icon.component';
-import { DevIconListComponent } from './dev-icon-list/dev-icon-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
-    ExperienceItemComponent,
-    ExperienceItemListComponent,
+    SectionTitleComponent,
     ProfessionalConnectionLinkComponent,
-    DevIconComponent,
-    DevIconListComponent
   ],
   imports: [
-    BrowserModule,
-    NgbModule.forRoot()
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    HttpClientModule,
+    CodeHeroModule,
+    ExperienceListModule,
+    DevIconListModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

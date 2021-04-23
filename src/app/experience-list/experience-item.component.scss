@@ -1,0 +1,85 @@
+@mixin leftItemSet() {
+    @apply ml-0 pl-4 sm:ml-8 sm:pl-0 md:ml-16 rounded-l-md;
+}
+
+@mixin rightItemSet() {
+    @apply mr-0 pr-4 sm:mr-8 sm:pr-0 md:mr-16 rounded-r-md;
+}
+
+
+div.experience-item-container {
+
+    @apply container mx-auto;
+
+    >div {
+
+        @apply  relative ;
+
+        >div.backdrop-accent {
+            @apply absolute z-0 inset-0 bg-gradient-to-r from-orange-light to-orange shadow-lg transform -skew-y-3 sm:skew-y-0 sm:-rotate-3 sm:rounded-md;
+        }
+
+        >div.experience-details {
+            @apply bg-gray-100 shadow-md p-8 rounded-none sm:rounded-md z-10 relative;
+        }
+
+        &.even {
+            @include leftItemSet();
+
+            >div.experience-details {
+                @apply rounded-l-md;
+            }
+
+            >div.backdrop-accent {
+                @apply bg-gradient-to-l;
+            }
+        }
+
+        &.odd {
+            @include rightItemSet();
+
+            >div.experience-details {
+                @apply rounded-r-md;
+            }
+
+            >div.backdrop-accent {
+                @apply transform skew-y-3 sm:skew-y-0 sm:rotate-3 from-orange to-orange-light;
+            }
+        }
+
+        // Silly idea for "cool" transition through orange spectrum
+        // might use this to do a cool complete theme spectrum bounce through on something else
+        
+        // &[index="0"] {
+        //     >div.backdrop-accent {
+        //         @apply from-orange-lightest to-orange-light;
+        //     }
+        // }
+
+        // &[index="1"] {
+        //     >div.backdrop-accent {
+        //         @apply from-orange-light to-orange;
+        //     }
+        // }
+
+        // &[index="2"] {
+        //     >div.backdrop-accent {
+        //         @apply from-orange to-orange-light;
+        //     }
+        // }
+
+        // &[index="3"] {
+        //     > div.backdrop-accent {
+        //         @apply from-orange-light to-orange-lightest;
+        //     }
+        // }
+
+        // &[index="4"] {
+        //     >div.backdrop-accent {
+        //         @apply from-orange-lightest to-orange-light;
+        //     }
+        // }
+    }
+
+}
+
