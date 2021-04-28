@@ -4,8 +4,14 @@ export const EXPERIENCE: IExperienceItem[] = [
     {
         title: 'Software Development Manager',
         subTitle: 'DataScan',
-        description: '// TODO: Figure out why',
-        startDate: 'June 2020',
+        description: 'Currently I remotely lead a team of six full-stack engineers at various levels \
+                        of experience on a tech modernization project to make DataScan’s primary product \
+                        cloud ready while re-envisioning the experience for customers.  I act as a strong \
+                        advocate for Continuous Integration with developer quality tools to ensure quality \
+                        and consistent release cadence. For the past two years I coordinated DataScan’s annual \
+                        intern program partnering with Georgia Tech to provide students with real-world experience \
+                        and to foster their passions for software.',
+        startDate: 'March 2020',
         endDate: 'Present'
     },
     {
@@ -17,7 +23,7 @@ export const EXPERIENCE: IExperienceItem[] = [
                         standards, and practices.  Time spent mentoring peers developed my passion \
                         for coaching and growing talent.',
         startDate: 'June 2018',
-        endDate: 'June 2020'
+        endDate: 'March 2020'
     },
     {
         title: 'Lead Software Engineer',
