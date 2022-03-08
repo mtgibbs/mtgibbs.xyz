@@ -1,11 +1,28 @@
 # mtgibbs.xyz
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.7.
-
-## Development server
-
-Run `npm run dev:ssr` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
 ## Overview
 
-The source for my personal site [mtgibbs.xyz](https://mtgibbs.xyz).  This project leverages [Angular Universal](https://angular.io/guide/universal) and is intended for deployment on [Heroku](https://heroku.com).
+The source for my personal site [mtgibbs.xyz](https://mtgibbs.xyz). It is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+## Development Server
+
+First, run the development server:
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser.
+
+## Docker
+
+Instructions to my future self for deploying the docker image to heroku.
+
+TODO: Make Github Actions do this.
+
+```bash
+$> docker build -t mtgibbs-next-docker .
+$> heroku container:push web
+$> heroku container:release web
+$> heroku open
+```

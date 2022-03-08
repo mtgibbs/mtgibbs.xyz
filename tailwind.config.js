@@ -1,53 +1,61 @@
 module.exports = {
-  prefix: '',
-  purge: {
-    enabled: true,
-    content: [
-      './src/**/*.{html,ts}',
-    ]
-  },
-  darkMode: 'class', // or 'media' or 'class'
+  content: [
+    './pages/**/*.{js,ts,jsx,tsx}',
+    './components/**/*.{js,ts,jsx,tsx}'
+  ],
   theme: {
     extend: {
       colors: {
-        teal: {
-          darkest: '#003133',
-          dark: '#0D4A4D',
-          DEFAULT: '#0D4A4D',
-          light: '#0D4A4D',
-          lightest: '#417E80',
+        purple: {
+          darkest: '#260c19',
+          dark: '#40142a',
+          DEFAULT: '#73244c',
+          light: '#992f65',
+          lightest: '#bf3b7e',
         },
-        indigo: {
-          darkest: '#67989A',
-          dark: '#162955',
-          DEFAULT: '#2E4272',
-          light: '#4F628E',
-          lightest: '#7887AB',
+        magenta: {
+          darkest: '#601024',
+          dark: '#7a142d',
+          DEFAULT: '#ad1d41',
+          light: '#d3234f',
+          lightest: '#f9295d',
         },
-        blue: {
-          darkest: '#4F628E',
-          dark: '#4F628E',
-          DEFAULT: '#29506D',
-          light: '#496D89',
-          lightest: '#496D89',
+        red: {
+          darkest: '#5a0e10',
+          dark: '#a71a1f',
+          DEFAULT: '#db2229',
+          light: '#ff2727',
+          lightest: '#ff2727',
         },
         orange: {
-          darkest: '#714101',
-          dark: '#714101',
-          DEFAULT: '#BF8435',
-          light: '#DCA55B',
-          lightest: '#FFD194',
+          darkest: '#a63510',
+          dark: '#c03d12',
+          DEFAULT: '#f34e18',
+          light: '#ff6119',
+          lightest: '#ff7019',
+        },
+        yellow: {
+          darkest: '#ac8d2a',
+          dark: '#c5a231',
+          DEFAULT: '#f9cc3e',
+          light: '#ffdd3f',
+          lightest: '#ffea3f',
+        },
+        black: {
+          DEFAULT: '#2f302d',
+        },
+        white: {
+          darkest: '#9a9982',
+          dark: '#b3b297',
+          DEFAULT: '#e7e5c3',
+        },
+        blue: {
+          DEFAULT: '#2E2157',
         }
       },
     },
   },
-  variants: {
-    scrollbar: ['rounded'],
-    extend: {},
-  },
   plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
     require('tailwind-scrollbar'),
   ],
-};
+}
