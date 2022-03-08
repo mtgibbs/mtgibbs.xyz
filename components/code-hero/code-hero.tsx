@@ -43,8 +43,8 @@ const _FILES = [
     'https://raw.githubusercontent.com/mtgibbs/recipecate-api/master/routes/ingredient.routes.js',
     'https://raw.githubusercontent.com/mtgibbs/recipecate-api/master/routes/mealplan.routes.js',
     'https://raw.githubusercontent.com/mtgibbs/recipecate-ui/master/src/app/components/meal-plan-create-wizard/meal-plan-create-wizard.component.html',
-    'https://raw.githubusercontent.com/mtgibbs/mtgibbs.xyz/mater/src/app/code-hero/code-hero.component.ts',
-    'https://raw.githubusercontent.com/mtgibbs/mtgibbs.xyz/mater/src/app/experience-list/experience-item.component.scss',
+    'https://raw.githubusercontent.com/mtgibbs/mtgibbs.xyz/4.0.0/src/app/code-hero/code-hero.component.ts',
+    'https://raw.githubusercontent.com/mtgibbs/mtgibbs.xyz/4.0.0/src/app/experience-list/experience-item.component.scss',
 ];
 
 const CodeHero = ({ titleText, secondText }: CodeHeroProps): JSX.Element => {
