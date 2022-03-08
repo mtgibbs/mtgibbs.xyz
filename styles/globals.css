@@ -1,0 +1,66 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@font-face {
+  font-family: "Lazer84";
+  src: url("/fonts/Lazer84.ttf");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Heavitas";
+  src: url("/fonts/Heavitas.ttf");
+  font-style: medium;
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Turnpike";
+  src: url("/fonts/Turnpike.ttf");
+  font-style: medium;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Nineteen Ninety Seven";
+  src: url("/fonts/NineteenNinetySeven-11XB.ttf");
+  font-weight: 400;
+  font-display: swap;
+}
+
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.turnpike {
+  font-family: Turnpike;
+}
+
+.heavitas {
+  font-family: Heavitas;
+}
+
+.lazer84 {
+  font-family: Lazer84;
+}
+
+.nineteen {
+  font-family: "Nineteen Ninety Seven";
+}
