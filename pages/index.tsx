@@ -18,6 +18,7 @@ const Home: NextPage = () => {
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.14.0/devicon.min.css"></link>
         <script src="https://kit.fontawesome.com/911564e118.js" crossOrigin="anonymous"></script>
         <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png"></link>
       </Head>
 
       <main className={cn(styles.main, "min-w-[36em]")}>
