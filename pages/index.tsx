@@ -16,7 +16,9 @@ const Home: NextPage = () => {
         <meta name="description" content="Matt Gibbs Personal Site" />
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.14.0/devicon.min.css"></link>
+        <script src="https://kit.fontawesome.com/911564e118.js" crossOrigin="anonymous"></script>
         <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png"></link>
       </Head>
 
       <main className={cn(styles.main, "min-w-[36em]")}>
@@ -30,6 +32,23 @@ const Home: NextPage = () => {
             web frameworks, large data analysis, code analysis, and DevSecOps. My passions are in front-end development, gaming,
             and demystifying technology.
           </p>
+
+          <div className="flex flex-col sm:flex-row h-24 sm:h-auto mt-4 mb-8 sm:my-0 justify-center content-evenly items-center">
+
+            <a className="text-2xl mx-4 my-1 text-orange" href="https://github.com/mtgibbs">
+              GitHub <i className="fa fa-github"></i>
+            </a>
+            <a className="text-2xl mx-4 my-1 text-red" href="https://www.linkedin.com/in/mtgibbs21">
+              LinkedIn <i className="fa fa-linkedin"></i>
+            </a>
+            <a className="text-2xl mx-4 my-1 text-magenta" href="mailto:matt@mtgibbs.xyz">
+              Email <i className="fa fa-envelope-square"></i>
+            </a>
+            <a className="text-2xl mx-4 my-1 text-purple" href="https://discordapp.com/users/pwnysenpai#6317/">
+              Discord <i className="fab fa-discord"></i>
+            </a>
+          </div>
+
         </section>
 
         <section className="w-full h-full px-0 sm:px-5 py-24 pb-16 bg-gradient-to-tl bg-blue">
