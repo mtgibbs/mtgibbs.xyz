@@ -17,6 +17,8 @@ const Home: NextPage = () => {
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.14.0/devicon.min.css"></link>
         <script src="https://kit.fontawesome.com/911564e118.js" crossOrigin="anonymous"></script>
+        <script async defer data-website-id="1acc21de-8248-480b-9b15-999be129a1a3" src="https://mtgibbs-tracking.herokuapp.com/umami.js"></script>
+
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png"></link>
       </Head>
