@@ -16,7 +16,7 @@ const Home: NextPage = () => {
         <meta name="description" content="Matt Gibbs Personal Site" />
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.14.0/devicon.min.css"></link>
-        <script src="https://kit.fontawesome.com/911564e118.js" crossOrigin="anonymous"></script>
+        <script async defer src="https://kit.fontawesome.com/911564e118.js" crossOrigin="anonymous"></script>
         <script async defer data-website-id="1acc21de-8248-480b-9b15-999be129a1a3" src="https://mtgibbs-tracking.herokuapp.com/umami.js"></script>
 
         <link rel="icon" href="/favicon.ico" />
@@ -38,10 +38,10 @@ const Home: NextPage = () => {
           <div className="flex flex-col sm:flex-row h-24 sm:h-auto mt-4 mb-8 sm:my-0 justify-center content-evenly items-center">
 
             <a className="text-2xl mx-4 my-1 text-orange" href="https://github.com/mtgibbs">
-              GitHub <i className="fa fa-github"></i>
+              GitHub <i className="fab fa-github"></i>
             </a>
             <a className="text-2xl mx-4 my-1 text-red" href="https://www.linkedin.com/in/mtgibbs21">
-              LinkedIn <i className="fa fa-linkedin"></i>
+              LinkedIn <i className="fab fa-linkedin"></i>
             </a>
             <a className="text-2xl mx-4 my-1 text-magenta" href="mailto:matt@mtgibbs.xyz">
               Email <i className="fa fa-envelope-square"></i>
