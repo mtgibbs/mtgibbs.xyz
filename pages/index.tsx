@@ -38,10 +38,10 @@ const Home: NextPage = () => {
           <div className="flex flex-col sm:flex-row h-24 sm:h-auto mt-4 mb-8 sm:my-0 justify-center content-evenly items-center">
 
             <a className="text-2xl mx-4 my-1 text-orange" href="https://github.com/mtgibbs">
-              GitHub <i className="fa fa-github"></i>
+              GitHub <i className="fab fa-github"></i>
             </a>
             <a className="text-2xl mx-4 my-1 text-red" href="https://www.linkedin.com/in/mtgibbs21">
-              LinkedIn <i className="fa fa-linkedin"></i>
+              LinkedIn <i className="fab fa-linkedin"></i>
             </a>
             <a className="text-2xl mx-4 my-1 text-magenta" href="mailto:matt@mtgibbs.xyz">
               Email <i className="fa fa-envelope-square"></i>
