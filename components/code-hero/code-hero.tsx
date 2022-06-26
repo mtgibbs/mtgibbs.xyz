@@ -85,7 +85,7 @@ const CodeHero = ({ titleText, secondText }: CodeHeroProps): JSX.Element => {
                     }
                     {secondText &&
                         <div className="absolute w-full inset-y-1/2 h-8 object-center text-center z-20 transform translate-x-8 sm:translate-x-24 translate-y-7 sm:translate-y-6 -rotate-12" >
-                            <span className="bg-opacity-0 backdrop-blur-xl text-3xl text-purple-lightest font-bold p-8 sm:rounded-0 tracking-wide whitespace-nowrap lazer84">{secondText}</span>
+                            <span className="bg-opacity-0 text-3xl text-purple-lightest font-bold p-8 sm:rounded-0 tracking-wide whitespace-nowrap lazer84">{secondText}</span>
                         </div >
                     }
                 </div >
