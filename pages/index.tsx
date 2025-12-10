@@ -10,7 +10,7 @@ import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
   return (
-    <div className="bg-blue">
+    <div className="bg-black text-white">
       <Head>
         <title>mtgibbs.xyz</title>
         <meta name="description" content="Matt Gibbs Personal Site" />
@@ -25,7 +25,7 @@ const Home: NextPage = () => {
 
       <main className={cn(styles.main, "min-w-[36em]")}>
 
-        <section className="w-full h-full px-0 py-12 sm:py-16 md:py-20 bg-white">
+        <section className="w-full h-full px-0 py-12 sm:py-16 md:py-20 bg-deep-space">
           <CodeHero titleText="Hi. I'm Matt." secondText='Software Developer'></CodeHero>
 
           <p className="container mx-auto text-xl py-16 sm:pt-24 px-8 sm:px-16 xl:px-24">
@@ -37,28 +37,28 @@ const Home: NextPage = () => {
 
           <div className="flex flex-col sm:flex-row h-24 sm:h-auto mt-4 mb-8 sm:my-0 justify-center content-evenly items-center">
 
-            <a className="text-2xl mx-4 my-1 text-orange" href="https://github.com/mtgibbs">
+            <a className="text-2xl mx-4 my-1 text-orange hover:text-orange-light transition-colors" href="https://github.com/mtgibbs">
               GitHub <i className="fab fa-github"></i>
             </a>
-            <a className="text-2xl mx-4 my-1 text-red" href="https://www.linkedin.com/in/mtgibbs21">
+            <a className="text-2xl mx-4 my-1 text-red hover:text-red-light transition-colors" href="https://www.linkedin.com/in/mtgibbs21">
               LinkedIn <i className="fab fa-linkedin"></i>
             </a>
-            <a className="text-2xl mx-4 my-1 text-magenta" href="mailto:matt@mtgibbs.xyz">
+            <a className="text-2xl mx-4 my-1 text-magenta hover:text-magenta-light transition-colors" href="mailto:matt@mtgibbs.xyz">
               Email <i className="fa fa-envelope-square"></i>
             </a>
-            <a className="text-2xl mx-4 my-1 text-purple" href="https://discordapp.com/users/pwnysenpai#6317/">
+            <a className="text-2xl mx-4 my-1 text-purple hover:text-purple-light transition-colors" href="https://discordapp.com/users/pwnysenpai#6317/">
               Discord <i className="fab fa-discord"></i>
             </a>
           </div>
 
         </section>
 
-        <section className="w-full h-full px-0 sm:px-5 py-24 pb-16 bg-gradient-to-tl bg-blue">
+        <section className="w-full h-full px-0 sm:px-5 py-24 pb-16 bg-gradient-to-b from-deep-space to-black">
           <SectionTitle title='Experience'></SectionTitle>
           <ExperienceList experienceItems={EXPERIENCE}></ExperienceList>
         </section>
 
-        <section className="w-full h-full px-0 sm:px-5 py-24 pb-16 bg-white">
+        <section className="w-full h-full px-0 sm:px-5 py-24 pb-16 bg-black">
           <SectionTitle title='Technologies'></SectionTitle>
           <DevIconList icons={ICON_OPTIONS}></DevIconList>
         </section>

@@ -6,14 +6,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        'deep-space': '#180022',
+        'terminal-amber': '#FFB000',
         purple: {
-          darkest: '#260c19',
-          dark: '#40142a',
-          DEFAULT: '#73244c',
-          light: '#992f65',
-          lightest: '#bf3b7e',
+          darkest: '#1a002b',
+          dark: '#3d0066',
+          DEFAULT: '#9D00FF',
+          light: '#b547ff',
+          lightest: '#d18aff',
         },
-        magenta: {
+        magenta: { // Keeping these for now, but not primary
           darkest: '#601024',
           dark: '#7a142d',
           DEFAULT: '#ad1d41',
@@ -21,11 +23,11 @@ module.exports = {
           lightest: '#f9295d',
         },
         red: {
-          darkest: '#5a0e10',
-          dark: '#a71a1f',
-          DEFAULT: '#db2229',
-          light: '#ff2727',
-          lightest: '#ff2727',
+          darkest: '#4a0011',
+          dark: '#a80028',
+          DEFAULT: '#FF003C',
+          light: '#ff4d76',
+          lightest: '#ff99b0',
         },
         orange: {
           darkest: '#a63510',
@@ -35,14 +37,14 @@ module.exports = {
           lightest: '#ff7019',
         },
         yellow: {
-          darkest: '#ac8d2a',
-          dark: '#c5a231',
-          DEFAULT: '#f9cc3e',
-          light: '#ffdd3f',
-          lightest: '#ffea3f',
+          darkest: '#b38f00',
+          dark: '#e6b800',
+          DEFAULT: '#FFCC00',
+          light: '#ffd633',
+          lightest: '#ffe066', // Solar Yellow
         },
         black: {
-          DEFAULT: '#2f302d',
+          DEFAULT: '#050505', // Void Black
         },
         white: {
           darkest: '#9a9982',
@@ -50,7 +52,7 @@ module.exports = {
           DEFAULT: '#e7e5c3',
         },
         blue: {
-          DEFAULT: '#2E2157',
+          DEFAULT: '#2E2157', // Legacy, usage to be checked
         }
       },
     },
