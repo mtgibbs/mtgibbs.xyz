@@ -12,7 +12,7 @@ const ExperienceList = ({ experienceItems }: ExperienceListProps): JSX.Element =
         <>
             <div className="my-12 flex flex-col space-y-24">
                 {experienceItems.map((item, index) => (
-                    <ExperienceItem key={item.title} title={item.title} description={item.description} index={index} startDate={item.startDate} endDate={item.endDate}></ExperienceItem>
+                    <ExperienceItem key={`${item.title}-${item.startDate}`} title={item.title} description={item.description} index={index} startDate={item.startDate} endDate={item.endDate}></ExperienceItem>
                 ))}
             </div>
         </>

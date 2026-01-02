@@ -32,7 +32,7 @@ const ExperienceItem = ({ title, subTitle, description, startDate, endDate, inde
                     }, "shadow-md p-8 rounded-none sm:rounded-md z-10  relative bg-faded-cardboard text-magnetic-black")}>
                         <h3 className="font-bold tracking-wide">{title}</h3>
                         <div className="font-light">{subTitle}</div>
-                        <p className="text-lg p-4">{description}</p>
+                        <p className="text-lg p-4 whitespace-pre-line">{description}</p>
                         {startDate && endDate &&
                             <div className="float-right relative">
                                 <span className="text-signal-orange font-bold font-mono">{startDate} - {endDate}</span>
