@@ -3,7 +3,7 @@ name: Deploy to Heroku
 on:
   push:
     branches:
-      - master
+      - mater
       - 'ci/github-actions'
 
 jobs:
