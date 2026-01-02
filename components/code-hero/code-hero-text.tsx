@@ -26,7 +26,7 @@ const CodeHeroText = ({ codeText }: CodeHeroTextProps): JSX.Element => {
                 styles.crt,
                 'whitespace-pre-line'
             )}>
-                <pre className="nineteen font-light text-sm">{codeText.substring(0, index)}</pre>
+                <pre className="nineteen font-light text-sm whitespace-pre-wrap break-all">{codeText.substring(0, index)}</pre>
             </code>
         </>
     );

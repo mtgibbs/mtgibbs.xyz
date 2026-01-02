@@ -15,7 +15,7 @@ const CyberGrid = () => {
                     animation: 'pulse-fast 4s infinite linear',
                     opacity: 0.3,
                     height: '200%',
-                    width: '100vw'
+                    width: '100%'
                 }}
             />
 

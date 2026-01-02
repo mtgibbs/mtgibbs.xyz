@@ -60,8 +60,8 @@ const CodeHero = ({ titleText, secondText }: CodeHeroProps): JSX.Element => {
 
     return (
         <>
-            <div aria-hidden role='presentation' className=" relative mx-auto">
-                <div className="absolute z-0 inset-0 shadow-lg transform -skew-y-6">
+            <div aria-hidden role='presentation' className="relative mx-auto w-full px-2 sm:px-0">
+                <div className="absolute z-0 inset-0 shadow-lg transform skew-y-0 sm:-skew-y-6">
                     {/* VHS Stripes - purely decorative vector lines */}
                     <div className="absolute z-0 inset-x-0 bottom-80 h-4 bg-phosphor-amber opacity-80"></div>
                     <div className="absolute z-0 inset-x-0 bottom-60 h-8 bg-tracking-red opacity-60"></div>
@@ -78,21 +78,23 @@ const CodeHero = ({ titleText, secondText }: CodeHeroProps): JSX.Element => {
                         <CodeHeroText codeText={codeText}></CodeHeroText>
                     </div>
                 </div>
-                <div className="absolute w-full h-72 sm:h-64 inset-y-12">
+                <div className="absolute w-full h-72 sm:h-64 inset-y-12 flex flex-col items-center justify-center">
                     {titleText &&
-                        <div className="absolute w-full inset-y-1/2 h-9 object-center text-center z-20 transform -translate-x-16 sm:-translate-x-24 -translate-y-12 sm:-translate-y-6">
-                            <span className="bg-magnetic-black text-2xl text-signal-orange font-bold p-8 border-4 border-signal-orange rounded-none tracking-wide whitespace-nowrap heavitas shadow-[8px_8px_0px_#3B5C7D]">{titleText}</span>
+                        <div className="relative w-full text-center z-20 transform translate-y-0 sm:-translate-x-24 sm:-translate-y-6">
+                            <span className="bg-magnetic-black text-xs sm:text-2xl text-signal-orange font-bold p-2 sm:p-8 border-4 border-signal-orange rounded-none tracking-wide heavitas shadow-[4px_4px_0px_#3B5C7D] sm:shadow-[8px_8px_0px_#3B5C7D]">
+                                {titleText}
+                            </span>
                         </div>
                     }
                     {secondText &&
-                        <div className="absolute w-full inset-y-1/2 h-8 object-center text-center z-20 transform translate-x-8 sm:translate-x-24 translate-y-7 sm:translate-y-6 -rotate-12" >
-                            <span className="text-3xl text-phosphor-amber font-bold tracking-wide whitespace-nowrap lazer84">
+                        <div className="relative w-full text-center z-20 transform mt-4 sm:mt-0 sm:translate-x-24 sm:translate-y-6 rotate-0 sm:-rotate-12" >
+                            <span className="text-sm sm:text-3xl text-phosphor-amber font-bold tracking-wide lazer84">
                                 <span className="glitch relative inline-block" data-text={secondText}>{secondText}</span>
                             </span>
-                        </div >
+                        </div>
                     }
-                </div >
-            </div >
+                </div>
+            </div>
         </>
     );
 }
