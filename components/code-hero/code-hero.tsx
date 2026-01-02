@@ -80,13 +80,13 @@ const CodeHero = ({ titleText, secondText }: CodeHeroProps): JSX.Element => {
                 </div>
                 <div className="absolute w-full h-72 sm:h-64 inset-y-12">
                     {titleText &&
-                        <div className="absolute w-full inset-y-1/2 h-9 object-center text-center z-20 transform -translate-x-8 sm:-translate-x-24 -translate-y-8 sm:-translate-y-6">
-                            <span className="bg-magnetic-black text-lg sm:text-2xl text-signal-orange font-bold p-4 sm:p-8 border-4 border-signal-orange rounded-none tracking-wide whitespace-nowrap heavitas shadow-[4px_4px_0px_#3B5C7D] sm:shadow-[8px_8px_0px_#3B5C7D]">{titleText}</span>
+                        <div className="absolute w-full inset-y-1/2 h-9 object-center text-center z-20 transform -translate-x-4 sm:-translate-x-24 -translate-y-8 sm:-translate-y-6">
+                            <span className="bg-magnetic-black text-base sm:text-2xl text-signal-orange font-bold p-2 sm:p-8 border-4 border-signal-orange rounded-none tracking-wide whitespace-nowrap heavitas shadow-[2px_2px_0px_#3B5C7D] sm:shadow-[8px_8px_0px_#3B5C7D]">{titleText}</span>
                         </div>
                     }
                     {secondText &&
-                        <div className="absolute w-full inset-y-1/2 h-8 object-center text-center z-20 transform translate-x-4 sm:translate-x-24 translate-y-8 sm:translate-y-6 -rotate-12" >
-                            <span className="text-xl sm:text-3xl text-phosphor-amber font-bold tracking-wide whitespace-nowrap lazer84">
+                        <div className="absolute w-full inset-y-1/2 h-8 object-center text-center z-20 transform translate-x-2 sm:translate-x-24 translate-y-8 sm:translate-y-6 -rotate-6 sm:-rotate-12" >
+                            <span className="text-lg sm:text-3xl text-phosphor-amber font-bold tracking-wide whitespace-nowrap lazer84">
                                 <span className="glitch relative inline-block" data-text={secondText}>{secondText}</span>
                             </span>
                         </div >
