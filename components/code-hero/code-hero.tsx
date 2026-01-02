@@ -62,17 +62,18 @@ const CodeHero = ({ titleText, secondText }: CodeHeroProps): JSX.Element => {
         <>
             <div aria-hidden role='presentation' className=" relative mx-auto">
                 <div className="absolute z-0 inset-0 shadow-lg transform -skew-y-6">
-                    <div className="absolute z-0 inset-x-0 bottom-80 h-20 bg-yellow bg-gradient-to-r from-yellow-light via-yellow to-yellow-dark shadow-lg shadow-yellow/30"></div>
-                    <div className="absolute z-0 inset-x-0 bottom-60 h-20 bg-orange bg-gradient-to-r from-orange-light via-orange to-orange-dark shadow-lg shadow-orange/30 "></div>
-                    <div className="absolute z-0 inset-x-0 bottom-40 h-20 bg-red bg-gradient-to-r from-red-light via-red to-red-dark shadow-lg shadow-red/30 "></div>
-                    <div className="absolute z-0 inset-x-0 bottom-20 h-20 bg-magenta bg-gradient-to-r from-magenta-light via-magenta to-magenta-dark shadow-lg shadow-magenta/30 "></div>
-                    <div className="absolute z-0 inset-x-0 bottom-0 h-20 bg-purple bg-gradient-to-r from-purple-light via-purple to-purple-dark shadow-lg shadow-purple/30 "></div>
+                    {/* VHS Stripes - purely decorative vector lines */}
+                    <div className="absolute z-0 inset-x-0 bottom-80 h-4 bg-phosphor-amber opacity-80"></div>
+                    <div className="absolute z-0 inset-x-0 bottom-60 h-8 bg-tracking-red opacity-60"></div>
+                    <div className="absolute z-0 inset-x-0 bottom-40 h-2 bg-signal-orange opacity-90"></div>
+                    <div className="absolute z-0 inset-x-0 bottom-20 h-12 bg-chrome-blue opacity-40"></div>
+                    <div className="absolute z-0 inset-x-0 bottom-0 h-6 bg-phosphor-amber opacity-30"></div>
                 </div>
                 <div className={cn(
-                    "relative z-10 h-96 p-4 sm:mx-2 md:mx-4 lg:mx-6 sm:rounded-none bg-black border-2 border-purple shadow-lg shadow-purple/20"
+                    "relative z-10 h-96 p-4 sm:mx-2 md:mx-4 lg:mx-6 sm:rounded-none bg-magnetic-black border-4 border-faded-cardboard shadow-[10px_10px_0px_0px_rgba(0,0,0,1)]"
                 )}>
                     <div className={cn(
-                        "object-cover font-mono text-terminal-amber h-full py-4 overflow-scroll scrollbar-thin scrollbar-thumb-purple scrollbar-track-transparent scrollbar-thumb-rounded select-none"
+                        "object-cover font-mono text-phosphor-amber h-full py-4 overflow-scroll scrollbar-thin scrollbar-thumb-signal-orange scrollbar-track-transparent scrollbar-thumb-rounded select-none"
                     )}>
                         <CodeHeroText codeText={codeText}></CodeHeroText>
                     </div>
@@ -80,12 +81,12 @@ const CodeHero = ({ titleText, secondText }: CodeHeroProps): JSX.Element => {
                 <div className="absolute w-full h-72 sm:h-64 overflow-hidden inset-y-12">
                     {titleText &&
                         <div className="absolute w-full inset-y-1/2 h-9 object-center text-center z-20 transform -translate-x-16 sm:-translate-x-24 -translate-y-12 sm:-translate-y-6">
-                            <span className="bg-black text-2xl text-yellow font-bold p-8 border-4 border-yellow rounded-none tracking-wide whitespace-nowrap heavitas shadow-lg shadow-yellow/20">{titleText}</span>
+                            <span className="bg-magnetic-black text-2xl text-signal-orange font-bold p-8 border-4 border-signal-orange rounded-none tracking-wide whitespace-nowrap heavitas shadow-lg">{titleText}</span>
                         </div>
                     }
                     {secondText &&
                         <div className="absolute w-full inset-y-1/2 h-8 object-center text-center z-20 transform translate-x-8 sm:translate-x-24 translate-y-7 sm:translate-y-6 -rotate-12" >
-                            <span className="bg-opacity-0 text-3xl text-purple-light font-bold p-8 sm:rounded-0 tracking-wide whitespace-nowrap lazer84 drop-shadow-[0_0_10px_rgba(157,0,255,0.8)]">{secondText}</span>
+                            <span className="bg-faded-cardboard text-3xl text-magnetic-black font-bold p-8 sm:rounded-0 tracking-wide whitespace-nowrap lazer84 shadow-[5px_5px_0px_#D93636]">{secondText}</span>
                         </div >
                     }
                 </div >

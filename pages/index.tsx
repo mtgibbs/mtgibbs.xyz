@@ -5,6 +5,7 @@ import CodeHero from '../components/code-hero/code-hero'
 import DevIconList from '../components/dev-icon-list/dev-icon-list'
 import ExperienceList from '../components/experience-list/experience-list'
 import SectionTitle from '../components/section-title/section-title'
+import CyberGrid from '../components/cyber-grid/cyber-grid'
 import { EXPERIENCE, ICON_OPTIONS } from '../data'
 import styles from '../styles/Home.module.css'
 
@@ -23,12 +24,18 @@ const Home: NextPage = () => {
         <link rel="apple-touch-icon" href="/apple-touch-icon.png"></link>
       </Head>
 
-      <main className={cn(styles.main, "min-w-[36em]")}>
+      <main className={cn(styles.main, "min-w-[36em] relative bg-magnetic-black")}>
+        <CyberGrid />
 
-        <section className="w-full h-full px-0 py-12 sm:py-16 md:py-20 bg-deep-space">
+        <section className="relative z-10 w-full h-full px-0 py-12 sm:py-16 md:py-20 bg-transparent">
+          <div className="container mx-auto">
+            <h1 className="text-6xl md:text-8xl font-bold text-center mb-8 glitch text-faded-cardboard" data-text="MTGIBBS.XYZ">
+              <span className="hidden">MTGIBBS.XYZ</span>
+            </h1>
+          </div>
           <CodeHero titleText="Hi. I'm Matt." secondText='Software Developer'></CodeHero>
 
-          <p className="container mx-auto text-xl py-16 sm:pt-24 px-8 sm:px-16 xl:px-24">
+          <p className="container mx-auto text-xl py-16 sm:pt-24 px-8 sm:px-16 xl:px-24 text-faded-cardboard font-mono">
             I&apos;m a problem solver, a craftsman, a developer, and mentor. I&apos;ve worked in several industries, from finance
             to software security, and in several problem domains like high-volume transaction processing systems, legacy modernization,
             web frameworks, large data analysis, code analysis, and DevSecOps. My passions are in front-end development, gaming,
@@ -37,29 +44,33 @@ const Home: NextPage = () => {
 
           <div className="flex flex-col sm:flex-row h-24 sm:h-auto mt-4 mb-8 sm:my-0 justify-center content-evenly items-center">
 
-            <a className="text-2xl mx-4 my-1 text-orange hover:text-orange-light transition-colors" href="https://github.com/mtgibbs">
+            <a className="text-2xl mx-4 my-1 text-signal-orange hover:text-phosphor-amber transition-colors" href="https://github.com/mtgibbs">
               GitHub <i className="fab fa-github"></i>
             </a>
-            <a className="text-2xl mx-4 my-1 text-red hover:text-red-light transition-colors" href="https://www.linkedin.com/in/mtgibbs21">
+            <a className="text-2xl mx-4 my-1 text-tracking-red hover:text-signal-orange transition-colors" href="https://www.linkedin.com/in/mtgibbs21">
               LinkedIn <i className="fab fa-linkedin"></i>
             </a>
-            <a className="text-2xl mx-4 my-1 text-magenta hover:text-magenta-light transition-colors" href="mailto:matt@mtgibbs.xyz">
+            <a className="text-2xl mx-4 my-1 text-chrome-blue hover:text-faded-cardboard transition-colors" href="mailto:matt@mtgibbs.xyz">
               Email <i className="fa fa-envelope-square"></i>
             </a>
-            <a className="text-2xl mx-4 my-1 text-purple hover:text-purple-light transition-colors" href="https://discordapp.com/users/pwnysenpai#6317/">
+            <a className="text-2xl mx-4 my-1 text-faded-cardboard hover:text-white transition-colors" href="https://discordapp.com/users/pwnysenpai#6317/">
               Discord <i className="fab fa-discord"></i>
             </a>
           </div>
 
         </section>
 
-        <section className="w-full h-full px-0 sm:px-5 py-24 pb-16 bg-gradient-to-b from-deep-space to-black">
-          <SectionTitle title='Experience'></SectionTitle>
+        <section className="relative z-10 w-full h-full px-0 sm:px-5 py-24 pb-16 bg-static-grey border-t-4 border-chrome-blue">
+          <div className="glitch mb-12" data-text="EXPERIENCE">
+            <SectionTitle title='Experience'></SectionTitle>
+          </div>
           <ExperienceList experienceItems={EXPERIENCE}></ExperienceList>
         </section>
 
-        <section className="w-full h-full px-0 sm:px-5 py-24 pb-16 bg-black">
-          <SectionTitle title='Technologies'></SectionTitle>
+        <section className="relative z-10 w-full h-full px-0 sm:px-5 py-24 pb-16 bg-magnetic-black border-t-4 border-signal-orange">
+          <div className="glitch mb-12" data-text="TECHNOLOGIES">
+            <SectionTitle title='Technologies'></SectionTitle>
+          </div>
           <DevIconList icons={ICON_OPTIONS}></DevIconList>
         </section>
 

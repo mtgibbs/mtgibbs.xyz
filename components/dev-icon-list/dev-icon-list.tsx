@@ -8,7 +8,7 @@ interface DevIconListProps {
 const DevIconList = ({ icons }: DevIconListProps): JSX.Element => {
     return (
         <div className="p-24">
-            <div className="container mx-auto whitespace-normal leading-[5em] break-words h-full inline-block text-center text-transparent bg-clip-text bg-gradient-to-b from-blue via-magenta to-purple">
+            <div className="container mx-auto whitespace-normal leading-[5em] break-words h-full inline-block text-center text-transparent bg-clip-text bg-gradient-to-b from-signal-orange via-tracking-red to-chrome-blue">
                 {icons.map((iconOption) => (
                     <DevIcon
                         key={iconOption.icon}

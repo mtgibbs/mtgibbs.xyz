@@ -1,68 +1,70 @@
 # DESIGN_AGENT.md
 
 ## Identity
-**Role**: Retro-Future Design Specialist
-**Inspirations**: *2001: A Space Odyssey* (Kubrick), *Alien* (Ridley Scott), 1970s/80s Sci-Fi Conceptual Art.
-**Motto**: "High-Fidelity Nostalgia for the Future that Never Was."
+**Role**: Retro Systems Archivist
+**Inspirations**: *Alien (1979)*, *2001: A Space Odyssey*, *Commodore 64 Manuals*, *VHS Sleeves*, *Cassette Futurism*.
+**Motto**: "Be Kind, Rewind."
 
 ## Visual Language
 
 ### Core Philosophy
-The interface should feel like a high-end terminal on a deep-space vessel. It is utilitarian but undeniably stylish. It eschews modern "flat" minimalism for "structural" layouts—frames, grids, and data visualizations.
+The interface is a recovered data tape from 197X. It is analog, warm, and slightly decayed. It combines the chunkiness of early computing with the graphic design of VHS packaging.
 
-### Color Palette ("The Nebula Console")
-A high-contrast blend of deep voids and vivid, saturated indicators.
+### Color Palette ("The Magnetic Spectrum")
+A palette inspired by faded cardboard sleeves and glowing phosphor screens.
 
 - **Backgrounds**:
-  - `Void Black`: `#050505` (Main background)
-  - `Deep Space Purple`: `#180022` (Panel backgrounds, subtle gradients)
+  - `Magnetic Tape Black`: `#1A1A1A` (Deep, warm charcoal, not pure black)
+  - `Faded Cardboard`: `#F5F0E1` (Off-white/Beige, used for high contrast panels)
+  - `Static Grey`: `#2F3338` (Secondary background)
 
 - **Primary Accents**:
-  - **Retro Purple**: `#9D00FF` (Primary borders, large headings)
-  - **Solar Yellow**: `#FFCC00` (Active states, cursor, important data)
-  - **Crimson Red**: `#FF003C` (Alerts, "Delete" actions, critical CTAs)
-
-- **Secondary Accents**:
-  - `Terminal Amber`: `#FFB000` (Secondary text, warning lights)
-  - `Bioshock Teal`: `#00F0FF` (Data streams, upbeat info - used sparingly)
+  - **Signal Orange**: `#FF4400` (Primary action, retro-futuristic alert)
+  - **Phosphor Amber**: `#FFB000` (glowing text, terminals)
+  - **Chrome Blue**: `#3B5C7D` (Muted, metallic accent)
+  - **Tracking Red**: `#D93636` (Errors, recording lights)
 
 ### Typography
-Everything should look computed.
-- **Headers**: Bold, uppercase, widely tracked (letter-spacing).
-- **Body**: Monospaced fonts are preferred for data density. `Space Mono`, `Roboto Mono`, or `Courier Prime`.
-- **Text Effects**:
-  - Glowing text-shadows (subtle).
-  - "Glitch" effects on hover.
+- **Headers**: Chunky, possibly serif or geometric sans-serif. Think `Cooper Black` or `Eurostile`.
+- **Body**: Strict Monospace. `VT323`, `Space Mono`, or `IBM Plex Mono`.
+- **Styling**:
+  - Uppercase headers with tight or very wide tracking.
+  - "Bleed" effects (text shadow that looks like ink spread or phosphor bloom).
 
 ### UI Components
 
-#### 1. The HypeContainer
-A structural wrapper for content.
-- **Borders**: 2px solid `Retro Purple`.
-- **Corners**: "Cut" corners or bracketed corners ( `[ ]` style).
-- **Background**: `Deep Space Purple` with 80% opacity or a subtle scanline grid pattern.
+#### 1. The HolotapeContainer
+A bulky, tactile wrapper.
+- **Borders**: Thick (4px+), rounded corners but with low resolution (blocky rounds).
+- **Background**: `Magnetic Tape Black` or `Static Grey`.
+- **Shadows**: Hard, solid drop shadows (no blur) to create physical depth.
 
-#### 2. The RetroButton
-- **Default**: Solid block of `Retro Purple` or transparent with `Solar Yellow` border.
-- **Hover**: Inverts colors instantly or "fills" with a scanline animation.
-- **Click**: Visual depression (transform: translate(2px, 2px)).
+#### 2. The PunchCardButton
+- **Default**: Blocky, tactile, opaque. `Signal Orange` background with `Faded Cardboard` text.
+- **Hover**: Swaps colors or shifts the hard shadow to look "pressed".
+- **Texture**: Subtle noise pattern overlay.
 
-#### 3. Data Displays
-- Use "statistic bars" or "donut charts" that look like life-support system readouts.
-- Blinking status lights to indicate "live" systems.
+#### 3. Analog Monitors
+- **Data**: Displayed in stark monochrome grids.
+- **Framing**: Beveled edges (CSS borders with varying shades) to look like a physical screen set in a console.
+
+#### 4. The Tracking Artifact (Glitch)
+- **Effect**: Horizontal tearing, color separation (chromatic aberration), but "soft" and rolling, like a bad tracking knob on a VCR.
+- **Usage**: Transitions and hover states.
+
+#### 5. Vector Lines
+- **Decoration**: Multi-colored stripes (Orange, Yellow, Brown) running horizontally across the screen, reminiscent of VHS sleeve graphics.
 
 ## Motion & Values
-- **Speed**: Transitions are either instant (0s/0.1s) for that "digital switching" feel, or slow and linear (scanlines).
-- **Easing**: `steps()` functions for animation to mimic low-refresh rate screens.
-- **CRT Effects**:
-  - Subtle chromatic aberration (RGB split) on edges.
-  - Constant faint scanline overlay.
-  - Screen curvature vignette (optional, can be heavy).
+- **Speed**: "Mechanical". Things slide in with weight.
+- **Easing**: `ease-in-out` but slightly sluggish.
+- **Texture**: Always present. Film grain, scanlines (thick ones), and subtle jitter.
 
 ## Implementation Guidelines
-1. **CSS Variables**: Define the palette in `globals.css` immediately.
-2. **Utility First**: Use Tailwind config to add these specific colors and fonts.
-3. **No Roundness**: `rounded-none` is the default. Circles are for data (planets/radars), not UI containers.
+1. **CSS Variables**: Update `globals.css` with the new "Magnetic" palette.
+2. **Tailwind Config**: Add `magnetic-black`, `signal-orange`, etc.
+3. **Texture First**: Use background patterns (CSS radial gradients or noise images) to avoid the "flat digital" look. 
+4. **Border Radius**: Use `rounded-lg` but combine with thick borders for that "plastic casing" feel.
 
 ---
-*End of Transmission*
+*End of Tape*

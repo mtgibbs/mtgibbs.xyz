@@ -23,19 +23,19 @@ const ExperienceItem = ({ title, subTitle, description, startDate, endDate, inde
                     }, "relative")
                 }>
                     <div className={cn({
-                        "bg-gradient-to-l -skew-y-3 sm:skew-y-0 sm:-rotate-3 from-yellow to-red-light": isEven,
-                        "transform skew-y-3 sm:skew-y-0 sm:rotate-3 from-orange-light to-magenta-light": isOdd,
+                        "bg-gradient-to-l -skew-y-3 sm:skew-y-0 sm:-rotate-3 from-phosphor-amber to-tracking-red": isEven,
+                        "transform skew-y-3 sm:skew-y-0 sm:rotate-3 from-signal-orange to-chrome-blue": isOdd,
                     }, "absolute z-0 inset-0 bg-gradient-to-r shadow-lg transform sm:rounded-md")}></div>
                     <div className={cn({
                         "rounded-l-md": isEven,
                         "rounded-r-md": isOdd,
-                    }, "shadow-md p-8 rounded-none sm:rounded-md z-10  relative bg-white")}>
+                    }, "shadow-md p-8 rounded-none sm:rounded-md z-10  relative bg-faded-cardboard text-magnetic-black")}>
                         <h3 className="font-bold tracking-wide">{title}</h3>
                         <div className="font-light">{subTitle}</div>
                         <p className="text-lg p-4">{description}</p>
                         {startDate && endDate &&
                             <div className="float-right relative">
-                                <span className="text-primary">{startDate} - {endDate}</span>
+                                <span className="text-signal-orange font-bold font-mono">{startDate} - {endDate}</span>
                             </div>
 
                         }
