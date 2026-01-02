@@ -32,7 +32,9 @@ const SectionTitle = ({ title }: SectionTitleProps): JSX.Element => {
             -skew-y-2 
             sm:skew-y-0
             sm:-rotate-3 
-            sm:rounded-md">{title}</h1>
+            sm:rounded-md">
+            <span className="glitch inline-block relative" data-text={title}>{title}</span>
+        </h1>
 
     );
 }

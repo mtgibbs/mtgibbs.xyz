@@ -78,7 +78,7 @@ const CodeHero = ({ titleText, secondText }: CodeHeroProps): JSX.Element => {
                         <CodeHeroText codeText={codeText}></CodeHeroText>
                     </div>
                 </div>
-                <div className="absolute w-full h-72 sm:h-64 overflow-hidden inset-y-12">
+                <div className="absolute w-full h-72 sm:h-64 inset-y-12">
                     {titleText &&
                         <div className="absolute w-full inset-y-1/2 h-9 object-center text-center z-20 transform -translate-x-16 sm:-translate-x-24 -translate-y-12 sm:-translate-y-6">
                             <span className="bg-magnetic-black text-2xl text-signal-orange font-bold p-8 border-4 border-signal-orange rounded-none tracking-wide whitespace-nowrap heavitas shadow-lg">{titleText}</span>
@@ -86,7 +86,9 @@ const CodeHero = ({ titleText, secondText }: CodeHeroProps): JSX.Element => {
                     }
                     {secondText &&
                         <div className="absolute w-full inset-y-1/2 h-8 object-center text-center z-20 transform translate-x-8 sm:translate-x-24 translate-y-7 sm:translate-y-6 -rotate-12" >
-                            <span className="bg-faded-cardboard text-3xl text-magnetic-black font-bold p-8 sm:rounded-0 tracking-wide whitespace-nowrap lazer84 shadow-[5px_5px_0px_#D93636]">{secondText}</span>
+                            <span className="bg-faded-cardboard text-3xl text-magnetic-black font-bold p-8 sm:rounded-0 tracking-wide whitespace-nowrap lazer84 shadow-[5px_5px_0px_#D93636]">
+                                <span className="glitch relative inline-block" data-text={secondText}>{secondText}</span>
+                            </span>
                         </div >
                     }
                 </div >

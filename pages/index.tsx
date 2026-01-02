@@ -61,14 +61,14 @@ const Home: NextPage = () => {
         </section>
 
         <section className="relative z-10 w-full h-full px-0 sm:px-5 py-24 pb-16 bg-static-grey border-t-4 border-chrome-blue">
-          <div className="glitch mb-12" data-text="EXPERIENCE">
+          <div className="mb-12">
             <SectionTitle title='Experience'></SectionTitle>
           </div>
           <ExperienceList experienceItems={EXPERIENCE}></ExperienceList>
         </section>
 
         <section className="relative z-10 w-full h-full px-0 sm:px-5 py-24 pb-16 bg-magnetic-black border-t-4 border-signal-orange">
-          <div className="glitch mb-12" data-text="TECHNOLOGIES">
+          <div className="mb-12">
             <SectionTitle title='Technologies'></SectionTitle>
           </div>
           <DevIconList icons={ICON_OPTIONS}></DevIconList>
