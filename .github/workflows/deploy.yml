@@ -1,0 +1,43 @@
+name: Deploy to Heroku
+
+on:
+  push:
+    branches:
+      - master
+      - 'ci/github-actions'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+        run: |
+          # Install Heroku CLI
+          curl https://cli-assets.heroku.com/install.sh | sh
+          
+          # Login to Heroku Container Registry
+          echo $HEROKU_API_KEY | docker login --username=_ --password-stdin registry.heroku.com
+          
+          # Build Image
+          docker build -t registry.heroku.com/$HEROKU_APP_NAME/web .
+          
+          # Push Image
+          docker push registry.heroku.com/$HEROKU_APP_NAME/web
+          
+          # Release
+          heroku container:release web --app $HEROKU_APP_NAME
+
+      - name: Purge Cloudflare Cache
+        env:
+          CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE }}
+          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
+        run: |
+          curl -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE/purge_cache" \
+          -H "Authorization: Bearer $CLOUDFLARE_TOKEN" \
+          -H "Content-Type: application/json" \
+          --data '{"purge_everything":true}'
