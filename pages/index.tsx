@@ -24,7 +24,7 @@ const Home: NextPage = () => {
         <link rel="apple-touch-icon" href="/apple-touch-icon.png"></link>
       </Head>
 
-      <main className={cn(styles.main, "min-w-[36em] relative bg-magnetic-black")}>
+      <main className={cn(styles.main, "relative bg-magnetic-black")}>
         <CyberGrid />
 
         <section className="relative z-10 w-full h-full px-0 py-12 sm:py-16 md:py-20 bg-transparent">
