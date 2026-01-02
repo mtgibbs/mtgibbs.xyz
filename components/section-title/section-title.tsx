@@ -11,8 +11,8 @@ const SectionTitle = ({ title }: SectionTitleProps): JSX.Element => {
 
         <h1 className="text-lg 
             font-bold
-            bg-faded-cardboard
-            text-magnetic-black
+            bg-magnetic-black
+            text-phosphor-amber
             border-2
             border-signal-orange 
             text-center

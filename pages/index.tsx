@@ -20,7 +20,7 @@ const Home: NextPage = () => {
         <script async defer src="https://kit.fontawesome.com/911564e118.js" crossOrigin="anonymous"></script>
         <script async defer data-website-id="1acc21de-8248-480b-9b15-999be129a1a3" src="https://mtgibbs-tracking.herokuapp.com/umami.js"></script>
 
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/jpeg" href="/me_icon.jpg?v=2" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png"></link>
       </Head>
 
