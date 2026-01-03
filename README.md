@@ -14,15 +14,31 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-## Docker
+## Deployment
 
-Instructions to my future self for deploying the docker image to heroku.
+This project uses **GitHub Actions** for automated CI/CD.
 
-TODO: Make Github Actions do this.
+### Automated Flow
+Pushes to the `mater` branch trigger the following:
+1. **Build**: A Docker image is built for the Next.js application.
+2. **Push**: The image is pushed to the Heroku Container Registry.
+3. **Release**: The container is released to the Heroku app (`mtgibbs`).
+4. **Purge**: The Cloudflare cache is automatically purged to ensure the latest version is live.
+
+### Required Secrets
+The following GitHub Secrets must be configured for the workflow to run:
+- `HEROKU_API_KEY`: Your Heroku API key.
+- `HEROKU_APP_NAME`: `mtgibbs`
+- `HEROKU_EMAIL`: Your Heroku account email.
+- `CLOUDFLARE_ZONE`: The Zone ID for mtgibbs.xyz.
+- `CLOUDFLARE_TOKEN`: A Cloudflare API Token with "Purge Cache" permissions.
+
+## Manual Commands (Reference)
+
+If you ever need to manually deploy via Docker:
 
 ```bash
-$> docker build -t mtgibbs-next-docker .
-$> heroku container:push web
-$> heroku container:release web
-$> heroku open
+$> docker build -t registry.heroku.com/mtgibbs/web .
+$> docker push registry.heroku.com/mtgibbs/web
+$> heroku container:release web --app mtgibbs
 ```
