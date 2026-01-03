@@ -21,7 +21,7 @@ const SectionTitle = ({ title }: SectionTitleProps): JSX.Element => {
             shadow-lg
             overflow-hidden
 
-            w-[90vw]
+            w-full
             sm:w-96
             px-4
             sm:px-8
@@ -30,9 +30,7 @@ const SectionTitle = ({ title }: SectionTitleProps): JSX.Element => {
             sm:-ml-4
 
             transform 
-            skew-y-0
-            sm:-skew-y-2 
-            rotate-0
+            -skew-y-2 
             sm:-rotate-3 
             sm:rounded-md">
             <span className="glitch inline-block relative" data-text={title}>{title}</span>
