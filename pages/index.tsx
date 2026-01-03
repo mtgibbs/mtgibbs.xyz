@@ -36,13 +36,15 @@ const Home: NextPage = () => {
           <CodeHero titleText="Hi. I'm Matt." secondText='Software Developer'></CodeHero>
 
           <p className="container mx-auto text-xl py-16 sm:pt-24 px-8 sm:px-16 xl:px-24 text-faded-cardboard font-mono">
+
             I&apos;m a problem solver, craftsman, engineering leader, and mentor.
             <br />
             <br />
-            I&apos;ve spent my career helping teams navigate complexity—modernizing legacy systems, designing scalable platforms, and turning ambiguous problems into durable, well-designed software. My background spans finance, application security, and data platforms, with experience across high-volume transaction systems, cloud-native architectures, web frameworks, and DevSecOps.
+            Most of my career has been spent working through complexity and helping teams untangle it. I&apos;ve modernized legacy systems, designed platforms that scale, and helped turn unclear problems into software that lasts. Along the way, I&apos;ve worked across finance, application security, and data platforms, often in systems that had to be both reliable and easy to reason about.
             <br />
             <br />
-            I&apos;m particularly drawn to front-end engineering, developer experience, and demystifying technology. I enjoy building environments where engineers can do their best work and where systems are understandable, resilient, and built to last.
+            I&apos;m particularly drawn to front-end engineering and developer experience. I care about building systems and teams that make good work easier, and about demystifying technology so it feels more approachable and less fragile.
+
           </p>
 
           <div className="flex flex-col sm:flex-row h-24 sm:h-auto mt-4 mb-8 sm:my-0 justify-center content-evenly items-center">
