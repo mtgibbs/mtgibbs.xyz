@@ -19,19 +19,28 @@ Open [http://localhost:3000](http://localhost:3000) with your browser.
 This project uses **GitHub Actions** for automated CI/CD.
 
 ### Automated Flow
-Pushes to the `mater` branch trigger the following:
+Pushes to the `mater` branch trigger the following in parallel:
+
+#### Heroku Deployment
 1. **Build**: A Docker image is built for the Next.js application.
 2. **Push**: The image is pushed to the Heroku Container Registry.
 3. **Release**: The container is released to the Heroku app (`mtgibbs`).
-4. **Purge**: The Cloudflare cache is automatically purged to ensure the latest version is live.
+4. **Purge**: The Cloudflare cache is automatically purged.
+
+#### GHCR Publishing (for Kubernetes/Flux)
+1. **Multi-Arch Build**: Builds images for both `linux/amd64` and `linux/arm64` (Raspberry Pi support).
+2. **Tagging**: Images are tagged with `latest`, git SHA, and a timestamp (`YYYYMMDDHHmmss`) for Flux numeric sorting.
+3. **Push**: Images are pushed to [GitHub Container Registry](https://github.com/mtgibbs/mtgibbs.xyz/pkgs/container/mtgibbs.xyz).
 
 ### Required Secrets
-The following GitHub Secrets must be configured for the workflow to run:
+The following GitHub Secrets must be configured for the Heroku workflow:
 - `HEROKU_API_KEY`: Your Heroku API key.
 - `HEROKU_APP_NAME`: `mtgibbs`
 - `HEROKU_EMAIL`: Your Heroku account email.
 - `CLOUDFLARE_ZONE`: The Zone ID for mtgibbs.xyz.
 - `CLOUDFLARE_TOKEN`: A Cloudflare API Token with "Purge Cache" permissions.
+
+*Note: `GITHUB_TOKEN` is used automatically for GHCR publishing.*
 
 ## Manual Commands (Reference)
 
