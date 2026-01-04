@@ -444,9 +444,9 @@ a {
   height: 100%;
   z-index: 10000;
   pointer-events: none;
-  opacity: 0.05;
-  background-image: url("https://media.giphy.com/media/oEI9uWUayGUCs/giphy.gif");
-  mix-blend-mode: screen;
+  opacity: 0.03;
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/0/02/Television_static.gif");
+  mix-blend-mode: overlay;
   display: none;
 }
 

@@ -7,7 +7,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <VhsProvider>
       <Component {...pageProps} />
-      <VhsToggle />
     </VhsProvider>
   )
 }
