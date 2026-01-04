@@ -8,6 +8,7 @@ import SectionTitle from '../components/section-title/section-title'
 import CyberGrid from '../components/cyber-grid/cyber-grid'
 import Footer from '../components/footer/footer'
 import SystemLogs from '../components/system-logs/system-logs'
+import MainframeDashboard from '../components/mainframe-dashboard/mainframe-dashboard'
 import { EXPERIENCE, ICON_OPTIONS } from '../data'
 import styles from '../styles/Home.module.css'
 
@@ -71,6 +72,10 @@ const Home: NextPage = () => {
           <div className="container mx-auto max-w-4xl">
             <SystemLogs />
           </div>
+        </section>
+
+        <section id="mission-control" className="relative z-10 w-full bg-magnetic-black">
+          <MainframeDashboard />
         </section>
 
         <section className="relative z-10 w-full h-full px-0 sm:px-5 py-24 pb-16 bg-static-grey border-t-4 border-chrome-blue">

@@ -1,0 +1,198 @@
+.consoleContainer {
+    perspective: 1000px;
+    padding: 2rem 0;
+}
+
+.mainframeHousing {
+    background: #c3c4c7;
+    /* Classic industrial beige-grey */
+    border: 4px solid #a1a2a5;
+    border-radius: 4px;
+    padding: 3rem;
+    position: relative;
+    box-shadow:
+        inset 4px 4px 10px rgba(255, 255, 255, 0.4),
+        inset -4px -4px 10px rgba(0, 0, 0, 0.2),
+        20px 20px 40px rgba(0, 0, 0, 0.5);
+    background-image:
+        radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #c3c4c7 0%, #b0b1b4 100%);
+}
+
+.gridOverlay {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 0);
+    background-size: 20px 20px;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.panelSection {
+    background: #2a2c2f;
+    border: 2px solid #1a1a1c;
+    border-radius: 2px;
+    padding: 1.5rem;
+    position: relative;
+    box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.panelLabel {
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: #f5f0e1;
+    /* White tape look */
+    color: #1a1a1a;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 2px 10px;
+    border: 1px solid #d1cfc5;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.statusLight {
+    width: 12px;
+    height: 12px;
+    background: #222;
+    border-radius: 50%;
+    border: 1px solid #444;
+    transition: all 0.2s;
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.statusLight[data-active="true"] {
+    background: #ffb000;
+    box-shadow: 0 0 10px #ffb000, inset 1px 1px 4px rgba(255, 255, 255, 0.8);
+}
+
+.dataStream {
+    background: #0d0e0f;
+    border: 1px solid #333;
+    padding: 10px;
+    height: 80px;
+    overflow: hidden;
+    white-space: pre-wrap;
+}
+
+/* Hardware details */
+.screw {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #888;
+    border-radius: 50%;
+    box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.5), 1px 1px 2px rgba(0, 0, 0, 0.5);
+    z-index: 20;
+}
+
+.screw::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: #555;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.screwTopLeft {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #888;
+    border-radius: 50%;
+    box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.5), 1px 1px 2px rgba(0, 0, 0, 0.5);
+    z-index: 20;
+    top: 10px;
+    left: 10px;
+}
+
+.screwTopRight {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #888;
+    border-radius: 50%;
+    box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.5), 1px 1px 2px rgba(0, 0, 0, 0.5);
+    z-index: 20;
+    top: 10px;
+    right: 10px;
+}
+
+.screwBottomLeft {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #888;
+    border-radius: 50%;
+    box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.5), 1px 1px 2px rgba(0, 0, 0, 0.5);
+    z-index: 20;
+    bottom: 10px;
+    left: 10px;
+}
+
+.screwBottomRight {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #888;
+    border-radius: 50%;
+    box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.5), 1px 1px 2px rgba(0, 0, 0, 0.5);
+    z-index: 20;
+    bottom: 10px;
+    right: 10px;
+}
+
+@keyframes flash {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.handle {
+    position: absolute;
+    width: 10px;
+    height: 100px;
+    background: #7a7b7e;
+    border-radius: 5px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+    border: 1px solid #5a5b5e;
+    z-index: 20;
+}
+
+.handleLeft {
+    position: absolute;
+    width: 10px;
+    height: 100px;
+    background: #7a7b7e;
+    border-radius: 5px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+    border: 1px solid #5a5b5e;
+    z-index: 20;
+    left: -5px;
+    top: calc(50% - 50px);
+}
+
+.handleRight {
+    position: absolute;
+    width: 10px;
+    height: 100px;
+    background: #7a7b7e;
+    border-radius: 5px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+    border: 1px solid #5a5b5e;
+    z-index: 20;
+    right: -5px;
+    top: calc(50% - 50px);
+}
