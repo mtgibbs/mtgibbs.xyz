@@ -6,6 +6,8 @@ This file provides guidance to Antigravity when working with code in this reposi
 
 Personal portfolio website for Matt Gibbs built with Next.js 16, React 19, TypeScript, and Tailwind CSS. The site is a single-page application showcasing professional experience, skills, and contact information.
 
+**Note:** The primary branch for this repository is `mater` (Latin for "mother").
+
 ## Development Commands
 
 ```bash
