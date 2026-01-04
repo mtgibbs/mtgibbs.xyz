@@ -106,6 +106,6 @@ Single-page layout (`pages/index.tsx`) with three main sections:
 
 ## 🚀 Feature Roadmap (Retro Sci-Fi)
 
-- [ ] **System Logs Activity Feed**: Real-time (or cached) GitHub commit stream styled as raw mainframe output.
+- [x] **System Logs Activity Feed**: Real-time (or cached) GitHub commit stream styled as raw mainframe output.
 - [x] **VHS/VCR Tracking Toggle**: Global switch for CRT distortion, chromatic aberration, and scanline jitter.
-- [ ] **Interactive "Mainframe" Dashboard**: A 70s NASA-style control panel section with physical-looking buttons and gauges.
+- [] **Interactive "Mainframe" Dashboard**: A 70s NASA-style control panel section with physical-looking buttons and gauges.
