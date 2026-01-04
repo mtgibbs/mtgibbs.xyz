@@ -47,7 +47,7 @@ const _FILES = [
     'https://raw.githubusercontent.com/mtgibbs/mtgibbs.xyz/4.0.0/src/app/experience-list/experience-item.component.scss',
 ];
 
-const CodeHero = ({ titleText, secondText }: CodeHeroProps): JSX.Element => {
+const CodeHero = ({ titleText, secondText }: CodeHeroProps): React.ReactNode => {
 
     const [file, setFile] = React.useState(_FILES[Math.floor(Math.random() * _FILES.length)]);
     const { data, error } = useSWR(file, sourceCodeFetcher);

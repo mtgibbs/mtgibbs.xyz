@@ -5,7 +5,7 @@ interface SectionTitleProps {
     title: string;
 }
 
-const SectionTitle = ({ title }: SectionTitleProps): JSX.Element => {
+const SectionTitle = ({ title }: SectionTitleProps): React.ReactNode => {
 
     return (
 

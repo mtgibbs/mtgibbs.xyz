@@ -6,7 +6,7 @@ interface ExperienceItemProps extends IExperienceItem {
     index: number;
 }
 
-const ExperienceItem = ({ title, subTitle, description, startDate, endDate, index }: ExperienceItemProps): JSX.Element => {
+const ExperienceItem = ({ title, subTitle, description, startDate, endDate, index }: ExperienceItemProps): React.ReactNode => {
 
     const isEven = index % 2 === 0;
     const isOdd = !isEven;

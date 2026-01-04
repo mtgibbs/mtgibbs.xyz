@@ -5,7 +5,7 @@ interface DevIconListProps {
     icons: readonly IDevIconOptions[];
 }
 
-const DevIconList = ({ icons }: DevIconListProps): JSX.Element => {
+const DevIconList = ({ icons }: DevIconListProps): React.ReactNode => {
     return (
         <div className="px-4 py-12 sm:p-24">
             <div className="container mx-auto grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-8 items-center justify-items-center text-transparent bg-clip-text bg-gradient-to-b from-signal-orange via-tracking-red to-chrome-blue">
