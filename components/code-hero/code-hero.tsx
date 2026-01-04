@@ -34,6 +34,11 @@ const _DEFAULT_CODE_TEXT = `
 `;
 
 const _FILES = [
+    'https://raw.githubusercontent.com/mtgibbs/pi-cluster/refs/heads/main/clusters/pi-k3s/backup-jobs/backup-cronjob.yaml',
+    'https://raw.githubusercontent.com/mtgibbs/pi-cluster/main/clusters/pi-k3s/external-secrets-config/cluster-secret-store.yaml',
+    'https://raw.githubusercontent.com/mtgibbs/pi-cluster/main/scripts/deploy-all.sh',
+    'https://raw.githubusercontent.com/mtgibbs/mtgibbs.xyz/mater/components/system-logs/system-logs.tsx',
+    'https://raw.githubusercontent.com/mtgibbs/recipecate-ui/master/src/app/components/meal-plan-create-wizard/meal-plan-create-wizard.component.ts',
     'https://raw.githubusercontent.com/mtgibbs/chartist-plugin-labelclasses/master/src/scripts/chartist-plugin-labelclasses.js',
     'https://raw.githubusercontent.com/mtgibbs/hubot-fod/master/src/hubot-fod.ts',
     'https://raw.githubusercontent.com/mtgibbs/hubot-fod/master/index.ts',
