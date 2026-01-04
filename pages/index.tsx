@@ -6,6 +6,7 @@ import DevIconList from '../components/dev-icon-list/dev-icon-list'
 import ExperienceList from '../components/experience-list/experience-list'
 import SectionTitle from '../components/section-title/section-title'
 import CyberGrid from '../components/cyber-grid/cyber-grid'
+import Footer from '../components/footer/footer'
 import { EXPERIENCE, ICON_OPTIONS } from '../data'
 import styles from '../styles/Home.module.css'
 
@@ -79,6 +80,7 @@ const Home: NextPage = () => {
           <DevIconList icons={ICON_OPTIONS}></DevIconList>
         </section>
 
+        <Footer />
       </main>
 
       {/* <footer className={styles.footer}>

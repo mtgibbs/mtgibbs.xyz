@@ -11,8 +11,18 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
+  prepare:
+    name: Prepare Version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.set-version.outputs.version }}
+    steps:
+      - id: set-version
+        run: echo "version=$(date +'%Y%m%d%H%M%S')" >> "$GITHUB_OUTPUT"
+
   heroku-deploy:
     name: Deploy to Heroku
+    needs: prepare
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,6 +31,7 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+          APP_VERSION: ${{ needs.prepare.outputs.version }}
         run: |
           # Install Heroku CLI
           curl https://cli-assets.heroku.com/install.sh | sh
@@ -29,7 +40,7 @@ jobs:
           echo $HEROKU_API_KEY | docker login --username=_ --password-stdin registry.heroku.com
           
           # Build Image (Heroku only needs amd64 usually, so we stick to simple build here)
-          docker build -t registry.heroku.com/$HEROKU_APP_NAME/web .
+          docker build --build-arg NEXT_PUBLIC_VERSION=$APP_VERSION -t registry.heroku.com/$HEROKU_APP_NAME/web .
           
           # Push Image
           docker push registry.heroku.com/$HEROKU_APP_NAME/web
@@ -49,6 +60,7 @@ jobs:
 
   ghcr-publish:
     name: Build and Push to GHCR
+    needs: prepare
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -78,7 +90,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=sha,prefix=
-            type=raw,value={{date 'YYYYMMDDHHmmss'}}
+            type=raw,value=${{ needs.prepare.outputs.version }}
             type=raw,value=latest
 
       - name: Build and push
@@ -89,5 +101,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            NEXT_PUBLIC_VERSION=${{ needs.prepare.outputs.version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
