@@ -78,7 +78,7 @@ const CodeHero = ({ titleText, secondText }: CodeHeroProps): React.ReactNode => 
                 </div>
                 <div className={cn(
                     "relative z-10 h-96 p-4 sm:mx-2 md:mx-4 lg:mx-6 sm:rounded-none overflow-hidden",
-                    "bg-magnetic-black/90 backdrop-blur-sm border-4 border-faded-cardboard shadow-[10px_10px_0px_0px_rgba(0,0,0,1)]",
+                    "bg-magnetic-black/90 backdrop-blur-sm border-4 border-faded-cardboard shadow-[6px_6px_0px_0px_#3B5C7D]",
                     styles.crt,
                     globalVhsActive && styles.vhsSync
                 )}>
