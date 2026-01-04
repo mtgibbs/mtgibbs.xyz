@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import useSWR from 'swr';
 import cn from 'classnames';
 import { IGitHubEvent } from './model/github-event';
+import styles from './SystemLogs.module.css';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -126,86 +127,96 @@ const SystemLogs = (): React.ReactNode => {
     }, [logs]);
 
     return (
-        <div className="w-full bg-magnetic-black border-2 border-chrome-blue/30 rounded-sm overflow-hidden shadow-[0_0_20px_rgba(0,186,255,0.1)] group transition-all duration-500 hover:border-chrome-blue/60">
-            {/* Header */}
-            <div className="bg-chrome-blue/10 border-b border-chrome-blue/30 px-4 py-1.5 flex justify-between items-center bg-gradient-to-r from-chrome-blue/5 to-transparent">
-                <div className="flex items-center gap-2">
-                    <div className={cn(
-                        "w-2 h-2 rounded-full",
-                        isBooting ? "bg-signal-orange animate-pulse" : "bg-emerald-500 shadow-[0_0_5px_#10b981]"
-                    )} />
-                    <span className="text-[10px] font-mono text-chrome-blue uppercase tracking-[0.2em] font-bold">
-                        Central Processing Log v4.2.0-STABLE
-                    </span>
-                </div>
-                <div className="text-[10px] font-mono text-faded-cardboard/40 tracking-tighter">
-                    {isBooting ? `BOOTING... ${Math.round(bootProgress)}%` : 'BUFFER: 64KB // LINK: SECURE'}
-                </div>
+        <div id="system-logs" className="relative w-full">
+            {/* Background VHS Stripes - Counter-skewed - Full Width */}
+            <div className="absolute z-0 top-0 bottom-0 left-1/2 -translate-x-1/2 w-[200vw] transform skew-y-0 sm:skew-y-6 overflow-hidden pointer-events-none">
+                <div className="absolute z-0 inset-x-0 top-0 h-4 bg-phosphor-amber opacity-40"></div>
+                <div className="absolute z-0 inset-x-0 top-12 h-8 bg-tracking-red opacity-30"></div>
+                <div className="absolute z-0 inset-x-0 top-32 h-2 bg-signal-orange opacity-40"></div>
+                <div className="absolute z-0 inset-x-0 top-48 h-12 bg-chrome-blue opacity-20"></div>
             </div>
 
-            {/* Terminal Area */}
-            <div
-                ref={scrollRef}
-                className="h-48 md:h-72 p-4 font-mono text-[11px] md:text-xs overflow-y-auto scrollbar-none relative bg-[rgba(0,0,0,0.3)]"
-            >
-                {/* Visual Scanline Effect */}
-                <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-gradient-to-b from-transparent via-white to-transparent h-[200%] animate-scanline" />
+            <div className="relative z-10 w-full bg-magnetic-black border-2 border-chrome-blue/30 rounded-sm overflow-hidden shadow-[0_0_20px_rgba(0,186,255,0.1)] group transition-all duration-500 hover:border-chrome-blue/60">
+                {/* Header */}
+                <div className="bg-chrome-blue/10 border-b border-chrome-blue/30 px-4 py-1.5 flex justify-between items-center bg-gradient-to-r from-chrome-blue/5 to-transparent">
+                    <div className="flex items-center gap-2">
+                        <div className={cn(
+                            "w-2 h-2 rounded-full",
+                            isBooting ? "bg-signal-orange animate-pulse" : "bg-emerald-500 shadow-[0_0_5px_#10b981]"
+                        )} />
+                        <span className="text-[10px] font-mono text-chrome-blue uppercase tracking-[0.2em] font-bold">
+                            Central Processing Log v4.2.0-STABLE
+                        </span>
+                    </div>
+                    <div className="text-[10px] font-mono text-faded-cardboard/40 tracking-tighter">
+                        {isBooting ? `BOOTING... ${Math.round(bootProgress)}%` : 'BUFFER: 64KB // LINK: SECURE'}
+                    </div>
+                </div>
 
-                {/* CRT Screen Glow */}
-                <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(59,92,125,0.05)_0%,transparent_100%)]" />
+                {/* Terminal Area */}
+                <div
+                    ref={scrollRef}
+                    className={cn(
+                        "h-48 md:h-72 p-4 font-mono text-[11px] md:text-xs overflow-y-auto scrollbar-none relative bg-[rgba(0,0,0,0.3)]",
+                        styles.crtContainer
+                    )}
+                >
+                    {/* CRT Screen Glow */}
+                    <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(59,92,125,0.08)_0%,transparent_100%)] z-30" />
 
-                <div className="flex flex-col gap-1 relative z-10">
-                    {logs.map((log, i) => {
-                        const isSystem = log.includes('INF:');
-                        const isBoot = log.includes('[BOOT]');
-                        const isError = log.includes('[ERR]');
+                    <div className={cn("flex flex-col gap-1 relative z-10", styles.crtText)}>
+                        {logs.map((log, i) => {
+                            const isSystem = log.includes('INF:');
+                            const isBoot = log.includes('[BOOT]');
+                            const isError = log.includes('[ERR]');
 
-                        return (
-                            <div key={i} className={cn(
-                                "whitespace-pre-wrap break-all transition-opacity duration-300 flex gap-2",
-                                isError ? "text-tracking-red" :
-                                    isSystem ? "text-faded-cardboard/40" :
-                                        isBoot ? "text-chrome-blue" : "text-phosphor-amber"
-                            )}>
-                                <span className="opacity-40 shrink-0">{'>'}</span>
-                                <span className={cn(
-                                    "inline-block",
-                                    !isBooting && Math.random() > 0.99 && "animate-glitch"
+                            return (
+                                <div key={i} className={cn(
+                                    "whitespace-pre-wrap break-all transition-opacity duration-300 flex gap-2",
+                                    isError ? "text-tracking-red" :
+                                        isSystem ? "text-faded-cardboard/40" :
+                                            isBoot ? "text-chrome-blue" : "text-phosphor-amber"
                                 )}>
-                                    {log}
-                                </span>
+                                    <span className="opacity-40 shrink-0">{'>'}</span>
+                                    <span className={cn(
+                                        "inline-block",
+                                        !isBooting && Math.random() > 0.99 && "animate-glitch"
+                                    )}>
+                                        {log}
+                                    </span>
+                                </div>
+                            );
+                        })}
+                        {isBooting && (
+                            <div className="mt-2 h-1 w-full bg-chrome-blue/10 rounded-full overflow-hidden">
+                                <div
+                                    className="h-full bg-chrome-blue transition-all duration-300"
+                                    style={{ width: `${bootProgress}%` }}
+                                />
                             </div>
-                        );
-                    })}
-                    {isBooting && (
-                        <div className="mt-2 h-1 w-full bg-chrome-blue/10 rounded-full overflow-hidden">
-                            <div
-                                className="h-full bg-chrome-blue transition-all duration-300"
-                                style={{ width: `${bootProgress}%` }}
-                            />
-                        </div>
-                    )}
-                    {!isBooting && (
-                        <div className="flex items-center gap-1">
-                            <span className="opacity-40">{'>'}</span>
-                            <div className="w-2 h-4 bg-phosphor-amber/60 animate-cursor" />
-                        </div>
-                    )}
+                        )}
+                        {!isBooting && (
+                            <div className="flex items-center gap-1">
+                                <span className="opacity-40">{'>'}</span>
+                                <div className="w-2 h-4 bg-phosphor-amber/60 animate-cursor" />
+                            </div>
+                        )}
+                    </div>
                 </div>
-            </div>
 
-            {/* Bottom Status Bar */}
-            <div className="px-4 py-1 border-t border-chrome-blue/10 flex justify-between items-center bg-black/20">
-                <div className="flex gap-4">
-                    <div className="text-[9px] font-mono text-chrome-blue/60">
-                        CPU0: <span className="text-emerald-500/60">12%</span>
+                {/* Bottom Status Bar */}
+                <div className="px-4 py-1 border-t border-chrome-blue/10 flex justify-between items-center bg-black/20">
+                    <div className="flex gap-4">
+                        <div className="text-[9px] font-mono text-chrome-blue/60">
+                            CPU0: <span className="text-emerald-500/60">12%</span>
+                        </div>
+                        <div className="text-[9px] font-mono text-chrome-blue/60">
+                            SWAP: <span className="text-emerald-500/60">0%</span>
+                        </div>
                     </div>
-                    <div className="text-[9px] font-mono text-chrome-blue/60">
-                        SWAP: <span className="text-emerald-500/60">0%</span>
+                    <div className="text-[9px] font-mono text-chrome-blue/40 italic">
+                        LAST_READ: {lastRead || 'CONNECTING...'}
                     </div>
-                </div>
-                <div className="text-[9px] font-mono text-chrome-blue/40 italic">
-                    LAST_READ: {lastRead || 'CONNECTING...'}
                 </div>
             </div>
         </div>
@@ -213,4 +224,5 @@ const SystemLogs = (): React.ReactNode => {
 };
 
 export default SystemLogs;
+
 
