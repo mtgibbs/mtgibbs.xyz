@@ -2,6 +2,8 @@ import React from 'react';
 import useSWR from 'swr';
 import CodeHeroText from './code-hero-text';
 import cn from 'classnames';
+import { useVhs } from '../../context/VhsContext';
+import styles from '../../styles/CodeHero.module.css';
 
 interface CodeHeroProps {
     titleText: string;
@@ -53,7 +55,7 @@ const _FILES = [
 ];
 
 const CodeHero = ({ titleText, secondText }: CodeHeroProps): React.ReactNode => {
-
+    const { isVhsActive: globalVhsActive } = useVhs();
     const [file, setFile] = React.useState(_FILES[Math.floor(Math.random() * _FILES.length)]);
     const { data, error } = useSWR(file, sourceCodeFetcher);
 
@@ -75,10 +77,13 @@ const CodeHero = ({ titleText, secondText }: CodeHeroProps): React.ReactNode => 
                     <div className="absolute z-0 inset-x-0 bottom-0 h-6 bg-phosphor-amber opacity-30"></div>
                 </div>
                 <div className={cn(
-                    "relative z-10 h-96 p-4 sm:mx-2 md:mx-4 lg:mx-6 sm:rounded-none bg-magnetic-black border-4 border-faded-cardboard shadow-[10px_10px_0px_0px_rgba(0,0,0,1)]"
+                    "relative z-10 h-96 p-4 sm:mx-2 md:mx-4 lg:mx-6 sm:rounded-none overflow-hidden",
+                    "bg-magnetic-black/90 backdrop-blur-sm border-4 border-faded-cardboard shadow-[10px_10px_0px_0px_rgba(0,0,0,1)]",
+                    styles.crt,
+                    globalVhsActive && styles.vhsSync
                 )}>
                     <div className={cn(
-                        "object-cover font-mono text-phosphor-amber h-full py-4 overflow-scroll scrollbar-thin scrollbar-thumb-signal-orange scrollbar-track-transparent scrollbar-thumb-rounded select-none"
+                        "object-cover font-mono text-phosphor-amber h-full py-4 overflow-scroll scrollbar-thin scrollbar-thumb-signal-orange scrollbar-track-transparent scrollbar-thumb-rounded select-none bg-black/20"
                     )}>
                         <CodeHeroText codeText={codeText}></CodeHeroText>
                     </div>

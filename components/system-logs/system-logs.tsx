@@ -3,10 +3,12 @@ import useSWR from 'swr';
 import cn from 'classnames';
 import { IGitHubEvent } from './model/github-event';
 import styles from './SystemLogs.module.css';
+import { useVhs } from '../../context/VhsContext';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const SystemLogs = (): React.ReactNode => {
+    const { isVhsActive: globalVhsActive } = useVhs();
     const { data, error } = useSWR<IGitHubEvent[]>('https://api.github.com/users/mtgibbs/events/public', fetcher, {
         refreshInterval: 30000 // Refresh every 30 seconds
     });
@@ -152,7 +154,13 @@ const SystemLogs = (): React.ReactNode => {
                 <div className="absolute z-0 inset-x-0 top-72 h-6 bg-phosphor-amber opacity-30"></div>
             </div>
 
-            <div className="relative z-10 w-full bg-magnetic-black border-2 border-chrome-blue/30 rounded-sm overflow-hidden shadow-[0_0_20px_rgba(0,186,255,0.1)] group transition-all duration-500 hover:border-chrome-blue/60">
+            <div className={cn(
+                "relative z-10 w-full overflow-hidden border-2 rounded-sm shadow-[0_0_20px_rgba(0,186,255,0.1)] group transition-all duration-500",
+                "border-chrome-blue/30 hover:border-chrome-blue/60",
+                "bg-magnetic-black/90 backdrop-blur-sm", // Semi-transparent to let stripes through
+                styles.crtContainer,
+                globalVhsActive && styles.vhsSync // Add class to reduce interference
+            )}>
                 {/* Header */}
                 <div className="bg-chrome-blue/10 border-b border-chrome-blue/30 px-4 py-1.5 flex justify-between items-center bg-gradient-to-r from-chrome-blue/5 to-transparent">
                     <div className="flex items-center gap-2">
@@ -173,8 +181,7 @@ const SystemLogs = (): React.ReactNode => {
                 <div
                     ref={scrollRef}
                     className={cn(
-                        "h-48 md:h-72 p-4 font-mono text-[11px] md:text-xs overflow-y-auto scrollbar-none relative bg-[rgba(0,0,0,0.3)]",
-                        styles.crtContainer
+                        "h-48 md:h-72 p-4 font-mono text-[11px] md:text-xs overflow-y-auto scrollbar-none relative bg-black/40"
                     )}
                 >
                     {/* CRT Screen Glow */}

@@ -22,10 +22,7 @@ const CodeHeroText = ({ codeText }: CodeHeroTextProps): React.ReactNode => {
 
     return (
         <>
-            <code className={cn(
-                styles.crt,
-                'whitespace-pre-line'
-            )}>
+            <code className="whitespace-pre-line">
                 <pre className="nineteen font-light text-sm whitespace-pre-wrap break-all">{codeText.substring(0, index)}</pre>
             </code>
         </>
