@@ -11,7 +11,7 @@ const getClass = (options: IDevIconOptions): string => {
     return result;
 };
 
-const DevIcon = (options: IDevIconOptions): JSX.Element => {
+const DevIcon = (options: IDevIconOptions): React.ReactNode => {
     return (
         <i title={options.icon} className={cn(
             "text-7xl m-5",

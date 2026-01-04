@@ -12,7 +12,7 @@ const getTimeoutDelay = (delay: number, drift: number) => {
     return delay + driftTime;
 }
 
-const CodeHeroText = ({ codeText }: CodeHeroTextProps): JSX.Element => {
+const CodeHeroText = ({ codeText }: CodeHeroTextProps): React.ReactNode => {
 
     const [index, setIndex] = React.useState(0);
 

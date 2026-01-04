@@ -6,7 +6,7 @@ interface ExperienceListProps {
     experienceItems: readonly IExperienceItem[];
 }
 
-const ExperienceList = ({ experienceItems }: ExperienceListProps): JSX.Element => {
+const ExperienceList = ({ experienceItems }: ExperienceListProps): React.ReactNode => {
 
     return (
         <>
