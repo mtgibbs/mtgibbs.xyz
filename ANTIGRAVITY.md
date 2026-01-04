@@ -4,7 +4,7 @@ This file provides guidance to Antigravity when working with code in this reposi
 
 ## Project Overview
 
-Personal portfolio website for Matt Gibbs built with Next.js 12, React 17, TypeScript, and Tailwind CSS. The site is a single-page application showcasing professional experience, skills, and contact information.
+Personal portfolio website for Matt Gibbs built with Next.js 16, React 19, TypeScript, and Tailwind CSS. The site is a single-page application showcasing professional experience, skills, and contact information.
 
 ## Development Commands
 
@@ -24,7 +24,7 @@ npm run lint
 
 ## Docker Deployment
 
-The site is deployed to Heroku via Docker containers:
+The site is deployed to Heroku and GHCR via Docker containers:
 
 ```bash
 # Build the Docker image
@@ -99,4 +99,14 @@ Single-page layout (`pages/index.tsx`) with three main sections:
 - **Enum usage**: `DevIconStyles` enum for icon style variants
 - **Component props**: Strongly typed with imported interfaces
 - **Readonly arrays**: Data constants use `readonly` for immutability
-- **Next.js config**: `outputStandalone: true` for Docker deployment optimization
+- **Next.js config**: `output: 'standalone'` for Docker deployment optimization
+- **Versioning**: Integrated GH Actions timestamp builds baked into `NEXT_PUBLIC_VERSION`
+
+## 🚀 Feature Roadmap (Retro Sci-Fi)
+
+- [ ] **System Logs Activity Feed**: Real-time (or cached) GitHub commit stream styled as raw mainframe output.
+- [ ] **Interactive Retro Terminal**: Green-screen logic terminal to query "system" stats (experience, bio, etc.).
+- [ ] **VHS/VCR Tracking Toggle**: Global switch for CRT distortion, chromatic aberration, and scanline jitter.
+- [ ] **Interactive "Mainframe" Dashboard**: A 70s NASA-style control panel section with physical-looking buttons and gauges.
+- [ ] **Ambient Analog Audio**: Subtle UI sound design (clunk/click on hover, low-freq analog hum).
+- [ ] **"The Archive" (Dossier Resume)**: Resume/Download styled as a confidential typewriter-print government dossier.

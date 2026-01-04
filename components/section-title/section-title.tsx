@@ -13,7 +13,8 @@ const SectionTitle = ({ title }: SectionTitleProps): React.ReactNode => {
             font-bold
             bg-magnetic-black
             text-phosphor-amber
-            border-2
+            border-y-2
+            sm:border-2
             border-signal-orange 
             text-center
             tracking-widest 
@@ -27,8 +28,9 @@ const SectionTitle = ({ title }: SectionTitleProps): React.ReactNode => {
             sm:px-8
             py-4 
             -mt-24
+            
             sm:-ml-4
-
+            
             transform 
             -skew-y-2 
             sm:-rotate-3 

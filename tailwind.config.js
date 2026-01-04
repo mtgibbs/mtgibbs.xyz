@@ -23,12 +23,22 @@ module.exports = {
       animation: {
         'glitch': 'glitch 1s linear infinite',
         'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'scanline': 'scanline 10s linear infinite',
+        'cursor': 'cursor 1s step-end infinite',
       },
       keyframes: {
         glitch: {
           '2%, 64%': { transform: 'translate(2px,0) skew(0deg)' },
           '4%, 60%': { transform: 'translate(-2px,0) skew(0deg)' },
           '62%': { transform: 'translate(0,0) skew(5deg)' },
+        },
+        scanline: {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(100%)' },
+        },
+        cursor: {
+          '0%, 100%': { opacity: 1 },
+          '50%': { opacity: 0 },
         },
       },
     },
