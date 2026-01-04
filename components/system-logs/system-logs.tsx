@@ -59,20 +59,35 @@ const SystemLogs = (): React.ReactNode => {
 
                 switch (event.type) {
                     case 'PushEvent':
-                        const commitMsg = event.payload.commits?.[0]?.message || 'no message';
-                        action = `PUSH >> [${event.repo.name}] "${commitMsg.substring(0, 40)}${commitMsg.length > 40 ? '...' : ''}"`;
+                        const branch = event.payload.ref?.replace('refs/heads/', '') || 'unknown';
+                        const firstCommit = event.payload.commits?.[0];
+                        const commitMsg = firstCommit?.message;
+
+                        if (commitMsg) {
+                            action = `PUSH >> [${event.repo.name}] (${branch}) "${commitMsg.substring(0, 40)}${commitMsg.length > 40 ? '...' : ''}"`;
+                        } else {
+                            action = `PUSH >> [${event.repo.name}] to ${branch} (SHA: ${event.payload.head?.substring(0, 7) || 'N/A'})`;
+                        }
                         break;
                     case 'CreateEvent':
-                        action = `CREATE >> [${event.repo.name}] ref: ${event.payload.ref || 'repository'}`;
+                        action = `CREATE >> [${event.repo.name}] ${event.payload.ref_type}: ${event.payload.ref || 'root'}`;
+                        break;
+                    case 'DeleteEvent':
+                        action = `DELETE >> [${event.repo.name}] ${event.payload.ref_type}: ${event.payload.ref}`;
                         break;
                     case 'WatchEvent':
-                        action = `WATCH >> [${event.repo.name}] starred by mtgibbs`;
+                        action = `WATCH >> [${event.repo.name}] ★ mtgibbs starred repository`;
                         break;
                     case 'PullRequestEvent':
-                        action = `PR >> [${event.repo.name}] ${event.payload.action}: "${event.payload.pull_request?.title || 'No Title'}"`;
+                        const pr = event.payload.pull_request;
+                        const prTitle = pr?.title || `PR #${event.payload.number}`;
+                        action = `PR >> [${event.repo.name}] ${event.payload.action}: "${prTitle}"`;
                         break;
                     case 'IssueCommentEvent':
                         action = `COMMENT >> [${event.repo.name}] on #${event.payload.issue?.number}`;
+                        break;
+                    case 'IssuesEvent':
+                        action = `ISSUE >> [${event.repo.name}] ${event.payload.action}: "${event.payload.issue?.title || 'No Title'}"`;
                         break;
                     default:
                         action = `${event.type.replace('Event', '').toUpperCase()} >> [${event.repo.name}]`;

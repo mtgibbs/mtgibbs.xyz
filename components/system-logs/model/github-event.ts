@@ -14,6 +14,9 @@ export interface IGitHubEvent {
         }>;
         action?: string;
         ref?: string;
+        ref_type?: string;
+        head?: string;
+        number?: number;
         pull_request?: {
             title: string;
             html_url?: string;
