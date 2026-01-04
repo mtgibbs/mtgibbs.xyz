@@ -14,7 +14,7 @@ const getClass = (options: IDevIconOptions): string => {
 const DevIcon = (options: IDevIconOptions): React.ReactNode => {
     return (
         <i title={options.icon} className={cn(
-            "text-7xl m-5",
+            "text-7xl m-5 animate-terminal-glow",
             getClass(options),
             { 'colored': options.isColor },
         )}></i>
