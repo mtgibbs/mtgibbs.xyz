@@ -1,8 +1,15 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
+import { VhsProvider } from '../context/VhsContext'
+import VhsToggle from '../components/vhs-toggle/vhs-toggle'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <VhsProvider>
+      <Component {...pageProps} />
+      <VhsToggle />
+    </VhsProvider>
+  )
 }
 
 export default MyApp

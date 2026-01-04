@@ -332,3 +332,124 @@ a {
 .nineteen {
   font-family: "Nineteen Ninety Seven";
 }
+
+/* Global VHS Tracking Effects */
+.vhs-effects {
+  position: relative;
+  transition: filter 0.3s ease;
+}
+
+.vhs-active {
+  animation: vhs-flicker 0.15s infinite;
+}
+
+.vhs-active::after {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  z-index: 9999;
+  background-size: 100% 3px, 3px 100%;
+  pointer-events: none;
+}
+
+.vhs-active .glitch-text {
+  text-shadow: 2px 0 1px rgba(0, 30, 255, 0.5),
+    -2px 0 1px rgba(255, 0, 80, 0.3);
+  animation: vhs-jitter 0.5s infinite;
+}
+
+@keyframes vhs-flicker {
+  0% {
+    opacity: 0.99;
+  }
+
+  5% {
+    opacity: 0.95;
+  }
+
+  10% {
+    opacity: 0.99;
+  }
+
+  15% {
+    opacity: 0.98;
+  }
+
+  20% {
+    opacity: 0.99;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes vhs-jitter {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  10% {
+    transform: translate(-1px, 0);
+  }
+
+  20% {
+    transform: translate(1px, 0);
+  }
+
+  30% {
+    transform: translate(-1px, 1px);
+  }
+
+  40% {
+    transform: translate(1px, -1px);
+  }
+
+  50% {
+    transform: translate(-1px, 0);
+  }
+
+  60% {
+    transform: translate(0, 1px);
+  }
+
+  70% {
+    transform: translate(1px, 0);
+  }
+
+  80% {
+    transform: translate(-1px, -1px);
+  }
+
+  90% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(1px, 1px);
+  }
+}
+
+.tracking-noise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("https://media.giphy.com/media/oEI9uWUayGUCs/giphy.gif");
+  mix-blend-mode: screen;
+  display: none;
+}
+
+.vhs-active .tracking-noise {
+  display: block;
+}
