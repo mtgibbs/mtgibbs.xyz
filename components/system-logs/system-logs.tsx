@@ -134,6 +134,7 @@ const SystemLogs = (): React.ReactNode => {
                 <div className="absolute z-0 inset-x-0 top-12 h-8 bg-tracking-red opacity-30"></div>
                 <div className="absolute z-0 inset-x-0 top-32 h-2 bg-signal-orange opacity-40"></div>
                 <div className="absolute z-0 inset-x-0 top-48 h-12 bg-chrome-blue opacity-20"></div>
+                <div className="absolute z-0 inset-x-0 top-72 h-6 bg-phosphor-amber opacity-30"></div>
             </div>
 
             <div className="relative z-10 w-full bg-magnetic-black border-2 border-chrome-blue/30 rounded-sm overflow-hidden shadow-[0_0_20px_rgba(0,186,255,0.1)] group transition-all duration-500 hover:border-chrome-blue/60">
