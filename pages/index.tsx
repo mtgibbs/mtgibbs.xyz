@@ -31,7 +31,7 @@ const Home: NextPage = () => {
 
         <section className="relative z-10 w-full h-full px-0 py-12 sm:py-16 md:py-20 bg-transparent text-faded-cardboard">
           <div className="container mx-auto">
-            <h1 className="text-6xl md:text-8xl font-bold text-center mb-8 glitch" data-text="MTGIBBS.XYZ">
+            <h1 className="text-6xl md:text-8xl font-bold text-center mb-8 glitch opacity-20" data-text="MTGIBBS.XYZ">
               <span className="hidden">MTGIBBS.XYZ</span>
             </h1>
           </div>
