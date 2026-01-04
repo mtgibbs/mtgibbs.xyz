@@ -105,8 +105,5 @@ Single-page layout (`pages/index.tsx`) with three main sections:
 ## 🚀 Feature Roadmap (Retro Sci-Fi)
 
 - [ ] **System Logs Activity Feed**: Real-time (or cached) GitHub commit stream styled as raw mainframe output.
-- [ ] **Interactive Retro Terminal**: Green-screen logic terminal to query "system" stats (experience, bio, etc.).
-- [ ] **VHS/VCR Tracking Toggle**: Global switch for CRT distortion, chromatic aberration, and scanline jitter.
+- [x] **VHS/VCR Tracking Toggle**: Global switch for CRT distortion, chromatic aberration, and scanline jitter.
 - [ ] **Interactive "Mainframe" Dashboard**: A 70s NASA-style control panel section with physical-looking buttons and gauges.
-- [ ] **Ambient Analog Audio**: Subtle UI sound design (clunk/click on hover, low-freq analog hum).
-- [ ] **"The Archive" (Dossier Resume)**: Resume/Download styled as a confidential typewriter-print government dossier.
