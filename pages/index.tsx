@@ -7,6 +7,7 @@ import ExperienceList from '../components/experience-list/experience-list'
 import SectionTitle from '../components/section-title/section-title'
 import CyberGrid from '../components/cyber-grid/cyber-grid'
 import Footer from '../components/footer/footer'
+import SystemLogs from '../components/system-logs/system-logs'
 import { EXPERIENCE, ICON_OPTIONS } from '../data'
 import styles from '../styles/Home.module.css'
 
@@ -28,15 +29,15 @@ const Home: NextPage = () => {
       <main className={cn(styles.main, "w-full relative bg-magnetic-black overflow-x-hidden")}>
         <CyberGrid />
 
-        <section className="relative z-10 w-full h-full px-0 py-12 sm:py-16 md:py-20 bg-transparent">
+        <section className="relative z-10 w-full h-full px-0 py-12 sm:py-16 md:py-20 bg-transparent text-faded-cardboard">
           <div className="container mx-auto">
-            <h1 className="text-6xl md:text-8xl font-bold text-center mb-8 glitch text-faded-cardboard" data-text="MTGIBBS.XYZ">
+            <h1 className="text-6xl md:text-8xl font-bold text-center mb-8 glitch" data-text="MTGIBBS.XYZ">
               <span className="hidden">MTGIBBS.XYZ</span>
             </h1>
           </div>
           <CodeHero titleText="Hi. I'm Matt." secondText='Software Developer'></CodeHero>
 
-          <p className="container mx-auto text-xl py-16 sm:pt-24 px-8 sm:px-16 xl:px-24 text-faded-cardboard font-mono">
+          <p className="container mx-auto text-xl py-16 sm:pt-24 px-8 sm:px-16 xl:px-24 font-mono">
 
             I&apos;m a problem solver, craftsman, engineering leader, and mentor.
             <br />
@@ -64,6 +65,12 @@ const Home: NextPage = () => {
             </a>
           </div>
 
+        </section>
+
+        <section className="relative z-10 w-full bg-magnetic-black px-8 sm:px-16 xl:px-24 py-12">
+          <div className="container mx-auto max-w-4xl">
+            <SystemLogs />
+          </div>
         </section>
 
         <section className="relative z-10 w-full h-full px-0 sm:px-5 py-24 pb-16 bg-static-grey border-t-4 border-chrome-blue">
