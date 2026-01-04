@@ -98,7 +98,7 @@ const CodeHero = ({ titleText, secondText }: CodeHeroProps): React.ReactNode => 
                     }
                     {secondText &&
                         <div className="relative w-full text-center z-20 transform mt-4 sm:mt-0 sm:translate-x-24 sm:translate-y-6 rotate-0 sm:-rotate-12" >
-                            <span className="text-sm sm:text-3xl text-faded-cardboard font-bold tracking-wide lazer84">
+                            <span className="text-sm sm:text-3xl text-faded-cardboard/85 font-bold tracking-wide lazer84">
                                 <span className="glitch relative inline-block" data-text={secondText}>{secondText}</span>
                             </span>
                         </div>
