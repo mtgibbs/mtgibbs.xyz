@@ -36,7 +36,10 @@ const DevIconList = ({ icons }: DevIconListProps): React.ReactNode => {
                 className="container mx-auto relative group"
             >
                 {/* Base Layer - Normal Icons (Always Visible) */}
-                <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-8 items-center justify-items-center text-transparent bg-clip-text bg-gradient-to-b from-signal-orange via-tracking-red to-chrome-blue opacity-50 transition-opacity duration-300 group-hover:opacity-100">
+                <div className={cn(
+                    "grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-8 items-center justify-items-center text-transparent bg-clip-text bg-gradient-to-b from-signal-orange via-tracking-red to-chrome-blue transition-opacity duration-300",
+                    isTouch ? "opacity-100" : "opacity-50 group-hover:opacity-100"
+                )}>
                     {icons.map((iconOption) => (
                         <div key={iconOption.icon} className="flex items-center justify-center p-4">
                             <DevIcon
@@ -49,13 +52,13 @@ const DevIconList = ({ icons }: DevIconListProps): React.ReactNode => {
                     ))}
                 </div>
 
-                {/* Glow Layer - Animated Icons (Masked by Cursor on Desktop, Full on Touch) */}
+                {/* Glow Layer - Animated Icons (Masked by Cursor on Desktop, Hidden on Touch) */}
                 <div
                     className={cn(
                         "absolute inset-0 grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-8 items-center justify-items-center pointer-events-none transition-opacity duration-500",
-                        !isTouch && !hasInteracted ? "opacity-0" : "opacity-100"
+                        isTouch ? "hidden" : (!hasInteracted ? "opacity-0" : "opacity-100")
                     )}
-                    style={isTouch ? undefined : {
+                    style={{
                         maskImage: `radial-gradient(250px circle at ${mousePos.x}px ${mousePos.y}px, black, transparent)`,
                         WebkitMaskImage: `radial-gradient(250px circle at ${mousePos.x}px ${mousePos.y}px, black, transparent)`,
                     }}
