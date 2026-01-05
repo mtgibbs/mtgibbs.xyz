@@ -36,7 +36,7 @@ const Footer = (): React.ReactNode => {
                         <code className="text-phosphor-amber/40 group-hover:text-phosphor-amber font-mono text-[10px] font-bold">
                             {version}
                         </code>
-                        <div className="w-1 h-1 rounded-full bg-signal-orange animate-pulse shadow-[0_0_5px_#ff4400]" />
+                        <div className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_5px_#10b981]" />
                     </a>
                 </div>
             </div>
