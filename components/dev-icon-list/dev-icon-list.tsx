@@ -1,4 +1,5 @@
 import React from 'react';
+import cn from 'classnames';
 import DevIcon from "./dev-icon";
 import { IDevIconOptions } from "./model/dev-icon-options";
 
@@ -8,9 +9,16 @@ interface DevIconListProps {
 
 const DevIconList = ({ icons }: DevIconListProps): React.ReactNode => {
     const [mousePos, setMousePos] = React.useState({ x: 0, y: 0 });
+    const [isTouch, setIsTouch] = React.useState(false);
+    const [hasInteracted, setHasInteracted] = React.useState(false);
     const containerRef = React.useRef<HTMLDivElement>(null);
 
+    React.useEffect(() => {
+        setIsTouch(window.matchMedia('(hover: none)').matches);
+    }, []);
+
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!hasInteracted) setHasInteracted(true);
         if (containerRef.current) {
             const rect = containerRef.current.getBoundingClientRect();
             setMousePos({
@@ -41,10 +49,13 @@ const DevIconList = ({ icons }: DevIconListProps): React.ReactNode => {
                     ))}
                 </div>
 
-                {/* Glow Layer - Animated Icons (Masked by Cursor) */}
+                {/* Glow Layer - Animated Icons (Masked by Cursor on Desktop, Full on Touch) */}
                 <div
-                    className="absolute inset-0 grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-8 items-center justify-items-center pointer-events-none"
-                    style={{
+                    className={cn(
+                        "absolute inset-0 grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-8 items-center justify-items-center pointer-events-none transition-opacity duration-500",
+                        !isTouch && !hasInteracted ? "opacity-0" : "opacity-100"
+                    )}
+                    style={isTouch ? undefined : {
                         maskImage: `radial-gradient(250px circle at ${mousePos.x}px ${mousePos.y}px, black, transparent)`,
                         WebkitMaskImage: `radial-gradient(250px circle at ${mousePos.x}px ${mousePos.y}px, black, transparent)`,
                     }}
