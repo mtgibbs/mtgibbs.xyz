@@ -32,3 +32,23 @@ export const getNowPlaying = async () => {
         },
     });
 };
+
+export const getAudioAnalysis = async (id: string) => {
+    const { access_token } = await getAccessToken();
+
+    return fetch(`https://api.spotify.com/v1/audio-analysis/${id}`, {
+        headers: {
+            Authorization: `Bearer ${access_token}`,
+        },
+    });
+};
+
+export const getAudioFeatures = async (id: string) => {
+    const { access_token } = await getAccessToken();
+
+    return fetch(`https://api.spotify.com/v1/audio-features/${id}`, {
+        headers: {
+            Authorization: `Bearer ${access_token}`,
+        },
+    });
+};

@@ -34,5 +34,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         isPlaying,
         songUrl,
         title,
+        id: song.item.id,
+        progress_ms: song.progress_ms,
+        timestamp: song.timestamp,
     });
 }
