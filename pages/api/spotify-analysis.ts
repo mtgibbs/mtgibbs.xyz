@@ -1,3 +1,4 @@
+
 import { getAudioAnalysis, getAudioFeatures } from '../../lib/spotify';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -15,9 +16,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         ]);
 
         if (analysisRes.status !== 200 || featuresRes.status !== 200) {
-            // If one fails, we might still want to return what we can, but for now let's fail gracefully
-            // Or just return nulls if one fails.
-            console.error("Failed to fetch spotify data", analysisRes.status, featuresRes.status);
+            console.error(
+                "Failed to fetch spotify data",
+                analysisRes.status, await analysisRes.text(),
+                featuresRes.status, await featuresRes.text()
+            );
             return res.status(500).json({ error: 'Failed to fetch audio data' });
         }
 
@@ -31,19 +34,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         return res.status(200).json({
             segments: analysis.segments,
-            loudness_max: analysis.track.loudness_max, // Or similar property? Need to check structure if possible, but usually analysis.track has overall loudness. 
-            // The user mentioned "segments array, specifically the pitches (12-element array) and loudness_max values"
-            // Wait, loudness_max is usually per segment. I'll pass the segments.
-            // But maybe user meant track's max loudness for normalization?
-            // "Audio Analysis: Use the segments array, specifically the pitches (12-element array) and loudness_max values."
-            // segments objects have `loudness_max` usually.
-
+            loudness_max: analysis.track.loudness_max,
             features: {
                 energy: features.energy,
                 valence: features.valence
             }
         });
     } catch (error) {
+        console.error("Spotify Analysis Error:", error);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 }
