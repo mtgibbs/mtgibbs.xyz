@@ -14,10 +14,10 @@ const SpotifyCard = () => {
             rel="noopener noreferrer"
             href={data?.isPlaying ? data.songUrl : 'https://open.spotify.com/user/mtgibbs'}
             className={cn(
-                "relative flex items-center p-4 space-x-4 transition-shadow hover:shadow-lg border rounded-xl w-72 backdrop-blur-md bg-opacity-20",
+                "relative flex items-center p-4 space-x-4 transition-shadow hover:shadow-lg border rounded-xl w-72 backdrop-blur-md",
                 data?.isPlaying
-                    ? "border-signal-orange bg-magnetic-black hover:border-chrome-blue"
-                    : "border-static-grey bg-magnetic-black opacity-80"
+                    ? "border-signal-orange bg-magnetic-black/20 hover:border-chrome-blue"
+                    : "border-static-grey bg-magnetic-black/20 opacity-80"
             )}
         >
             <div className="flex-shrink-0 w-16 h-16 relative">
