@@ -2,6 +2,7 @@ import React from 'react';
 import useSWR from 'swr';
 import cn from 'classnames';
 import { SpotifyData } from './model/spotify-data';
+import Visualizer from './visualizer';
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
@@ -42,9 +43,15 @@ const SpotifyCard = () => {
                         <p className="font-bold text-sm text-faded-cardboard truncate font-sans">
                             {data.title}
                         </p>
-                        <p className="text-xs text-chrome-blue truncate font-sans">
+                        <p className="text-xs text-chrome-blue truncate font-sans mb-1">
                             {data.artist}
                         </p>
+                        <Visualizer
+                            trackId={data.id!}
+                            isPlaying={data.isPlaying}
+                            progressMs={data.progress_ms!}
+                            timestamp={data.timestamp!}
+                        />
                     </>
                 ) : (
                     <div className="flex flex-col">

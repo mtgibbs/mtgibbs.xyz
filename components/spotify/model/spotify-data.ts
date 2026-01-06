@@ -5,4 +5,7 @@ export interface SpotifyData {
     album?: string;
     albumImageUrl?: string;
     songUrl?: string;
+    id?: string;
+    progress_ms?: number;
+    timestamp?: number;
 }
