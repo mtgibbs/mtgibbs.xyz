@@ -150,15 +150,18 @@ const Visualizer: React.FC<VisualizerProps> = ({ trackId, isPlaying, progressMs,
             {bars.map((height, i) => (
                 <div
                     key={i}
-                    className={cn("w-1.5 rounded-t-sm transition-colors duration-500",
+                    className={cn("w-1.5 rounded-t-sm",
                         features ? (
-                            features.valence < 0.4 ? "bg-chrome-blue" :
-                                features.energy > 0.7 ? "bg-green-400" :
-                                    "bg-signal-orange"
-                        ) : "bg-static-grey"
+                            features.valence < 0.4 ? "bg-gradient-to-t from-chrome-blue to-indigo-500" :
+                                features.energy > 0.7 ? "bg-gradient-to-t from-signal-orange to-phosphor-amber" :
+                                    "bg-gradient-to-t from-signal-orange to-orange-400"
+                        ) : (
+                            // Fallback (Procedural or Idle)
+                            isPlaying ? "bg-gradient-to-t from-signal-orange to-phosphor-amber" : "bg-static-grey"
+                        )
                     )}
                     style={{
-                        height: `${Math.max(5, height * 100)}%`, // min height 5%
+                        height: `${Math.max(10, height * 100)}%`, // min height 10%
                     }}
                 />
             ))}
