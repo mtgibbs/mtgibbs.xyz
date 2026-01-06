@@ -1,6 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 
+import SpotifyCard from '../spotify/spotify-card';
 import VhsToggle from '../vhs-toggle/vhs-toggle';
 
 const Footer = (): React.ReactNode => {
@@ -9,6 +10,10 @@ const Footer = (): React.ReactNode => {
 
     return (
         <footer className="relative z-10 w-full bg-magnetic-black border-t border-signal-orange/30 py-8 px-4">
+            <div className="container mx-auto flex flex-col items-center gap-8 mb-8">
+                <SpotifyCard />
+            </div>
+
             <div className="container mx-auto flex flex-col lg:flex-row justify-between items-center gap-6">
                 <div className="text-faded-cardboard/40 font-mono text-[10px] tracking-[0.3em] uppercase order-2 lg:order-1">
                     © {new Date().getFullYear()} MTGIBBS.XYZ // ALL RIGHTS RESERVED
