@@ -12,6 +12,7 @@ const SectionTitle = ({ title }: SectionTitleProps): React.ReactNode => {
         <h1 className="text-lg 
             font-bold
             bg-magnetic-black
+            bg-opacity-100
             text-phosphor-amber
             border-y-2
             sm:border-2

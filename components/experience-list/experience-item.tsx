@@ -29,7 +29,7 @@ const ExperienceItem = ({ title, subTitle, description, startDate, endDate, inde
                     <div className={cn({
                         "rounded-l-md": isEven,
                         "rounded-r-md": isOdd,
-                    }, "shadow-md p-8 rounded-none sm:rounded-md z-10 relative bg-magnetic-black text-faded-cardboard")}>
+                    }, "shadow-md p-8 rounded-none sm:rounded-md z-10 relative bg-magnetic-black bg-opacity-100 text-faded-cardboard")}>
                         <h3 className="font-bold tracking-wide">{title}</h3>
                         <div className="font-light">{subTitle}</div>
                         <p className="text-lg p-4 whitespace-pre-line">{description}</p>
