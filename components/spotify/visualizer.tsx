@@ -40,6 +40,10 @@ const Visualizer: React.FC<VisualizerProps> = ({ trackId, isPlaying, progressMs,
     const requestRef = useRef<number>(0);
     const [bars, setBars] = useState<number[]>(new Array(12).fill(0));
 
+    // Reticle state
+    const [reticleScale, setReticleScale] = useState(1);
+    const [reticleRotation, setReticleRotation] = useState(0);
+
     // Refs for animation state to avoid closure staleness
     const stateRef = useRef({
         isPlaying,
@@ -91,35 +95,49 @@ const Visualizer: React.FC<VisualizerProps> = ({ trackId, isPlaying, progressMs,
             if (isPlaying) {
                 // PROCEDURAL SYNC MODE (Fallback for 403 API)
                 // verified unique pattern per track ID
-                const time = Date.now() / 1000;
-
-                // Create a simple hash of the trackId to seed the "vibe"
                 const trackHash = (trackId || '').split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
 
+                // Pattern Selection based on hash (3 modes)
+                const mode = trackHash % 3;
+
                 targetBars = targetBars.map((_, i) => {
-                    // Use specific offsets per bar to create a "spectrum" look
-                    // Combine varying frequencies to create "beat" like patterns
-                    // randomness derived from trackHash
-                    const offset = i * 0.5;
-                    const speed1 = 2 + (trackHash % 3);
-                    const speed2 = 5 + (trackHash % 7);
-
-                    // Combined wave function
-                    const wave1 = Math.sin(time * speed1 + offset + trackHash);
-                    const wave2 = Math.cos(time * speed2 * 0.5 + offset);
-                    const wave3 = Math.sin(time * (speed1 + speed2) + (i * 13.0)); // fast jitter
-
-                    // Norm between 0 and 1
-                    return Math.abs((wave1 + wave2 + (wave3 * 0.3)) / 2.3);
+                    let val = 0.1;
+                    const time = Date.now() / 1000;
+                    if (mode === 0) {
+                        // Digital Rain / Matrix Sync
+                        const offset = i * 0.2;
+                        val = Math.abs(Math.sin(time * 3 + offset + trackHash));
+                    } else if (mode === 1) {
+                        // Heartbeat / Bass Focus
+                        const center = 6;
+                        const dist = Math.abs(i - center);
+                        const beat = Math.pow(Math.sin(time * 4), 10); // sharp impulse
+                        val = (beat * (1 - dist / 8)) + (Math.sin(time + i) * 0.2);
+                    } else {
+                        // Binary Noise / Glitch
+                        const noise = Math.sin(time * 10 + i * 132 + trackHash);
+                        val = noise > 0.5 ? 0.8 : 0.2;
+                    }
+                    return Math.max(0.1, Math.min(1, val));
                 });
+
+                // Procedural Energy estimate for reticle
+                const time = Date.now() / 1000;
+                energy = 0.6 + (Math.sin(time * 2) * 0.2);
             } else {
                 // Idle animation (sine wave) - plays if !isPlaying
                 const time = Date.now() / 1000;
                 targetBars = targetBars.map((_, i) =>
                     0.15 + 0.1 * Math.sin(time * 2 + i * 0.5)
                 );
+                energy = 0.2;
             }
         }
+
+        // Animate Reticle
+        const targetScale = 0.8 + (energy * 0.4);
+        setReticleScale(prev => prev + (targetScale - prev) * 0.1);
+        setReticleRotation(prev => prev + (energy * 2));
 
         // Smoothing (Lerp)
         setBars(prevBars => {
@@ -144,27 +162,66 @@ const Visualizer: React.FC<VisualizerProps> = ({ trackId, isPlaying, progressMs,
     // Derived styles
     const features = analysisData?.features;
 
+    // Reticle Style
+    const reticleColor = features
+        ? (features.valence < 0.4 ? "border-chrome-blue" : "border-signal-orange")
+        : (isPlaying ? "border-signal-orange" : "border-static-grey");
+
+    const reticleBg = features
+        ? (features.valence < 0.4 ? "bg-chrome-blue" : "bg-signal-orange")
+        : (isPlaying ? "bg-signal-orange" : "bg-static-grey");
+
     // Render
     return (
-        <div className="flex items-end space-x-1 h-8 w-full justify-between" ref={canvasRef}>
-            {bars.map((height, i) => (
-                <div
-                    key={i}
-                    className={cn("w-1.5 rounded-t-sm",
-                        features ? (
-                            features.valence < 0.4 ? "bg-gradient-to-t from-chrome-blue to-indigo-500" :
-                                features.energy > 0.7 ? "bg-gradient-to-t from-signal-orange to-phosphor-amber" :
-                                    "bg-gradient-to-t from-signal-orange to-orange-400"
-                        ) : (
-                            // Fallback (Procedural or Idle)
-                            isPlaying ? "bg-gradient-to-t from-signal-orange to-phosphor-amber" : "bg-static-grey"
-                        )
-                    )}
-                    style={{
-                        height: `${Math.max(10, height * 100)}%`, // min height 10%
-                    }}
-                />
-            ))}
+        <div className="relative flex items-end h-16 w-full justify-between pt-4" ref={canvasRef}>
+            {/* Retro Grid Background */}
+            <div className="absolute inset-x-0 bottom-0 h-full opacity-10 pointer-events-none bg-[linear-gradient(90deg,rgba(255,255,255,.1)_1px,transparent_1px),linear-gradient(rgba(255,255,255,.1)_1px,transparent_1px)] bg-[size:10px_10px] mask-image-b-fade"></div>
+
+            {/* Bars Container */}
+            <div className="relative z-10 flex items-end justify-between w-full h-8 space-x-1">
+                {bars.map((height, i) => (
+                    <div
+                        key={i}
+                        className={cn("w-1.5 rounded-t-sm",
+                            features ? (
+                                // Real Data Logic
+                                (features.valence < 0.45 || features.energy < 0.45) ? "bg-gradient-to-t from-chrome-blue to-indigo-500" : // Chill
+                                    features.energy > 0.75 ? "bg-gradient-to-t from-signal-orange to-phosphor-amber" : // High Energy
+                                        "bg-gradient-to-t from-fuchsia-500 to-purple-600" // Medium / Groovy (New State)
+                            ) : (
+                                // Fallback (Procedural or Idle)
+                                isPlaying
+                                    ? (() => {
+                                        const hash = (trackId || '').split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+                                        const mode = hash % 3;
+                                        if (mode === 0) return "bg-gradient-to-t from-chrome-blue to-indigo-500"; // Chill
+                                        if (mode === 1) return "bg-gradient-to-t from-fuchsia-500 to-purple-600"; // Groovy
+                                        return "bg-gradient-to-t from-signal-orange to-phosphor-amber"; // Intense
+                                    })()
+                                    : "bg-static-grey"
+                            )
+                        )}
+                        style={{
+                            height: `${Math.max(10, height * 100)}%`, // min height 10%
+                        }}
+                    />
+                ))}
+            </div>
+
+            {/* Status Text Left */}
+            <div className="absolute -top-1 left-0 flex flex-col pointer-events-none">
+                <span className="text-[0.5rem] font-mono text-faded-cardboard/30 tracking-widest">
+                    {isPlaying ? "FREQ.MOD" : "NO_CARRIER"}
+                </span>
+                <span className={cn(
+                    "text-[0.4rem] font-mono animate-pulse",
+                    isPlaying ? "text-signal-orange/60" : "text-red-500/40"
+                )}>
+                    {isPlaying
+                        ? (analysisData ? "SYNC:LINKED" : "SYNC:PROCEDURAL")
+                        : "SYNC:OFFLINE"}
+                </span>
+            </div>
         </div>
     );
 };

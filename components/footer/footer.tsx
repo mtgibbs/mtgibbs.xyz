@@ -10,7 +10,7 @@ const Footer = (): React.ReactNode => {
 
     return (
         <footer className="relative z-10 w-full bg-magnetic-black border-t border-signal-orange/30 py-8 px-4">
-            <div className="container mx-auto flex flex-col items-center gap-8 mb-8">
+            <div className="container mx-auto flex flex-col items-center gap-8 mb-8 lg:hidden">
                 <SpotifyCard />
             </div>
 
