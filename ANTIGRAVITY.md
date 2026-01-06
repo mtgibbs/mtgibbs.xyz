@@ -2,6 +2,13 @@
 
 This file provides guidance to Antigravity when working with code in this repository.
 
+## ⚠️ CRITICAL WORKFLOW RULE
+
+**Before performing any work or verification**, you MUST ensure the development server is running.
+1. Check if the dev server is running (e.g., check for an active terminal process or `curl localhost:3000` to see if it's up).
+2. If it is NOT running, start it using `npm run dev` in a background terminal.
+3. Wait for it to define itself as "ready" before proceeding with verification or UI checks.
+
 ## Project Overview
 
 Personal portfolio website for Matt Gibbs built with Next.js 16, React 19, TypeScript, and Tailwind CSS. The site is a single-page application showcasing professional experience, skills, and contact information.

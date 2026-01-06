@@ -7,6 +7,7 @@ import ExperienceList from '../components/experience-list/experience-list'
 import SectionTitle from '../components/section-title/section-title'
 import CyberGrid from '../components/cyber-grid/cyber-grid'
 import Footer from '../components/footer/footer'
+import SpotifyCard from '../components/spotify/spotify-card'
 import SystemLogs from '../components/system-logs/system-logs'
 import { EXPERIENCE, ICON_OPTIONS } from '../data'
 import styles from '../styles/Home.module.css'
@@ -30,6 +31,13 @@ const Home: NextPage = () => {
         <CyberGrid />
 
         <section className="relative z-10 w-full h-full px-0 py-12 sm:py-16 md:py-20 bg-transparent text-faded-cardboard">
+          {/* Desktop Spotify Player - Drifting in Hero Space */}
+          <div className="hidden lg:block absolute top-[10%] right-8 z-20">
+            <div className="rotate-3 opacity-90 hover:rotate-0 hover:scale-105 transition-all duration-500">
+              <SpotifyCard />
+            </div>
+          </div>
+
           <div className="container mx-auto">
             <h1 className="text-6xl md:text-8xl font-bold text-center mb-8 glitch opacity-20" data-text="MTGIBBS.XYZ">
               <span className="hidden">MTGIBBS.XYZ</span>
