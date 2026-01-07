@@ -121,6 +121,35 @@ Single-page layout (`pages/index.tsx`) with three main sections:
 - **Next.js config**: `output: 'standalone'` for Docker deployment optimization
 - **Versioning**: Integrated GH Actions timestamp builds baked into `NEXT_PUBLIC_VERSION`
 
+## 🤖 The Team (Agent Personas)
+
+This project is staffed by specialized agent personas stored in `.antigravity/prompts/`. When starting a task, "summon" the relevant expert by instructing the IDE to adopt their persona.
+
+### Available Agents
+
+*   **Retro Architect** (`.antigravity/prompts/retro-architect.md`)
+    *   **Role:** Frontend Specialist (Next.js 16, Tailwind).
+    *   **Use when:** Building UI components, implementing the "Retro Sci-Fi" look.
+*   **Design Agent** (`.antigravity/prompts/design-agent.md`)
+    *   **Role:** Retro Systems Archivist (Visual Language).
+    *   **Use when:** Defining colors, shapes, and aesthetic guidelines ("Alien" style).
+*   **Data Officer** (`.antigravity/prompts/data-officer.md`)
+    *   **Role:** TypeScript & Data Guardian.
+    *   **Use when:** Modifying `/data`, defining interfaces, or handling state.
+*   **Mission Control** (`.antigravity/prompts/mission-control.md`)
+    *   **Role:** DevOps & Release Manager.
+    *   **Use when:** Deploying, fixing CI/CD, or merging PRs.
+
+### 🧠 Agent Routing Logic (For Orchestrator)
+*   **IF** request involves **Visuals, Colors, CSS, or Aesthetics** -> Consult **Design Agent** first, then **Retro Architect**.
+*   **IF** request involves **React Components, Layout, or Animation** -> Summon **Retro Architect**.
+*   **IF** request involves **New Content, Type Errors, or `/data`** -> Summon **Data Officer**.
+*   **IF** request involves **Deploy, Build Errors, or GitHub Actions** -> Summon **Mission Control**.
+
+### How to Summon
+In your prompt, simply state:
+> "Act as the **Retro Architect** (see `.antigravity/prompts/retro-architect.md`) to implement..."
+
 ## 🚀 Feature Roadmap (Retro Sci-Fi)
 
 - [x] **System Logs Activity Feed**: Real-time (or cached) GitHub commit stream styled as raw mainframe output.
