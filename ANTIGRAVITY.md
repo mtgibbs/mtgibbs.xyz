@@ -9,6 +9,16 @@ This file provides guidance to Antigravity when working with code in this reposi
 2. If it is NOT running, start it using `npm run dev` in a background terminal.
 3. Wait for it to define itself as "ready" before proceeding with verification or UI checks.
 
+## 🐙 Pull Request Protocol
+
+**When asked to "finalize", "ship", or "make a PR" for a feature:**
+1.  **Stage & Commit**: Ensure all changes are added and committed with a descriptive conventional commit message.
+2.  **Push**: Push the feature branch to `origin`.
+3.  **Open PR**: IMMEDIATELY use `gh pr create` to open the Pull Request.
+    *   **Do not** just push and ask the user to open it.
+    *   **Command**: `gh pr create --title "feat: <title>" --body "<summary>"`
+    *   **Target**: The primary branch is `mater`.
+
 ## Project Overview
 
 Personal portfolio website for Matt Gibbs built with Next.js 16, React 19, TypeScript, and Tailwind CSS. The site is a single-page application showcasing professional experience, skills, and contact information.
