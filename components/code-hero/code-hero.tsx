@@ -58,12 +58,19 @@ const CodeHero = ({ titleText, secondText }: CodeHeroProps): React.ReactNode => 
     const { isVhsActive: globalVhsActive } = useVhs();
     const [file, setFile] = React.useState(_FILES[Math.floor(Math.random() * _FILES.length)]);
     const { data, error } = useSWR(file, sourceCodeFetcher);
+    const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 
     let codeText = ``;
 
     if (error) { codeText = error; }
     else if (data) { codeText = data; }
     else { codeText = _DEFAULT_CODE_TEXT; }
+
+    React.useEffect(() => {
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollTop = 0;
+        }
+    }, [codeText]);
 
     return (
         <>
@@ -76,29 +83,32 @@ const CodeHero = ({ titleText, secondText }: CodeHeroProps): React.ReactNode => 
                     <div className="absolute z-0 inset-x-0 bottom-20 h-12 bg-chrome-blue opacity-40"></div>
                     <div className="absolute z-0 inset-x-0 bottom-0 h-6 bg-phosphor-amber opacity-30"></div>
                 </div>
-                <div className={cn(
-                    "relative z-10 h-96 p-4 sm:mx-2 md:mx-4 lg:mx-6 sm:rounded-none overflow-hidden",
-                    "bg-magnetic-black/90 backdrop-blur-sm border-4 border-phosphor-amber shadow-[6px_6px_0px_0px_#3B5C7D]",
-                    styles.crt,
-                    globalVhsActive && styles.vhsSync
-                )}>
-                    <div className={cn(
+                <div
+                    onClick={() => setFile(_FILES[Math.floor(Math.random() * _FILES.length)])}
+                    title="Click to load random source file"
+                    className={cn(
+                        "relative z-10 h-96 p-4 sm:mx-2 md:mx-4 lg:mx-6 sm:rounded-none overflow-hidden cursor-pointer group transition-colors duration-300",
+                        "bg-magnetic-black/90 backdrop-blur-sm border-4 border-phosphor-amber shadow-[6px_6px_0px_0px_#3B5C7D] hover:border-signal-orange hover:shadow-[6px_6px_0px_0px_#D93636]",
+                        styles.crt,
+                        globalVhsActive && styles.vhsSync
+                    )}>
+                    <div ref={scrollContainerRef} className={cn(
                         "object-cover font-mono text-phosphor-amber h-full py-4 overflow-scroll scrollbar-thin scrollbar-thumb-signal-orange scrollbar-track-transparent scrollbar-thumb-rounded select-none bg-black/20"
                     )}>
                         <CodeHeroText codeText={codeText}></CodeHeroText>
                     </div>
                 </div>
-                <div className="absolute w-full h-72 sm:h-64 inset-y-12 flex flex-col items-center justify-center">
+                <div className="absolute w-full h-72 sm:h-64 inset-y-12 flex flex-col items-center justify-center pointer-events-none">
                     {titleText &&
-                        <div className="relative w-full text-center z-20 transform translate-y-0 sm:-translate-x-24 sm:-translate-y-6">
-                            <span className="bg-magnetic-black text-xs sm:text-2xl text-signal-orange font-bold p-2 sm:p-8 border-4 border-signal-orange rounded-none tracking-wide heavitas shadow-[4px_4px_0px_#3B5C7D] sm:shadow-[8px_8px_0px_#3B5C7D]">
+                        <div className="relative w-full text-center z-20 transform translate-y-0 sm:-translate-x-24 sm:-translate-y-6 pointer-events-auto">
+                            <span className="bg-magnetic-black text-xs sm:text-2xl text-signal-orange font-bold p-2 sm:p-8 border-4 border-signal-orange rounded-none tracking-wide heavitas shadow-[4px_4px_0px_#3B5C7D] sm:shadow-[8px_8px_0px_#3B5C7D] transition-all duration-100 ease-in-out hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#3B5C7D] sm:hover:translate-x-[4px] sm:hover:translate-y-[4px] sm:hover:shadow-[4px_4px_0px_#3B5C7D] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none sm:active:translate-x-[8px] sm:active:translate-y-[8px]">
                                 {titleText}
                             </span>
                         </div>
                     }
                     {secondText &&
-                        <div className="relative w-full text-center z-20 transform mt-4 sm:mt-0 sm:translate-x-24 sm:translate-y-6 rotate-0 sm:-rotate-12" >
-                            <span className="text-sm sm:text-3xl text-faded-cardboard/85 font-bold tracking-wide lazer84">
+                        <div className="relative w-full text-center z-20 transform mt-4 sm:mt-0 sm:translate-x-24 sm:translate-y-6 rotate-0 sm:-rotate-12 pointer-events-auto" >
+                            <span className="text-sm sm:text-3xl text-faded-cardboard/85 font-bold tracking-wide lazer84 hover:text-signal-orange transition-colors duration-300">
                                 <span className="glitch relative inline-block" data-text={secondText}>{secondText}</span>
                             </span>
                         </div>

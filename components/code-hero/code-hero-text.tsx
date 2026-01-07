@@ -17,13 +17,20 @@ const CodeHeroText = ({ codeText }: CodeHeroTextProps): React.ReactNode => {
     const [index, setIndex] = React.useState(0);
 
     useEffect(() => {
+        setIndex(0);
+    }, [codeText]);
+
+    useEffect(() => {
         index <= codeText.length && setTimeout(() => setIndex(index + 1), getTimeoutDelay(85, 15));
     }, [index, codeText]);
 
     return (
         <>
             <code className="whitespace-pre-line">
-                <pre className="nineteen font-light text-sm whitespace-pre-wrap break-all">{codeText.substring(0, index)}</pre>
+                <pre className="nineteen font-light text-sm whitespace-pre-wrap break-all">
+                    {codeText.substring(0, index)}
+                    <span className="animate-cursor text-signal-orange inline-block ml-1">█</span>
+                </pre>
             </code>
         </>
     );
