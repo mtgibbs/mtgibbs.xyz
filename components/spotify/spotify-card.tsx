@@ -13,7 +13,7 @@ const SpotifyCard = () => {
         <a
             target="_blank"
             rel="noopener noreferrer"
-            href={data?.isPlaying ? data.songUrl : 'https://open.spotify.com/user/mtgibbs'}
+            href={data?.isPlaying ? data.songUrl : 'https://open.spotify.com/user/neqy50tgt2erx1cp1p78qhqke?si=d68ae12657624d4a'}
             className={cn(
                 "relative flex items-center p-4 space-x-4 transition-shadow hover:shadow-lg border rounded-xl w-72 backdrop-blur-md",
                 data?.isPlaying
