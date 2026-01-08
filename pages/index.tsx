@@ -22,8 +22,8 @@ interface HomeProps {
 }
 
 const Home: NextPage<HomeProps> = ({ pinnedProjects }) => {
-  // Use pinned projects from GitHub if available, otherwise fallback to static data
-  const displayProjects = (pinnedProjects && pinnedProjects.length > 0) ? pinnedProjects : PROJECTS;
+  // Use pinned projects from GitHub. If empty, we pass empty array to trigger Offline/Jammed state in ProjectDeck.
+  const displayProjects = pinnedProjects || [];
 
   return (
     <div className="bg-black text-white">
