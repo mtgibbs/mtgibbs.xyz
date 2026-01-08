@@ -13,14 +13,34 @@ interface ProjectDeckProps {
 const ProjectDeck = ({ projects }: ProjectDeckProps) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isSimulatingOffline, setIsSimulatingOffline] = useState(false);
-    const activeProject = projects[currentIndex];
+
+    // Determine if we are effectively offline (real or simulated)
+    const isOffline = projects.length === 0 || isSimulatingOffline;
+
+    // Glitch Data for Offline State
+    const glitchProject: IProject = {
+        id: 'error',
+        title: 'ERR_CONNECTION_REFUSED',
+        description: 'CRITICAL FAILURE: UNABLE TO ESTABLISH DATA LINK WITH GITHUB MAIN_FRAME. \n\n> RETRYING PACKET TRANSMISSION...\n> FAILED (TIMEOUT).\n> CHECKING LOCAL CACHE...\n> CORRUPTED.\n> SYSTEM HALTED.',
+        techStack: ['OFFLINE', 'NO_CARRIER', 'ERR_503', 'REROUTING...'],
+        year: '0000',
+        repo: undefined, // No repo link in offline mode
+    };
+
+    // Use glitch project if offline, otherwise strictly safely access real projects
+    // Note: If projects is empty, we MUST fallback to glitchProject.
+    const activeProject = isOffline ? glitchProject : (projects[currentIndex] || glitchProject);
 
     const handleNext = () => {
-        setCurrentIndex((prev) => (prev + 1) % projects.length);
+        if (!isOffline && projects.length > 0) {
+            setCurrentIndex((prev) => (prev + 1) % projects.length);
+        }
     };
 
     const handlePrev = () => {
-        setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
+        if (!isOffline && projects.length > 0) {
+            setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
+        }
     };
 
     return (
@@ -46,7 +66,7 @@ const ProjectDeck = ({ projects }: ProjectDeckProps) => {
                             {/* Bolder Status Light */}
                             <div className={cn(
                                 "w-3 h-3 rounded-full shadow-[0_0_8px] animate-pulse transition-colors duration-500",
-                                isSimulatingOffline ? "bg-red-500 shadow-red-500" : "bg-emerald-500 shadow-emerald-500"
+                                isOffline ? "bg-red-500 shadow-red-500" : "bg-emerald-500 shadow-emerald-500"
                             )} />
                             <span className="text-xs font-mono text-chrome-blue uppercase tracking-[0.2em] font-bold">
                                 PROJECT_DECK // v2.0
@@ -58,8 +78,8 @@ const ProjectDeck = ({ projects }: ProjectDeckProps) => {
                             <span className="hidden md:inline">MEM: 64TB</span>
                             <span className={cn(
                                 "hidden md:inline transition-colors duration-500",
-                                isSimulatingOffline ? "text-red-500 blink" : ""
-                            )}>NET: {isSimulatingOffline ? 'OFFLINE' : 'CONNECTED'}</span>
+                                isOffline ? "text-red-500 blink" : ""
+                            )}>NET: {isOffline ? 'OFFLINE' : 'CONNECTED'}</span>
                             <span className="text-phosphor-amber/80">ID: {activeProject.title.substring(0, 8).toUpperCase()}_</span>
                         </div>
                     </div>
@@ -72,13 +92,19 @@ const ProjectDeck = ({ projects }: ProjectDeckProps) => {
 
                             <div className="relative z-10 flex-1 flex flex-col">
                                 <div className="flex flex-col gap-1 mb-6 border-l-2 border-phosphor-amber/50 pl-4">
-                                    <h3 className="text-2xl md:text-4xl font-bold text-phosphor-amber uppercase tracking-wide leading-none">
+                                    <h3 className={cn(
+                                        "text-2xl md:text-4xl font-bold uppercase tracking-wide leading-none transition-colors",
+                                        isOffline ? "text-red-500 glitch-text" : "text-phosphor-amber"
+                                    )}>
                                         {activeProject.title}
                                     </h3>
                                     <span className="text-xs text-chrome-blue/50 font-mono tracking-widest">{activeProject.year} // PERSONAL</span>
                                 </div>
 
-                                <p className="text-sm md:text-base leading-relaxed text-faded-cardboard opacity-90 mb-8 font-mono max-w-2xl">
+                                <p className={cn(
+                                    "text-sm md:text-base leading-relaxed opacity-90 mb-8 font-mono max-w-2xl whitespace-pre-line",
+                                    isOffline ? "text-red-400/80 font-bold" : "text-faded-cardboard"
+                                )}>
                                     {activeProject.description}
                                 </p>
 
@@ -90,7 +116,12 @@ const ProjectDeck = ({ projects }: ProjectDeckProps) => {
                                     </div>
                                     <div className="flex flex-wrap gap-2">
                                         {activeProject.techStack.map(tech => (
-                                            <span key={tech} className="px-2 py-1 bg-chrome-blue/5 border border-chrome-blue/20 text-chrome-blue text-xs rounded-sm hover:bg-chrome-blue/10 transition-colors">
+                                            <span key={tech} className={cn(
+                                                "px-2 py-1 text-xs rounded-sm transition-colors border",
+                                                isOffline
+                                                    ? "bg-red-900/20 border-red-500/50 text-red-500 animate-pulse"
+                                                    : "bg-chrome-blue/5 border-chrome-blue/20 text-chrome-blue hover:bg-chrome-blue/10"
+                                            )}>
                                                 {tech}
                                             </span>
                                         ))}
@@ -113,7 +144,7 @@ const ProjectDeck = ({ projects }: ProjectDeckProps) => {
                                     total={projects.length}
                                     current={currentIndex}
                                     className="w-full h-full"
-                                    isOffline={isSimulatingOffline}
+                                    isOffline={isOffline}
                                 />
                                 {/* Overlay corner markers */}
                                 <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-chrome-blue/50 pointer-events-none"></div>
@@ -121,16 +152,18 @@ const ProjectDeck = ({ projects }: ProjectDeckProps) => {
                                 <div className="absolute bottom-0 left-0 w-2 h-2 border-l border-b border-chrome-blue/50 pointer-events-none"></div>
                                 <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-chrome-blue/50 pointer-events-none"></div>
 
-                                {/* Hidden Simulator Toggle (Hover top right) */}
-                                <button
-                                    onClick={() => setIsSimulatingOffline(!isSimulatingOffline)}
-                                    className="absolute top-1 right-1 w-4 h-4 bg-transparent z-50 opacity-0 group-hover/radar:opacity-50 hover:!opacity-100 cursor-crosshair"
-                                    title="Toggle Signal Jammer"
-                                >
-                                    <div className={cn("w-full h-full border border-red-500/50 rounded-full flex items-center justify-center", isSimulatingOffline && "bg-red-500/20")}>
-                                        <div className="w-1 h-1 bg-red-500 rounded-full animate-ping" />
-                                    </div>
-                                </button>
+                                {/* Hidden Simulator Toggle (Hover top right) - Only visible if we have actual projects */}
+                                {projects.length > 0 && (
+                                    <button
+                                        onClick={() => setIsSimulatingOffline(!isSimulatingOffline)}
+                                        className="absolute top-1 right-1 w-4 h-4 bg-transparent z-50 opacity-0 group-hover/radar:opacity-50 hover:!opacity-100 cursor-crosshair"
+                                        title="Toggle Signal Jammer"
+                                    >
+                                        <div className={cn("w-full h-full border border-red-500/50 rounded-full flex items-center justify-center", isSimulatingOffline && "bg-red-500/20")}>
+                                            <div className="w-1 h-1 bg-red-500 rounded-full animate-ping" />
+                                        </div>
+                                    </button>
+                                )}
                             </div>
 
                             {/* Control Interface */}
@@ -138,10 +171,10 @@ const ProjectDeck = ({ projects }: ProjectDeckProps) => {
                                 <div className="grid grid-cols-2 gap-2">
                                     <button
                                         onClick={handlePrev}
-                                        disabled={isSimulatingOffline}
+                                        disabled={isOffline}
                                         className={cn(
                                             "h-10 border border-chrome-blue/30 hover:bg-chrome-blue/10 text-chrome-blue transition-all group relative overflow-hidden",
-                                            isSimulatingOffline && "opacity-50 grayscale cursor-not-allowed hover:bg-transparent"
+                                            isOffline && "opacity-50 grayscale cursor-not-allowed hover:bg-transparent"
                                         )}
                                         aria-label="Previous Project"
                                     >
@@ -149,10 +182,10 @@ const ProjectDeck = ({ projects }: ProjectDeckProps) => {
                                     </button>
                                     <button
                                         onClick={handleNext}
-                                        disabled={isSimulatingOffline}
+                                        disabled={isOffline}
                                         className={cn(
                                             "h-10 border border-chrome-blue/30 hover:bg-chrome-blue/10 text-chrome-blue transition-all group relative overflow-hidden",
-                                            isSimulatingOffline && "opacity-50 grayscale cursor-not-allowed hover:bg-transparent"
+                                            isOffline && "opacity-50 grayscale cursor-not-allowed hover:bg-transparent"
                                         )}
                                         aria-label="Next Project"
                                     >

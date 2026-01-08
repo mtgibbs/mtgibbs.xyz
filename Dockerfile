@@ -25,6 +25,9 @@ COPY . .
 ARG NEXT_PUBLIC_VERSION=local
 ENV NEXT_PUBLIC_VERSION=$NEXT_PUBLIC_VERSION
 
+ARG GITHUB_ACCESS_TOKEN
+ENV GITHUB_ACCESS_TOKEN=$GITHUB_ACCESS_TOKEN
+
 RUN npm run build
 
 # If using npm comment out above and use below instead
