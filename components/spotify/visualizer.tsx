@@ -202,8 +202,8 @@ const Visualizer: React.FC<VisualizerProps> = ({ trackId, isPlaying, progressMs,
                     isPlaying ? "text-signal-orange/60" : "text-red-500/40"
                 )}>
                     {isPlaying
-                        ? (analysisData ? "SYNC:LINKED" : "SYNC:PROCEDURAL")
-                        : "SYNC:OFFLINE"}
+                        ? (analysisData ? "STREAM:MONITORED" : "STREAM:PROCEDURAL")
+                        : "STREAM:OFFLINE"}
                 </span>
             </div>
         </div>

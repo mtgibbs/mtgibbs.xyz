@@ -40,6 +40,9 @@ const SpotifyCard = () => {
             <div className="flex flex-col min-w-0 flex-1">
                 {data?.isPlaying ? (
                     <>
+                        <p className="text-[10px] uppercase tracking-widest text-signal-orange/80 mb-1 font-mono">
+                            USER.LISTENING
+                        </p>
                         <p className="font-bold text-sm text-faded-cardboard truncate font-sans">
                             {data.title}
                         </p>
