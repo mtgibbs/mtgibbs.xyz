@@ -26,6 +26,13 @@ export async function getPinnedProjects(): Promise<IProject[]> {
                   name
                 }
               }
+              repositoryTopics(first: 6) {
+                nodes {
+                  topic {
+                    name
+                  }
+                }
+              }
             }
           }
         }
@@ -52,15 +59,22 @@ export async function getPinnedProjects(): Promise<IProject[]> {
 
     const pinnedNodes = json.data?.user?.pinnedItems?.nodes || [];
 
-    return pinnedNodes.map((repo: any) => ({
-      id: repo.url,
-      title: repo.name,
-      description: repo.description,
-      techStack: repo.languages.nodes.map((l: any) => l.name),
-      link: repo.homepageUrl || null,
-      repo: repo.url,
-      year: new Date(repo.createdAt).getFullYear().toString()
-    }));
+    return pinnedNodes.map((repo: any) => {
+      const languages = repo.languages?.nodes?.map((l: any) => l.name) || [];
+      const topics = repo.repositoryTopics?.nodes?.map((t: any) => t.topic.name) || [];
+      // Deduplicate and combine
+      const techStack = Array.from(new Set([...languages, ...topics]));
+
+      return {
+        id: repo.url,
+        title: repo.name,
+        description: repo.description,
+        techStack,
+        link: repo.homepageUrl || null,
+        repo: repo.url,
+        year: new Date(repo.createdAt).getFullYear().toString()
+      };
+    });
   } catch (err) {
     console.error('Failed to fetch pinned projects:', err);
     return [];
