@@ -45,7 +45,7 @@ const SectionTitle = ({ title, color = 'orange' }: SectionTitleProps): React.Rea
 
     return (
         <div className={cn(
-            "relative w-full sm:w-auto -mt-28 sm:-mt-32 sm:-ml-4 transform -skew-y-2 sm:-rotate-3 z-20 group inline-block"
+            "relative w-full sm:w-auto -mt-48 sm:-mt-52 sm:-ml-4 transform -skew-y-2 sm:-rotate-3 z-20 group inline-block"
         )}>
             {/* Decorative 'Connection' Line (Top Left) */}
             <div className={cn("absolute -top-4 -left-4 w-8 h-8 border-l-2 border-t-2 opacity-50 transition-all group-hover:w-full group-hover:h-full group-hover:opacity-100 duration-500", theme.border)} />
