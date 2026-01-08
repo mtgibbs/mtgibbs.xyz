@@ -1,6 +1,7 @@
 import cn from 'classnames'
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import Script from 'next/script'
 import CodeHero from '../components/code-hero/code-hero'
 import DevIconList from '../components/dev-icon-list/dev-icon-list'
 import ExperienceList from '../components/experience-list/experience-list'
@@ -18,14 +19,10 @@ const Home: NextPage = () => {
       <Head>
         <title>mtgibbs.xyz</title>
         <meta name="description" content="Matt Gibbs Personal Site" />
-
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
-        <script async defer src="https://kit.fontawesome.com/911564e118.js" crossOrigin="anonymous"></script>
-        <script async defer data-website-id="1acc21de-8248-480b-9b15-999be129a1a3" src="https://mtgibbs-tracking.herokuapp.com/umami.js"></script>
-
-        <link rel="icon" type="image/jpeg" href="/me_icon.jpg?v=2" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png"></link>
       </Head>
+
+      <Script src="https://kit.fontawesome.com/911564e118.js" crossOrigin="anonymous" strategy="afterInteractive" />
+
 
       {/* Skip to Content Link for Keyboard Accessibility */}
       <a

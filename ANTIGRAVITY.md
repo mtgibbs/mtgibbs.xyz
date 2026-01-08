@@ -112,6 +112,12 @@ Single-page layout (`pages/index.tsx`) with three main sections:
 - JSX preservation for Next.js handling
 - No emit (Next.js handles compilation)
 
+## Accessibility Standards
+- **A11y First**: All new features and UI components must be accessible-by-default.
+- **Compliance**: Aim for WCAG 2.1 AA standards.
+- **Testing**: Verify interactive elements with keyboard navigation (Tab, Enter, Space).
+- **Semantics**: Use proper HTML5 semantic elements (nav, main, article, button vs div).
+
 ## Key Patterns
 
 - **Interface naming**: Prefix with `I` (e.g., `IExperienceItem`, `IDevIconOptions`)
