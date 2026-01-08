@@ -628,3 +628,33 @@ body.low-power * {
       transparent 1px,
       transparent 8px);
 }
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-terminal-glow {
+    animation: none !important;
+    text-shadow: 0 0 2px rgba(0, 30, 255, 0.5);
+  }
+
+  .vhs-active::after {
+    display: none !important;
+  }
+
+  .tracking-noise {
+    display: none !important;
+  }
+
+  .glitch::before,
+  .glitch::after {
+    display: none !important;
+    animation: none !important;
+  }
+
+  * {
+    backdrop-filter: none !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -56,7 +56,7 @@ const Home: NextPage<HomeProps> = ({ pinnedProjects }) => {
 
           <div className="container mx-auto">
             <h1 className="text-6xl md:text-8xl font-bold text-center mb-8 glitch opacity-20" data-text="MTGIBBS.XYZ">
-              <span className="hidden">MTGIBBS.XYZ</span>
+              <span className="sr-only">MTGIBBS.XYZ</span>
             </h1>
           </div>
           <CodeHero titleText="Hi. I'm Matt." secondText='Software Developer'></CodeHero>
