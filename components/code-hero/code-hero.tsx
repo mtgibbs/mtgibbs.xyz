@@ -100,11 +100,11 @@ const CodeHero = ({ titleText, secondText }: CodeHeroProps): React.ReactNode => 
                 </div>
                 <div className="absolute w-full h-72 sm:h-64 inset-y-12 flex flex-col items-center justify-center pointer-events-none">
                     {titleText &&
-                        <div className="relative w-full text-center z-20 transform translate-y-0 sm:-translate-x-24 sm:-translate-y-6 pointer-events-auto">
+                        <h2 className="relative w-full text-center z-20 transform translate-y-0 sm:-translate-x-24 sm:-translate-y-6 pointer-events-auto">
                             <span className="bg-magnetic-black text-xs sm:text-2xl text-signal-orange font-bold p-2 sm:p-8 border-4 border-signal-orange rounded-none tracking-wide heavitas shadow-[4px_4px_0px_#3B5C7D] sm:shadow-[8px_8px_0px_#3B5C7D] transition-all duration-100 ease-in-out hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#3B5C7D] sm:hover:translate-x-[4px] sm:hover:translate-y-[4px] sm:hover:shadow-[4px_4px_0px_#3B5C7D] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none sm:active:translate-x-[8px] sm:active:translate-y-[8px]">
                                 {titleText}
                             </span>
-                        </div>
+                        </h2>
                     }
                     {secondText &&
                         <div className="relative w-full text-center z-20 transform mt-4 sm:mt-0 sm:translate-x-24 sm:translate-y-6 rotate-0 sm:-rotate-12 pointer-events-auto" >
