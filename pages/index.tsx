@@ -104,7 +104,7 @@ const Home: NextPage<HomeProps> = ({ pinnedProjects }) => {
           <ExperienceList experienceItems={EXPERIENCE}></ExperienceList>
         </section>
 
-        <section className="relative z-10 w-full h-full px-0 sm:px-5 py-24 pb-16 bg-magnetic-black border-t-4 border-signal-orange overflow-hidden">
+        <section className="relative z-10 w-full h-full px-0 sm:px-5 py-24 pb-16 bg-magnetic-black border-t-4 border-signal-orange">
           <div className="absolute inset-0 bg-vhs-stripes pointer-events-none z-0 mix-blend-overlay opacity-30"></div>
           <div className="mb-12 relative z-10">
             <SectionTitle title='Projects'></SectionTitle>
