@@ -60,9 +60,9 @@ export async function getPinnedProjects(): Promise<IProject[]> {
     const pinnedNodes = json.data?.user?.pinnedItems?.nodes || [];
 
     return pinnedNodes.map((repo: any) => {
-      const languages = repo.languages?.nodes?.map((l: any) => l.name) || [];
-      const topics = repo.repositoryTopics?.nodes?.map((t: any) => t.topic.name) || [];
-      // Deduplicate and combine
+      const languages = repo.languages?.nodes?.map((l: any) => l.name.toUpperCase()) || [];
+      const topics = repo.repositoryTopics?.nodes?.map((t: any) => t.topic.name.toUpperCase()) || [];
+      // Deduplicate and combine (case-insensitivity handled by uppercasing first)
       const techStack = Array.from(new Set([...languages, ...topics]));
 
       return {
