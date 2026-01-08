@@ -57,6 +57,30 @@ body {
   --tracking-red: #D93636;
 }
 
+/* Accessibility: High Contrast Mode Overrides */
+/* Applied via OS setting OR 'high-contrast' body class */
+@media (prefers-contrast: more) {
+  :root {
+    --magnetic-black: #000000;
+    --faded-cardboard: #FFFFFF;
+    --chrome-blue: #80BFFF;
+    --tracking-red: #FF6666;
+    --signal-orange: #FF5500;
+    --phosphor-amber: #FFD500;
+    --static-grey: #404040;
+  }
+}
+
+body.high-contrast {
+  --magnetic-black: #000000;
+  --faded-cardboard: #FFFFFF;
+  --chrome-blue: #80BFFF;
+  --tracking-red: #FF6666;
+  --signal-orange: #FF5500;
+  --phosphor-amber: #FFD500;
+  --static-grey: #404040;
+}
+
 /* Accessibility: Global visible focus ring */
 *:focus-visible {
   outline: 2px solid var(--signal-orange);
