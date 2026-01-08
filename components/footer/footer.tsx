@@ -4,9 +4,24 @@ import cn from 'classnames';
 import SpotifyCard from '../spotify/spotify-card';
 import VhsToggle from '../vhs-toggle/vhs-toggle';
 
+import { useGPU } from '../../hooks/use-gpu';
+
 const Footer = (): React.ReactNode => {
     const version = process.env.NEXT_PUBLIC_VERSION || 'local-dev';
     const ghcrUrl = `https://github.com/mtgibbs/mtgibbs.xyz/pkgs/container/mtgibbs.xyz`;
+    const { tier, cycleTier } = useGPU();
+    const [clickCount, setClickCount] = React.useState(0);
+
+    const handleSecretClick = () => {
+        setClickCount(prev => {
+            const next = prev + 1;
+            if (next >= 5) {
+                cycleTier();
+                return 0;
+            }
+            return next;
+        });
+    };
 
     return (
         <footer className="relative z-10 w-full bg-magnetic-black border-t border-signal-orange/30 py-8 px-4">
@@ -15,7 +30,10 @@ const Footer = (): React.ReactNode => {
             </div>
 
             <div className="container mx-auto flex flex-col lg:flex-row justify-between items-center gap-6">
-                <div className="text-faded-cardboard/40 font-mono text-[10px] tracking-[0.3em] uppercase order-2 lg:order-1">
+                <div
+                    onClick={handleSecretClick}
+                    className="text-faded-cardboard/40 font-mono text-[10px] tracking-[0.3em] uppercase order-2 lg:order-1 select-none cursor-default active:text-signal-orange transition-colors"
+                >
                     © {new Date().getFullYear()} MTGIBBS.XYZ // ALL RIGHTS RESERVED
                 </div>
 
@@ -23,7 +41,7 @@ const Footer = (): React.ReactNode => {
                     {/* Mission Control Strip */}
                     <div className="flex items-center gap-4 px-4 py-1.5 bg-black/30 border border-white/5 rounded-full backdrop-blur-sm">
                         <span className="text-phosphor-amber/40 font-mono text-[9px] uppercase tracking-[0.2em] hidden sm:block">
-                            Sys_Status: Operational
+                            Sys_Status: {tier === 'low' ? 'LOW_PWR' : tier === 'medium' ? 'NOMINAL' : 'MAX_PWR'}
                         </span>
                         <div className="h-4 w-px bg-white/10 hidden sm:block" />
                         <VhsToggle />
