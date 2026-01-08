@@ -29,7 +29,7 @@ const DevIconList = ({ icons }: DevIconListProps): React.ReactNode => {
     };
 
     return (
-        <div className="px-4 py-12 sm:p-24">
+        <div className="px-4 container mx-auto">
             <div
                 ref={containerRef}
                 onMouseMove={handleMouseMove}
