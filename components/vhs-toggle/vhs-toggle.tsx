@@ -25,6 +25,9 @@ const VhsToggle = ({ className }: VhsToggleProps) => {
                 {/* Micro Push Button */}
                 <button
                     onClick={toggleVhs}
+                    aria-label="Toggle High Fidelity Effects"
+                    role="switch"
+                    aria-checked={isVhsActive}
                     className={cn(
                         "relative w-7 h-7 rounded border transition-all duration-200 flex items-center justify-center overflow-hidden active:scale-90",
                         isVhsActive

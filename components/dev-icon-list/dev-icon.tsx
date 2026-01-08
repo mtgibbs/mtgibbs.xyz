@@ -13,7 +13,7 @@ const getClass = (options: IDevIconOptions): string => {
 
 const DevIcon = (options: IDevIconOptions & { className?: string }): React.ReactNode => {
     return (
-        <i title={options.icon} className={cn(
+        <i title={options.icon} role="img" aria-label={options.icon} className={cn(
             "text-7xl m-5",
             getClass(options),
             { 'colored': options.isColor },
