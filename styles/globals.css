@@ -619,3 +619,12 @@ body.low-power .glitch::after {
 body.low-power * {
   backdrop-filter: none !important;
 }
+
+/* Custom VHS Striping Pattern */
+.bg-vhs-stripes {
+  background-image: repeating-linear-gradient(-45deg,
+      rgba(59, 92, 125, 0.05) 0px,
+      rgba(59, 92, 125, 0.05) 1px,
+      transparent 1px,
+      transparent 8px);
+}

@@ -1,0 +1,255 @@
+.scannerContainer {
+    box-shadow: inset 0 0 40px rgba(10, 10, 30, 0.9);
+    background-color: #050510;
+    position: relative;
+    overflow: hidden;
+    transition: background-color 0.5s, box-shadow 0.5s;
+}
+
+.jammedContainer {
+    background-color: #1a0505;
+    box-shadow: inset 0 0 40px rgba(50, 10, 10, 0.9);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+}
+
+/* CRT Scanlines */
+.scanlines {
+    background: linear-gradient(to bottom,
+            rgba(18, 16, 16, 0) 50%,
+            rgba(0, 0, 0, 0.25) 50%);
+    background-size: 100% 4px;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+}
+
+/* Moving Refresh Line */
+.refreshLine {
+    position: absolute;
+    width: 100%;
+    height: 10px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    animation: scanline 6s linear infinite;
+    z-index: 51;
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+.scanlineJammed {
+    animation-duration: 0.2s;
+    opacity: 0.5;
+    background: linear-gradient(to bottom, rgba(255, 0, 0, 0), rgba(255, 0, 0, 0.2), rgba(255, 0, 0, 0));
+}
+
+@keyframes scanline {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(500%);
+    }
+}
+
+/* Static Noise Effect */
+.staticOverlay {
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background-image: repeating-radial-gradient(circle at 17% 32%, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.05) 0.5px);
+    opacity: 0.3;
+    animation: staticNoise 0.3s steps(3) infinite;
+    pointer-events: none;
+    z-index: 45;
+    mix-blend-mode: overlay;
+}
+
+.jammedOverlay {
+    opacity: 0.8;
+    background-image: repeating-radial-gradient(circle at 17% 32%, rgba(255, 0, 0, 0.15), rgba(0, 0, 0, 0.15) 0.5px);
+    animation-duration: 0.05s;
+    mix-blend-mode: hard-light;
+}
+
+@keyframes staticNoise {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    33% {
+        transform: translate(10px, 10px);
+    }
+
+    66% {
+        transform: translate(-10px, 5px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+/* Radar Sweep - Blue/Purple */
+/* 8s total cycle: 3s sweep (360deg), 5s wait */
+.radarSweep {
+    background: conic-gradient(from -90deg,
+            transparent 0deg,
+            rgba(56, 189, 248, 0.05) 60deg,
+            rgba(139, 92, 246, 0.35) 90deg,
+            rgba(200, 200, 255, 0.1) 90.1deg,
+            /* Tiny white tip */
+            transparent 90.5deg);
+    border-radius: 50%;
+    animation: sweep 8s infinite linear;
+    width: 140%;
+    height: 140%;
+    left: -20%;
+    top: -20%;
+    opacity: 0;
+    /* Start invisible, animation handles opacity */
+    filter: blur(8px);
+}
+
+.sweeperJammed {
+    animation: none;
+    opacity: 0 !important;
+}
+
+.jammedText {
+    color: #ef4444;
+    text-shadow: 0 0 5px #ef4444;
+    animation: blink 2s ease-in-out infinite;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes sweep {
+    0% {
+        transform: rotate(0deg);
+        opacity: 0;
+    }
+
+    1% {
+        opacity: 0.8;
+    }
+
+    37.5% {
+        transform: rotate(360deg);
+        opacity: 0.8;
+    }
+
+    40% {
+        transform: rotate(360deg);
+        opacity: 0;
+    }
+
+    100% {
+        transform: rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Target Reticle Animation */
+.reticleSpin {
+    animation: reticleSpin 12s linear infinite;
+}
+
+@keyframes reticleSpin {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Ping Effect for Dots/Icon */
+.pingEffect {
+    animation: ping 8s infinite;
+    /* Synced with sweep */
+    opacity: 0.6;
+    /* Base opacity */
+}
+
+/* Active dot has different base style, handle carefully */
+.pingEffectActive {
+    animation: pingActive 8s infinite;
+}
+
+@keyframes ping {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.5);
+        filter: drop-shadow(0 0 8px cyan);
+    }
+
+    10% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1);
+        filter: drop-shadow(0 0 0px transparent);
+    }
+
+    100% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes pingActive {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.5);
+        box-shadow: 0 0 16px #fff;
+    }
+
+    10% {
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow: 0 0 8px #fff;
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Icon Ping - No translation needed if absolute positioned differently, or ensure translate is handled */
+.iconPing {
+    animation: iconPing 8s infinite;
+}
+
+@keyframes iconPing {
+    0% {
+        opacity: 1;
+        filter: drop-shadow(0 0 12px rgba(0, 186, 255, 1));
+        transform: scale(1.2);
+    }
+
+    10% {
+        opacity: 0.8;
+        filter: drop-shadow(0 0 6px rgba(0, 186, 255, 0.8));
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0.8;
+    }
+}
