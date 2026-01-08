@@ -14,9 +14,19 @@ const GPUContext = createContext<GPUState | undefined>(undefined);
 export const GPUProvider = ({ children }: { children: ReactNode }) => {
     const [tier, setTier] = useState<GPUTier>('medium');
     const [renderer, setRenderer] = useState('unknown');
+    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
     // Auto-detect on mount
     useEffect(() => {
+        // Reduced Motion Check
+        const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        setPrefersReducedMotion(motionQuery.matches);
+
+        const handleMotionChange = (e: MediaQueryListEvent) => {
+            setPrefersReducedMotion(e.matches);
+        };
+        motionQuery.addEventListener('change', handleMotionChange);
+
         const detectTier = (): { tier: GPUTier, renderer: string } => {
             let detectedTier: GPUTier = 'medium';
             let detectedRenderer = 'unknown';
@@ -56,6 +66,10 @@ export const GPUProvider = ({ children }: { children: ReactNode }) => {
         const result = detectTier();
         setTier(result.tier);
         setRenderer(result.renderer);
+
+        return () => {
+            motionQuery.removeEventListener('change', handleMotionChange);
+        };
     }, []);
 
     const cycleTier = () => {
@@ -66,7 +80,7 @@ export const GPUProvider = ({ children }: { children: ReactNode }) => {
         });
     };
 
-    const isLowPower = tier === 'low';
+    const isLowPower = tier === 'low' || prefersReducedMotion;
 
     useEffect(() => {
         if (isLowPower) {
