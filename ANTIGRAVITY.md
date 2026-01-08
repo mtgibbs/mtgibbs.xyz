@@ -67,10 +67,10 @@ Components are organized by feature in the `/components` directory with a consis
 
 - Each component has its own directory
 - Related model/interface definitions are in a `model/` subdirectory
-- Example: `components/experience-list/` contains:
-  - `experience-list.tsx` - Main component
-  - `experience-item.tsx` - Child component
-  - `model/experience-list-item.ts` - Interface definitions
+- Example: `components/project-deck/` contains:
+  - `project-deck.tsx` - Main component (The "Mainframe" Dashboard)
+  - `NavVisualizer.tsx` - Sub-component (Radar)
+  - `model/project.ts` - Interface definitions
 
 ### Data Layer
 
@@ -79,6 +79,9 @@ All static content is centralized in `/data` directory:
 - `experience-items.constants.ts` - Professional experience data
 - `skills-icons.constants.ts` - Technology icon configurations
 - `index.ts` - Re-exports all constants for easy importing
+- **Dynamic Data:**
+    - **GitHub GraphQL API**: Fetches pinned repositories during build time (`getStaticProps`) to populate the Project Deck.
+    - **Spotify API**: Real-time fetching of "Now Playing" status via Next.js API Routes.
 
 Components consume this data through props, maintaining separation between content and presentation.
 
@@ -126,6 +129,7 @@ Single-page layout (`pages/index.tsx`) with three main sections:
 - **Readonly arrays**: Data constants use `readonly` for immutability
 - **Next.js config**: `output: 'standalone'` for Docker deployment optimization
 - **Versioning**: Integrated GH Actions timestamp builds baked into `NEXT_PUBLIC_VERSION`
+- **Secrets**: `GH_ACCESS_TOKEN` (renamed from `GITHUB_...` for Actions compatibility) is required for build-time data fetching.
 
 ## 🤖 The Team (Agent Personas)
 
@@ -160,4 +164,4 @@ In your prompt, simply state:
 
 - [x] **System Logs Activity Feed**: Real-time (or cached) GitHub commit stream styled as raw mainframe output.
 - [x] **VHS/VCR Tracking Toggle**: Global switch for CRT distortion, chromatic aberration, and scanline jitter.
-- [] **Interactive "Mainframe" Dashboard**: A 70s NASA-style control panel section with physical-looking buttons and gauges.
+- [x] **Interactive "Mainframe" Dashboard**: A 70s NASA-style control panel (Project Deck) with physical-looking buttons, radar visualization, and "offline" simulation modes.
