@@ -1,7 +1,8 @@
 import cn from 'classnames'
-import type { NextPage } from 'next'
+import type { NextPage, GetStaticProps } from 'next'
 import Head from 'next/head'
 import Script from 'next/script'
+import Link from 'next/link'
 import CodeHero from '../components/code-hero/code-hero'
 import DevIconList from '../components/dev-icon-list/dev-icon-list'
 import ExperienceList from '../components/experience-list/experience-list'
@@ -10,10 +11,20 @@ import CyberGrid from '../components/cyber-grid/cyber-grid'
 import Footer from '../components/footer/footer'
 import SpotifyCard from '../components/spotify/spotify-card'
 import SystemLogs from '../components/system-logs/system-logs'
-import { EXPERIENCE, ICON_OPTIONS } from '../data'
+import ProjectDeck from '../components/project-deck/project-deck'
+import { EXPERIENCE, ICON_OPTIONS, PROJECTS } from '../data'
+import { getPinnedProjects } from '../lib/github'
+import { IProject } from '../components/project-deck/model/project'
 import styles from '../styles/Home.module.css'
 
-const Home: NextPage = () => {
+interface HomeProps {
+  pinnedProjects: IProject[];
+}
+
+const Home: NextPage<HomeProps> = ({ pinnedProjects }) => {
+  // Use pinned projects from GitHub if available, otherwise fallback to static data
+  const displayProjects = (pinnedProjects && pinnedProjects.length > 0) ? pinnedProjects : PROJECTS;
+
   return (
     <div className="bg-black text-white">
       <Head>
@@ -93,7 +104,17 @@ const Home: NextPage = () => {
           <ExperienceList experienceItems={EXPERIENCE}></ExperienceList>
         </section>
 
-        <section className="relative z-10 w-full h-full px-0 sm:px-5 py-24 pb-16 bg-magnetic-black border-t-4 border-signal-orange">
+        <section className="relative z-10 w-full h-full px-0 sm:px-5 py-24 pb-16 bg-magnetic-black border-t-4 border-signal-orange overflow-hidden">
+          <div className="absolute inset-0 bg-vhs-stripes pointer-events-none z-0 mix-blend-overlay opacity-30"></div>
+          <div className="mb-12 relative z-10">
+            <SectionTitle title='Projects'></SectionTitle>
+          </div>
+          <div className="container mx-auto px-4 relative z-10">
+            <ProjectDeck projects={displayProjects} />
+          </div>
+        </section>
+
+        <section className="relative z-10 w-full h-full px-0 sm:px-5 py-24 pb-16 bg-static-grey border-t-4 border-chrome-blue">
           <div className="mb-12">
             <SectionTitle title='Technologies'></SectionTitle>
           </div>
@@ -110,5 +131,15 @@ const Home: NextPage = () => {
     </div >
   )
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+  const pinnedProjects = await getPinnedProjects();
+  return {
+    props: {
+      pinnedProjects,
+    },
+    revalidate: 60 * 60, // 1 hour
+  };
+};
 
 export default Home
