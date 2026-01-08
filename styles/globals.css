@@ -565,3 +565,27 @@ a {
 .animate-terminal-glow {
   animation: textShadowGlobal 1.6s infinite;
 }
+
+/* Low Power Mode Optimizations */
+body.low-power .animate-terminal-glow {
+  animation: none !important;
+  text-shadow: 0 0 2px rgba(0, 30, 255, 0.5);
+}
+
+body.low-power .vhs-active::after {
+  display: none !important;
+}
+
+body.low-power .tracking-noise {
+  display: none !important;
+}
+
+body.low-power .glitch::before,
+body.low-power .glitch::after {
+  display: none !important;
+  animation: none !important;
+}
+
+body.low-power * {
+  backdrop-filter: none !important;
+}
