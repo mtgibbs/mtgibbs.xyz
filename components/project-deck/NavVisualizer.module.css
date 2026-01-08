@@ -121,7 +121,7 @@
 .jammedText {
     color: #ef4444;
     text-shadow: 0 0 5px #ef4444;
-    animation: blink 0.2s steps(2) infinite;
+    animation: blink 2s ease-in-out infinite;
     font-weight: bold;
     letter-spacing: 0.1em;
 }
