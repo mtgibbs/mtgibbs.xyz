@@ -57,6 +57,12 @@ body {
   --tracking-red: #D93636;
 }
 
+/* Accessibility: Global visible focus ring */
+*:focus-visible {
+  outline: 2px solid var(--signal-orange);
+  outline-offset: 2px;
+}
+
 /* Cyberpunk Utilities */
 .clip-corner {
   clip-path: polygon(0 0,

@@ -27,7 +27,15 @@ const Home: NextPage = () => {
         <link rel="apple-touch-icon" href="/apple-touch-icon.png"></link>
       </Head>
 
-      <main className={cn(styles.main, "w-full relative bg-magnetic-black overflow-x-hidden")}>
+      {/* Skip to Content Link for Keyboard Accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-signal-orange focus:text-white focus:outline-none focus:ring-2 focus:ring-white font-mono font-bold"
+      >
+        SKIP TO CONTENT
+      </a>
+
+      <main id="main-content" className={cn(styles.main, "w-full relative bg-magnetic-black overflow-x-hidden")}>
         <CyberGrid />
 
         <section className="relative z-10 w-full h-full px-0 py-12 sm:py-16 md:py-20 bg-transparent text-faded-cardboard">
@@ -95,8 +103,9 @@ const Home: NextPage = () => {
           <DevIconList icons={ICON_OPTIONS}></DevIconList>
         </section>
 
-        <Footer />
       </main>
+
+      <Footer />
 
       {/* <footer className={styles.footer}>
 
