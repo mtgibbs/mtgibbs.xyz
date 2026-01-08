@@ -37,9 +37,23 @@ export const GPUProvider = ({ children }: { children: ReactNode }) => {
                 const canvas = document.createElement('canvas');
                 const gl = (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')) as WebGLRenderingContext;
                 if (gl) {
-                    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-                    if (debugInfo) {
-                        detectedRenderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+                    // Try standard RENDERER first to avoid deprecation warnings
+                    const standardRenderer = gl.getParameter(gl.RENDERER);
+
+                    if (standardRenderer) {
+                        detectedRenderer = standardRenderer;
+                    }
+
+                    // Only try extension if standard renderer is generic and we aren't in Firefox (which warns about this)
+                    // Note: "Gecko" check is a crude proxy for Firefox
+                    const isFirefox = typeof navigator !== 'undefined' && navigator.userAgent.indexOf('Gecko') > -1 && navigator.userAgent.indexOf('KHTML') === -1;
+
+                    if (!detectedRenderer || (detectedRenderer === 'Generic' && !isFirefox)) {
+                        const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                        if (debugInfo) {
+                            const unmasked = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+                            if (unmasked) detectedRenderer = unmasked;
+                        }
                     }
                 }
             } catch (e) {
