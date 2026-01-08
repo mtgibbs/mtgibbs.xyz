@@ -9,6 +9,40 @@ This file provides guidance to Antigravity when working with code in this reposi
 2. If it is NOT running, start it using `npm run dev` in a background terminal.
 3. Wait for it to define itself as "ready" before proceeding with verification or UI checks.
 
+## 🌳 Branching & Context Management
+
+> [!IMPORTANT]  
+> **Pre-Flight Routine**  
+> Before starting any new feature, fix, or refactor, you must execute the following sequence to prevent "context drift" and branch pollution:
+> 
+> 1. **Verify Remote State**: Run `git checkout mater && git pull` to ensure you are building on the source of truth.
+> 2. **Prune Dead Branches**: Run `git fetch --prune` and `gh pr list --state merged` to identify and ignore branches that are no longer active.
+> 3. **Clean the Workspace**: Check `git status`. If there are lingering changes from a previous task, ask me whether to stash or discard them before proceeding.
+> 4. **Isolate Work**: Create a new, descriptively named branch for the task (e.g., `feat/login-auth` or `fix/header-overflow`).
+>
+> **Operational Constraints:**
+> - **Never** commit new work to a branch associated with a PR that has already been merged or closed.
+> - **Never** bundle unrelated fixes into an existing open PR branch unless explicitly told to "fix up" that specific PR.
+> - **Always** assume the local environment is out of sync with GitHub until you run a `gh` or `git` check.
+
+## 🧹 Stale Branch Cleanup (Environment Hygiene)
+
+> [!CAUTION]  
+> **Environment Garbage Collection**  
+> To prevent indexing "ghost code" or hallucinating old context, you are responsible for keeping the local environment clean.
+>
+> 1. **Identify Stale Branches**: Periodically (or when switching tasks) run: `git branch --merged mater` to identify branches that have been safely integrated.
+> 2. **Auto-Cleanup**: If you find local branches that correspond to merged/closed PRs on GitHub:
+>    - Delete the local branch: `git branch -d <branch-name>`
+>    - Prune remote tracking branches: `git remote prune origin`
+> 3. **Conflict Prevention**: If you detect you are currently on a branch that has been merged upstream, you must immediately `git checkout mater` and delete the stale local branch before performing any other action.
+> 4. **No Reanimation**: Do not attempt to "re-open" work by committing to a branch that has been merged. Always start fresh.
+
+**Pro-Tip for Assistant**: Run this one-liner to clean up instantly whenever it detects clutter:
+```bash
+git checkout mater && git pull && git branch --merged | grep -v "\*" | xargs -n 1 git branch -d
+```
+
 ## 🐙 Pull Request Protocol
 
 **When asked to "finalize", "ship", or "make a PR" for a feature:**
