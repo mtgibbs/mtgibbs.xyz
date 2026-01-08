@@ -21,7 +21,7 @@ const ProjectDeck = ({ projects }: ProjectDeckProps) => {
     const glitchProject: IProject = {
         id: 'error',
         title: 'ERR_CONNECTION_REFUSED',
-        description: 'CRITICAL FAILURE: UNABLE TO ESTABLISH DATA LINK WITH GITHUB MAIN_FRAME. \n\n> RETRYING PACKET TRANSMISSION...\n> FAILED.\n> CHECKING LOCAL CACHE...\n> CORRUPTED.',
+        description: 'CRITICAL FAILURE: UNABLE TO ESTABLISH DATA LINK WITH GITHUB MAIN_FRAME. \n\n> RETRYING PACKET TRANSMISSION...\n> FAILED (TIMEOUT).\n> CHECKING LOCAL CACHE...\n> CORRUPTED.\n> SYSTEM HALTED.',
         techStack: ['OFFLINE', 'NO_CARRIER', 'ERR_503', 'REROUTING...'],
         year: '0000',
         repo: undefined, // No repo link in offline mode
