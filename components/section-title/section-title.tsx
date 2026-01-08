@@ -4,6 +4,7 @@ import cn from 'classnames';
 interface SectionTitleProps {
     title: string;
     color?: 'orange' | 'blue' | 'green' | 'amber' | 'red';
+    classKey?: string;
 }
 
 const COLORS = {
@@ -39,7 +40,7 @@ const COLORS = {
     }
 };
 
-const SectionTitle = ({ title, color = 'orange' }: SectionTitleProps): React.ReactNode => {
+const SectionTitle = ({ title, color = 'orange', classKey = 'MK_II' }: SectionTitleProps): React.ReactNode => {
     const theme = COLORS[color];
     const techId = `0x${title.substring(0, 2).toUpperCase()}_${title.length}`;
 
@@ -53,6 +54,7 @@ const SectionTitle = ({ title, color = 'orange' }: SectionTitleProps): React.Rea
             <h2 className={cn(
                 "relative text-xl md:text-2xl font-bold bg-magnetic-black bg-opacity-95 backdrop-blur-sm",
                 "px-8 py-4 sm:px-12 sm:py-6",
+                "min-w-[280px] sm:min-w-[400px]", // Enforce consistent width
                 "border-y-2 sm:border-2",
                 theme.border,
                 theme.text,
@@ -70,7 +72,7 @@ const SectionTitle = ({ title, color = 'orange' }: SectionTitleProps): React.Rea
 
                 {/* Tech Deco: Index Number */}
                 <span className="absolute top-1 left-2 text-[9px] font-mono opacity-50 font-normal tracking-tight">
-                    CLASS: MK_II //
+                    CLASS: {classKey} //
                 </span>
 
                 {/* Tech Deco: Hex Code */}

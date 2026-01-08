@@ -99,7 +99,7 @@ const Home: NextPage<HomeProps> = ({ pinnedProjects }) => {
 
         <section className="relative z-10 w-full h-full px-0 sm:px-5 py-24 pb-16 bg-static-grey border-t-4 border-chrome-blue">
           <div>
-            <SectionTitle title='Experience' color="blue"></SectionTitle>
+            <SectionTitle title='Experience' color="blue" classKey="EXP_LOG"></SectionTitle>
           </div>
           <ExperienceList experienceItems={EXPERIENCE}></ExperienceList>
         </section>
@@ -107,7 +107,7 @@ const Home: NextPage<HomeProps> = ({ pinnedProjects }) => {
         <section className="relative z-10 w-full h-full px-0 sm:px-5 py-24 pb-16 bg-magnetic-black border-t-4 border-signal-orange">
           <div className="absolute inset-0 bg-vhs-stripes pointer-events-none z-0 mix-blend-overlay opacity-30"></div>
           <div className="relative z-10">
-            <SectionTitle title='Projects' color="orange"></SectionTitle>
+            <SectionTitle title='Projects' color="orange" classKey="PROJ_DB"></SectionTitle>
           </div>
           <div className="container mx-auto px-4 relative z-10">
             <ProjectDeck projects={displayProjects} />
@@ -116,7 +116,7 @@ const Home: NextPage<HomeProps> = ({ pinnedProjects }) => {
 
         <section className="relative z-10 w-full h-full px-0 sm:px-5 py-24 pb-16 bg-static-grey border-t-4 border-chrome-blue">
           <div>
-            <SectionTitle title='Technologies' color="blue"></SectionTitle>
+            <SectionTitle title='Technologies' color="blue" classKey="TECH_SYS"></SectionTitle>
           </div>
           <DevIconList icons={ICON_OPTIONS}></DevIconList>
         </section>
