@@ -71,6 +71,10 @@ const SpotifyCard = () => {
                     </span>
                 </div>
             )}
+            {/* Live Region for Screen Reader Announcements */}
+            <div className="sr-only" aria-live="polite" aria-atomic="true">
+                {data?.isPlaying ? `Now playing: ${data.title} by ${data.artist}` : 'Spotify is currently offline'}
+            </div>
         </a>
     );
 };
