@@ -12,7 +12,7 @@ const ExperienceItem = ({ title, subTitle, description, startDate, endDate, inde
     const isOdd = !isEven;
 
     return (
-        <div className="container mx-auto">
+        <li className="container mx-auto list-none">
             <div className={
                 cn({
                     even: isEven,
@@ -66,7 +66,7 @@ const ExperienceItem = ({ title, subTitle, description, startDate, endDate, inde
 
                 </div>
             </div>
-        </div>
+        </li>
     );
 }
 
