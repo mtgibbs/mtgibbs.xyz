@@ -27,11 +27,12 @@ RUN npx prisma generate && \
     npm run build-app && \
     cp -r public .next/standalone/public && \
     mkdir -p .next/standalone/.next && \
-    cp -r .next/static .next/standalone/.next/static
+    cp -r .next/static .next/standalone/.next/static && \
+    cp -r prisma .next/standalone/prisma
 
 COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 
 USER node
 ENTRYPOINT ["/app/entrypoint.sh"]
-CMD ["npm", "run", "start-server"]
+CMD ["node", "server.js"]
