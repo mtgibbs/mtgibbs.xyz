@@ -12,7 +12,7 @@ Alongside the platform work, I established and continue to lead DataScan’s eng
         startDate: '2021',
         endDate: 'Present',
         relatedReports: [
-            { id: '01', title: 'The Time-Travel Audit Trap', timestamp: '19:12:05' },
+            { id: '01', title: 'The Temporal Audit Alignment', timestamp: '19:12:05' },
             { id: '02', title: 'The Monthly Release Train', timestamp: '19:15:30' }
         ]
     },
