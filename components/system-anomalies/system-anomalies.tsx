@@ -8,13 +8,13 @@ const SystemAnomalies = () => {
     const [areAllExpanded, setAreAllExpanded] = useState(false);
 
     return (
-        <section className="container mx-auto px-4 py-20 relative z-10 w-full max-w-6xl">
+        <div className="w-full">
             {/* Header Area with Title and Action Button */}
-            <div className="relative mb-12">
+            <div className="relative mb-12 z-20">
                 <SectionTitle title="ANOMALY_LOGS" color="red" classKey="SYS_ANOM" />
 
-                {/* Toggle Button - Absolutely positioned to not interfere with SectionTitle's negative margins */}
-                <div className="absolute top-0 right-0 sm:top-4 z-30">
+                {/* Toggle Button - Absolutely positioned relative to the section width */}
+                <div className="absolute top-0 right-4 sm:right-0 sm:top-4 z-30">
                     <button
                         onClick={() => setAreAllExpanded(!areAllExpanded)}
                         className="text-xs font-bold font-mono text-tracking-red hover:text-white uppercase tracking-widest flex items-center gap-2 transition-colors focus:outline-none border border-tracking-red hover:border-white px-4 py-2 bg-black bg-opacity-80 backdrop-blur-sm shadow-lg hover:shadow-tracking-red/20"
@@ -25,12 +25,14 @@ const SystemAnomalies = () => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {ANOMALY_LOGS.map((log) => (
-                    <AnomalyTerminalCard key={log.id} log={log} isExpanded={areAllExpanded} />
-                ))}
+            <div className="container mx-auto px-4 max-w-6xl relative z-10">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    {ANOMALY_LOGS.map((log) => (
+                        <AnomalyTerminalCard key={log.id} log={log} isExpanded={areAllExpanded} />
+                    ))}
+                </div>
             </div>
-        </section>
+        </div>
     );
 };
 
