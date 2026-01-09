@@ -22,11 +22,16 @@ ARG DATABASE_TYPE=postgresql
 ENV DATABASE_TYPE=$DATABASE_TYPE
 ARG DATABASE_URL="postgresql://build:5432/build?sslmode=disable"
 ENV DATABASE_URL=$DATABASE_URL
-RUN npx prisma generate && \
+ARG PRISMA_CLIENT_ENGINE_TYPE=binary
+ENV PRISMA_CLIENT_ENGINE_TYPE=binary
+RUN sed -i 's/engineType = "client"/engineType = "binary"\n  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]/' prisma/schema.prisma && \
+    npx prisma generate && \
     npm install prop-types --legacy-peer-deps && \
     npm run build-app && \
     cp -r public .next/standalone/public && \
     mkdir -p .next/standalone/.next && \
+    mkdir -p .next/standalone/src && \
+    cp -r src/generated .next/standalone/src/generated && \
     cp -r .next/static .next/standalone/.next/static && \
     cp -r prisma .next/standalone/prisma
 
