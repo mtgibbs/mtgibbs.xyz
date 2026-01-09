@@ -20,6 +20,13 @@ This file provides guidance to Antigravity when working with code in this reposi
 > 3. **Clean the Workspace**: Check `git status`. If there are lingering changes from a previous task, ask me whether to stash or discard them before proceeding.
 > 4. **Isolate Work**: Create a new, descriptively named branch for the task (e.g., `feat/login-auth` or `fix/header-overflow`).
 >
+> > [!CAUTION]
+> > **ZERO TRUST POLICY**
+> > You are NOT allowed to "just start coding".
+> > You MUST verify that you are on a fresh branch off `mater` before editing a single file.
+> > If you "lose" code (like updated headers) because you started on a dirty/old branch, you have failed.
+> > **ALWAYS** assume your current branch is stale until verified.
+>
 > **Operational Constraints:**
 > - **Never** commit new work to a branch associated with a PR that has already been merged or closed.
 > - **Never** bundle unrelated fixes into an existing open PR branch unless explicitly told to "fix up" that specific PR.

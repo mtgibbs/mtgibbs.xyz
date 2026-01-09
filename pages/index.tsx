@@ -11,6 +11,7 @@ import CyberGrid from '../components/cyber-grid/cyber-grid'
 import Footer from '../components/footer/footer'
 import SpotifyCard from '../components/spotify/spotify-card'
 import SystemLogs from '../components/system-logs/system-logs'
+import SystemAnomalies from '../components/system-anomalies/system-anomalies'
 import ProjectDeck from '../components/project-deck/project-deck'
 import { EXPERIENCE, ICON_OPTIONS, PROJECTS } from '../data'
 import { getPinnedProjects } from '../lib/github'
@@ -97,6 +98,8 @@ const Home: NextPage<HomeProps> = ({ pinnedProjects }) => {
           </div>
         </section>
 
+        {/* System Anomalies moved below Projects */}
+
         <section className="relative z-10 w-full h-full px-0 sm:px-5 py-24 pb-16 bg-static-grey border-t-4 border-chrome-blue">
           <div>
             <SectionTitle title='Experience' color="blue" classKey="EXP_LOG"></SectionTitle>
@@ -112,6 +115,11 @@ const Home: NextPage<HomeProps> = ({ pinnedProjects }) => {
           <div className="container mx-auto px-4 relative z-10">
             <ProjectDeck projects={displayProjects} />
           </div>
+        </section>
+
+        <section className="relative z-10 w-full h-full px-0 sm:px-5 py-24 pb-16 bg-magnetic-black border-t-4 border-tracking-red">
+          <div className="absolute inset-0 bg-vhs-stripes pointer-events-none z-0 mix-blend-overlay opacity-50"></div>
+          <SystemAnomalies />
         </section>
 
         <section className="relative z-10 w-full h-full px-0 sm:px-5 py-24 pb-16 bg-static-grey border-t-4 border-chrome-blue">
