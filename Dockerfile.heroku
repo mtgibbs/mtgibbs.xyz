@@ -12,7 +12,7 @@ RUN git clone --depth 1 --branch v3.0.3 https://github.com/umami-software/umami.
 # Install dependencies
 # Set timeout high for slow CI
 RUN npm config set fetch-retry-maxtimeout 600000 && \
-    npm install --include=dev
+    npm install --include=dev --legacy-peer-deps
 
 # Apply our Patch
 COPY prisma.custom.ts /app/src/lib/prisma.ts
@@ -20,7 +20,11 @@ COPY prisma.custom.ts /app/src/lib/prisma.ts
 # Build
 ARG DATABASE_TYPE=postgresql
 ENV DATABASE_TYPE=$DATABASE_TYPE
-RUN npm run build-db && npm run build-app
+ARG DATABASE_URL="postgresql://build:5432/build?sslmode=disable"
+ENV DATABASE_URL=$DATABASE_URL
+RUN npm run build-db && \
+    npm install prop-types --legacy-peer-deps && \
+    npm run build-app
 
 COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
