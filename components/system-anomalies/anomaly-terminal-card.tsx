@@ -10,7 +10,7 @@ interface AnomalyTerminalCardProps {
 const AnomalyTerminalCard = ({ log, isExpanded }: AnomalyTerminalCardProps) => {
 
     return (
-        <div className="w-full h-full flex flex-col justify-between bg-black bg-opacity-90 border-2 border-static-grey p-4 rounded-sm font-mono text-sm sm:text-base relative overflow-hidden group hover:border-phosphor-amber transition-colors duration-300">
+        <div id={`report-${log.id}`} className="w-full h-full flex flex-col justify-between bg-black bg-opacity-90 border-2 border-static-grey p-4 rounded-sm font-mono text-sm sm:text-base relative overflow-hidden group hover:border-phosphor-amber transition-colors duration-300">
             {/* Scanline overlay */}
             <div className="absolute inset-0 pointer-events-none bg-[url('/vhs_static.gif')] opacity-[0.02] mix-blend-overlay"></div>
 
