@@ -1,9 +1,8 @@
 #!/bin/sh
 set -e
 
-# Change to app directory to ensure we find node_modules
 cd /app
 
-echo "Starting Next.js server on port $PORT..."
-# Use npx to locate next binary reliably
-npx next start -p $PORT
+echo "Starting Umami using npm script..."
+# Use internal script to bypass check-db but handle paths correctly
+npm run start-server -- -p $PORT
