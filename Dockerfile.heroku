@@ -1,12 +1,24 @@
 FROM ghcr.io/umami-software/umami:postgresql-latest
-
-# Fix for Heroku R10 Boot Timeout
-# Use a custom entrypoint script to handle startup sequence.
-# Switch to root to ensure permissions
 USER root
+
+# Install build dependencies for Alpine
+RUN apk add --no-cache python3 make g++ git
+
+# Install dependencies (including devDeps for building)
+WORKDIR /app
+RUN npm config set fetch-retry-maxtimeout 600000 && \
+    npm install --include=dev
+
+# Apply our Patch
+COPY prisma.custom.ts /app/src/lib/prisma.ts
+
+# Rebuild database client and app
+# Check if scripts exist, if not, assume standard umami build commands
+RUN npm run build-db && npm run build-app
 
 COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 
-# Use shell form to ensure variable expansion
-CMD ["/app/entrypoint.sh"]
+USER node
+ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["npm", "run", "start-server"]
