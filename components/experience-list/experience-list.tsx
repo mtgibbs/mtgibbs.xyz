@@ -9,7 +9,7 @@ interface ExperienceListProps {
 const ExperienceList = ({ experienceItems }: ExperienceListProps): React.ReactNode => {
 
     return (
-        <div className="relative container mx-auto px-4 sm:px-0">
+        <div className="relative w-full">
             {/* Timeline Line */}
             <div className="hidden sm:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-signal-orange via-chrome-blue to-phosphor-amber opacity-20 transform -translate-x-1/2"></div>
 

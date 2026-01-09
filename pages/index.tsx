@@ -100,8 +100,8 @@ const Home: NextPage<HomeProps> = ({ pinnedProjects }) => {
 
         {/* System Anomalies moved below Projects */}
 
-        <section className="relative z-10 w-full h-full px-0 sm:px-5 py-24 pb-16 bg-static-grey border-t-4 border-chrome-blue">
-          <div>
+        <section className="relative z-10 w-full h-full px-0 py-24 pb-16 bg-static-grey border-t-4 border-chrome-blue">
+          <div className="px-0 sm:px-5">
             <SectionTitle title='Experience' color="blue" classKey="EXP_LOG"></SectionTitle>
           </div>
           <ExperienceList experienceItems={EXPERIENCE}></ExperienceList>
