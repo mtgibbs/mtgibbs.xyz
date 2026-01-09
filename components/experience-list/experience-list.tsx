@@ -23,6 +23,7 @@ const ExperienceList = ({ experienceItems }: ExperienceListProps): React.ReactNo
                         startDate={item.startDate}
                         endDate={item.endDate}
                         subTitle={item.subTitle}
+                        relatedReports={item.relatedReports}
                     />
                 ))}
             </ol>
