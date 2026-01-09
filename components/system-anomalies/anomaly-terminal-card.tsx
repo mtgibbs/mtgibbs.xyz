@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { AnomalyLog } from '../../data/system-anomalies';
 import cn from 'classnames';
 
 interface AnomalyTerminalCardProps {
     log: AnomalyLog;
+    isExpanded: boolean;
 }
 
-const AnomalyTerminalCard = ({ log }: AnomalyTerminalCardProps) => {
-    const [isExpanded, setIsExpanded] = useState(false);
+const AnomalyTerminalCard = ({ log, isExpanded }: AnomalyTerminalCardProps) => {
 
     return (
         <div className="w-full h-full flex flex-col justify-between bg-black bg-opacity-90 border-2 border-static-grey p-4 rounded-sm font-mono text-sm sm:text-base relative overflow-hidden group hover:border-phosphor-amber transition-colors duration-300">
@@ -53,14 +53,7 @@ const AnomalyTerminalCard = ({ log }: AnomalyTerminalCardProps) => {
                     )}
 
                     {/* Toggle Button */}
-                    <button
-                        onClick={() => setIsExpanded(!isExpanded)}
-                        className="mt-4 text-xs font-bold text-chrome-blue hover:text-signal-orange uppercase tracking-wide flex items-center gap-2 transition-colors focus:outline-none"
-                        aria-expanded={isExpanded}
-                    >
-                        {isExpanded ? '[-] MINIMIZE_LOG' : '[+] EXPAND_FULL_LOG'}
-                        <span className={cn("inline-block w-2 h-0.5 bg-current", isExpanded ? "animate-pulse" : "")}></span>
-                    </button>
+                    {/* Toggle Button Removed - Controlled by Parent Section */}
                 </div>
 
                 {/* System Status Log - Always Visible, Pushed to Bottom */}
