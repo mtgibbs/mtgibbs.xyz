@@ -9,16 +9,20 @@ const SystemAnomalies = () => {
 
     return (
         <section className="container mx-auto px-4 py-20 relative z-10 w-full max-w-6xl">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-                <SectionTitle title="ANOMALY_LOGS" />
+            {/* Header Area with Title and Action Button */}
+            <div className="relative mb-12">
+                <SectionTitle title="ANOMALY_LOGS" color="red" classKey="SYS_ANOM" />
 
-                <button
-                    onClick={() => setAreAllExpanded(!areAllExpanded)}
-                    className="text-xs font-bold font-mono text-chrome-blue hover:text-signal-orange uppercase tracking-widest flex items-center gap-2 transition-colors focus:outline-none border border-chrome-blue hover:border-signal-orange px-4 py-2 bg-black bg-opacity-50"
-                >
-                    {areAllExpanded ? '[-] ENCRYPT_ARCHIVES' : '[+] DECRYPT_FULL_LOGS'}
-                    <span className={cn("inline-block w-2 h-2", areAllExpanded ? "bg-signal-orange animate-pulse" : "bg-chrome-blue")}></span>
-                </button>
+                {/* Toggle Button - Absolutely positioned to not interfere with SectionTitle's negative margins */}
+                <div className="absolute top-0 right-0 sm:top-4 z-30">
+                    <button
+                        onClick={() => setAreAllExpanded(!areAllExpanded)}
+                        className="text-xs font-bold font-mono text-tracking-red hover:text-white uppercase tracking-widest flex items-center gap-2 transition-colors focus:outline-none border border-tracking-red hover:border-white px-4 py-2 bg-black bg-opacity-80 backdrop-blur-sm shadow-lg hover:shadow-tracking-red/20"
+                    >
+                        {areAllExpanded ? '[-] ENCRYPT_ARCHIVES' : '[+] DECRYPT_FULL_LOGS'}
+                        <span className={cn("inline-block w-2 h-2", areAllExpanded ? "bg-white animate-pulse" : "bg-tracking-red")}></span>
+                    </button>
+                </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
