@@ -658,3 +658,23 @@ body.low-power * {
     scroll-behavior: auto !important;
   }
 }
+
+/* Custom Scrollbar for Terminals */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(59, 92, 125, 0.5);
+  /* Chrome Blue low opacity */
+  border-radius: 2px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--chrome-blue);
+}

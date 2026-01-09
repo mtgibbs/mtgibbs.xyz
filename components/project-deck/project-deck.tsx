@@ -61,16 +61,39 @@ const ProjectDeck = ({ projects }: ProjectDeckProps) => {
                     styles.crtContainer
                 )}>
                     {/* Unified Header Bar */}
-                    <div className="flex-none h-10 border-b border-chrome-blue/30 bg-gradient-to-r from-chrome-blue/10 to-transparent flex justify-between items-center px-4 relative z-20">
+                    <div className="flex-none h-12 md:h-10 border-b border-chrome-blue/30 bg-gradient-to-r from-chrome-blue/10 to-transparent flex justify-between items-center px-4 relative z-20">
                         <div className="flex items-center gap-3">
                             {/* Bolder Status Light */}
                             <div className={cn(
                                 "w-3 h-3 rounded-full shadow-[0_0_8px] animate-pulse transition-colors duration-500",
                                 isOffline ? "bg-red-500 shadow-red-500" : "bg-emerald-500 shadow-emerald-500"
                             )} />
-                            <span className="text-xs font-mono text-chrome-blue uppercase tracking-[0.2em] font-bold">
+                            <span className="text-xs font-mono text-chrome-blue uppercase tracking-[0.2em] font-bold hidden sm:inline">
                                 PROJECT_DECK // v2.0
                             </span>
+
+                            {/* Mobile Nagivation Controls (Visible only on small screens) */}
+                            <div className="flex items-center gap-2 md:hidden">
+                                <button
+                                    onClick={handlePrev}
+                                    disabled={isOffline}
+                                    className="p-1 text-chrome-blue active:text-phosphor-amber transition-colors disabled:opacity-50"
+                                    aria-label="Previous"
+                                >
+                                    <FontAwesomeIcon icon={faBackward} size="lg" />
+                                </button>
+                                <span className="text-xs font-mono text-phosphor-amber font-bold">
+                                    {currentIndex + 1}/{projects.length}
+                                </span>
+                                <button
+                                    onClick={handleNext}
+                                    disabled={isOffline}
+                                    className="p-1 text-chrome-blue active:text-phosphor-amber transition-colors disabled:opacity-50"
+                                    aria-label="Next"
+                                >
+                                    <FontAwesomeIcon icon={faForward} size="lg" />
+                                </button>
+                            </div>
                         </div>
 
                         {/* Status Tickers */}
@@ -80,7 +103,7 @@ const ProjectDeck = ({ projects }: ProjectDeckProps) => {
                                 "hidden md:inline transition-colors duration-500",
                                 isOffline ? "text-red-500 blink" : ""
                             )}>NET: {isOffline ? 'OFFLINE' : 'CONNECTED'}</span>
-                            <span className="text-phosphor-amber/80">ID: {activeProject.title.substring(0, 8).toUpperCase()}_</span>
+                            <span className="text-phosphor-amber/80 hidden sm:inline">ID: {activeProject.title.substring(0, 8).toUpperCase()}_</span>
                         </div>
                     </div>
 
@@ -88,7 +111,7 @@ const ProjectDeck = ({ projects }: ProjectDeckProps) => {
                     <div className="flex-1 flex flex-col md:flex-row relative">
 
                         {/* LEFT: Project Information */}
-                        <div className={cn("flex-1 p-6 relative flex flex-col", styles.crtText)}>
+                        <div className={cn("flex-1 p-6 relative flex flex-col h-[400px] md:h-auto overflow-y-auto md:overflow-visible custom-scrollbar", styles.crtText)}>
 
                             <div className="relative z-10 flex-1 flex flex-col">
                                 <div className="flex flex-col gap-1 mb-6 border-l-2 border-phosphor-amber/50 pl-4">
@@ -168,7 +191,7 @@ const ProjectDeck = ({ projects }: ProjectDeckProps) => {
 
                             {/* Control Interface */}
                             <div className="flex-1 flex flex-col gap-3 relative">
-                                <div className="grid grid-cols-2 gap-2">
+                                <div className="hidden md:grid grid-cols-2 gap-2">
                                     <button
                                         onClick={handlePrev}
                                         disabled={isOffline}
