@@ -10,7 +10,11 @@ I work closely with Product and UX partners to turn loosely defined problems int
 
 Alongside the platform work, I established and continue to lead DataScan’s engineering internship program in partnership with several local universities, including Georgia Tech, Kennesaw State, and Georgia State. What began as a small effort has grown into a repeatable pipeline for developing early-career engineers, and it remains one of the most rewarding parts of my role.`,
         startDate: '2021',
-        endDate: 'Present'
+        endDate: 'Present',
+        relatedReports: [
+            { id: '01', title: 'The Time-Travel Audit Trap', timestamp: '19:12:05' },
+            { id: '02', title: 'The Monthly Release Train', timestamp: '19:15:30' }
+        ]
     },
     {
         title: 'Software Engineering Manager',

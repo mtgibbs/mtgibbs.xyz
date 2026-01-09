@@ -11,7 +11,7 @@ const SystemAnomalies = () => {
         <div className="w-full">
             {/* Header Area with Title and Action Button */}
             <div className="relative mb-12 z-20">
-                <SectionTitle title="ANOMALY_LOGS" color="red" classKey="SYS_ANOM" />
+                <SectionTitle title="FIELD_REPORTS" color="red" classKey="FLD_REP" />
 
                 {/* Toggle Button - Absolutely positioned relative to the section width */}
                 <div className="absolute top-0 right-4 sm:right-0 sm:top-4 z-30">

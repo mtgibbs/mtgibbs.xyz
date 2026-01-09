@@ -4,4 +4,9 @@ export interface IExperienceItem {
     description: string;
     startDate?: string;
     endDate?: string;
+    relatedReports?: {
+        id: string;
+        title: string;
+        timestamp: string;
+    }[];
 }
