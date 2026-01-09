@@ -1,0 +1,43 @@
+name: Deploy Umami to Heroku
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Run weekly on Sunday at midnight
+    - cron: '0 0 * * 0'
+
+jobs:
+  deploy-umami:
+    name: Deploy to Heroku
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP_NAME: mtgibbs-tracking
+        run: |
+
+          # Install Heroku CLI
+          curl https://cli-assets.heroku.com/install.sh | sh
+          
+          # Login to Heroku Container Registry
+          echo $HEROKU_API_KEY | docker login --username=_ --password-stdin registry.heroku.com
+          
+          # Pull official Umami image
+          echo "Pulling latest Umami image..."
+          docker pull umami-software/umami:postgresql-latest
+          
+          # Tag for Heroku
+          echo "Tagging image for app: $HEROKU_APP_NAME"
+          docker tag umami-software/umami:postgresql-latest registry.heroku.com/$HEROKU_APP_NAME/web
+          
+          # Push to Heroku
+          echo "Pushing image to Heroku..."
+          docker push registry.heroku.com/$HEROKU_APP_NAME/web
+          
+          # Release
+          echo "Releasing container..."
+          heroku container:release web --app $HEROKU_APP_NAME
