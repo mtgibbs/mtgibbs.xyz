@@ -2,6 +2,9 @@ FROM ghcr.io/umami-software/umami:postgresql-latest
 
 # Fix for Heroku R10 Boot Timeout
 # Use a custom entrypoint script to handle startup sequence.
+# Switch to root to ensure permissions
+USER root
+
 COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 
