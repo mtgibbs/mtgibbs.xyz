@@ -1,0 +1,10 @@
+FROM ghcr.io/umami-software/umami:postgresql-latest
+
+# Fix for Heroku R10 Boot Timeout
+# We must ensure Next.js binds to the specific $PORT provided by Heroku.
+# The default entrypoint uses npm-run-all which might be obscuring the port binding or using default 3000.
+# We explicitly run the initialization steps and then start the server on $PORT.
+
+ENV HOSTNAME=0.0.0.0
+
+CMD ["sh", "-c", "npm run check-db && npm run update-tracker && node_modules/.bin/next start -p $PORT"]
