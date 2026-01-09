@@ -25,8 +25,9 @@ ENV DATABASE_URL=$DATABASE_URL
 RUN npm run build-db && \
     npm install prop-types --legacy-peer-deps && \
     npm run build-app && \
-    cp -r .next/standalone/* . && \
-    cp -r .next/static ./.next/static
+    cp -r public .next/standalone/public && \
+    mkdir -p .next/standalone/.next && \
+    cp -r .next/static .next/standalone/.next/static
 
 COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
