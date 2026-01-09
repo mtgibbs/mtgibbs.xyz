@@ -1,19 +1,25 @@
-FROM ghcr.io/umami-software/umami:postgresql-latest
-USER root
+# Build from source because deployed image lacks 'src'
+FROM node:18-alpine
 
-# Install build dependencies for Alpine
-RUN apk add --no-cache python3 make g++ git
+# Install git and build tools
+RUN apk add --no-cache git python3 make g++
 
-# Install dependencies (including devDeps for building)
 WORKDIR /app
+
+# Clone specific version to match user expectation (v3.0.3)
+RUN git clone --depth 1 --branch v3.0.3 https://github.com/umami-software/umami.git .
+
+# Install dependencies
+# Set timeout high for slow CI
 RUN npm config set fetch-retry-maxtimeout 600000 && \
     npm install --include=dev
 
 # Apply our Patch
 COPY prisma.custom.ts /app/src/lib/prisma.ts
 
-# Rebuild database client and app
-# Check if scripts exist, if not, assume standard umami build commands
+# Build
+ARG DATABASE_TYPE=postgresql
+ENV DATABASE_TYPE=$DATABASE_TYPE
 RUN npm run build-db && npm run build-app
 
 COPY entrypoint.sh /app/entrypoint.sh
