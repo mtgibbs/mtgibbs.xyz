@@ -1,6 +1,9 @@
 name: Deploy Umami to Heroku
 
 on:
+  push:
+    branches:
+      - mater
   workflow_dispatch:
   schedule:
     # Run weekly on Sunday at midnight
