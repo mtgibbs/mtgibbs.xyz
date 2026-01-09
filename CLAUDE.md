@@ -4,12 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Personal portfolio website for Matt Gibbs built with Next.js 12, React 17, TypeScript, and Tailwind CSS. The site is a single-page application showcasing professional experience, skills, and contact information.
+Personal portfolio website for Matt Gibbs built with Next.js 16, React 19, TypeScript, and Tailwind CSS. Features a retro sci-fi aesthetic with CRT effects, glitch animations, and a "NASA mission control" design language.
 
 ## Development Commands
 
 ```bash
-# Start development server (runs on http://localhost:3000)
+# Start development server (uses 1Password CLI for secrets)
 npm run dev
 
 # Build production bundle
@@ -22,81 +22,95 @@ npm start
 npm run lint
 ```
 
-## Docker Deployment
+Note: Development requires 1Password CLI (`op`) for injecting secrets from the vault.
 
-The site is deployed to Heroku via Docker containers:
+## Deployment
 
+### Main Site (mtgibbs.xyz)
+
+Deployed via GitHub Actions (`.github/workflows/deploy.yml`):
+- Triggers on push to `mater` branch
+- Builds Docker image and pushes to Heroku (`mtgibbs` app)
+- Also publishes multi-arch images to GHCR for Raspberry Pi support
+- Purges Cloudflare cache after deployment
+
+### Umami Analytics (mtgibbs-tracking.herokuapp.com)
+
+Self-hosted Umami v3.0.3 for privacy-focused analytics. Deployed via the `mtgibbs/umami` fork on GitHub.
+
+**Fork location**: https://github.com/mtgibbs/umami (branch: `heroku-deploy`)
+
+**Key modifications for Heroku**:
+- `heroku-postbuild` script runs migrations during build
+- `heroku-cleanup` script removes node_modules for small slug size (~172MB)
+- Uses Next.js standalone output mode
+- Procfile: `web: cd .next/standalone && node server.js`
+
+**To deploy Umami changes**:
 ```bash
-# Build the Docker image
-docker build -t mtgibbs-next-docker .
-
-# Push to Heroku
-heroku container:push web
-
-# Release the new version
-heroku container:release web
-
-# Open the deployed site
-heroku open
+cd /path/to/umami-fork
+git push heroku heroku-deploy:main
 ```
+
+**Required Heroku config vars** (mtgibbs-tracking app):
+- `DATABASE_URL` - Heroku Postgres (auto-set by addon)
+- `APP_SECRET` - Random string for session encryption
+- `HASH_SALT` - Salt for hashing
+- `NODE_TLS_REJECT_UNAUTHORIZED=0` - Required for Heroku Postgres SSL
 
 ## Architecture
 
 ### Component Organization
 
-Components are organized by feature in the `/components` directory with a consistent pattern:
-
+Components are organized by feature in `/components`:
 - Each component has its own directory
-- Related model/interface definitions are in a `model/` subdirectory
-- Example: `components/experience-list/` contains:
-  - `experience-list.tsx` - Main component
-  - `experience-item.tsx` - Child component
-  - `model/experience-list-item.ts` - Interface definitions
+- Model/interface definitions in `model/` subdirectory
+- Example: `components/experience-list/` contains main, child, and interface files
 
 ### Data Layer
 
-All static content is centralized in `/data` directory:
+Static content centralized in `/data`:
+- `experience-items.constants.ts` - Professional experience
+- `skills-icons.constants.ts` - Technology icons
+- `projects.constants.ts` - GitHub projects
+- `system-anomalies.ts` - Easter egg content
 
-- `experience-items.constants.ts` - Professional experience data
-- `skills-icons.constants.ts` - Technology icon configurations
-- `index.ts` - Re-exports all constants for easy importing
+Dynamic data:
+- **GitHub API** (GraphQL): Pinned repositories fetched at build time
+- **Spotify API**: "Now Playing" status via runtime API routes
+- **Umami**: Analytics via proxy at `/api/analytics/[...path].ts`
 
-Components consume this data through props, maintaining separation between content and presentation.
+### Styling
 
-### Styling Approach
+Tailwind CSS with custom retro sci-fi palette in `tailwind.config.js`:
+- `magnetic-black`, `faded-cardboard` - Base colors
+- `signal-orange`, `phosphor-amber`, `tracking-red` - Accents
+- Custom animations: `glitch`, `scanline`, `cursor`, `pulse-fast`
 
-- **Tailwind CSS** with custom color palette defined in `tailwind.config.js`
-- Custom colors: purple, magenta, red, orange, yellow, black, white, blue (with variants: darkest, dark, DEFAULT, light, lightest)
-- Mix of Tailwind utility classes and CSS modules (`*.module.css`)
-- Global styles in `styles/globals.css`
+### Context Providers
 
-### External Dependencies
-
-Loaded via CDN in `pages/index.tsx`:
-
-- **Devicons** (v2.14.0) - Technology icons from jsdelivr
-- **Font Awesome** (kit 911564e118) - Social media and UI icons
-- **Umami Analytics** - Self-hosted analytics on mtgibbs-tracking.herokuapp.com
-
-### Page Structure
-
-Single-page layout (`pages/index.tsx`) with three main sections:
-
-1. **Hero Section** (white background) - Introduction with CodeHero component and social links
-2. **Experience Section** (blue gradient) - Professional history using ExperienceList
-3. **Technologies Section** (white background) - Skills visualization using DevIconList
-
-### TypeScript Configuration
-
-- Strict mode enabled
-- Target: ES5 for broad compatibility
-- JSX preservation for Next.js handling
-- No emit (Next.js handles compilation)
+- `VhsContext` - Toggle VHS/CRT distortion effects
+- `GPUContext` - GPU rendering state
+- Konami code handler for high-contrast mode
 
 ## Key Patterns
 
-- **Interface naming**: Prefix with `I` (e.g., `IExperienceItem`, `IDevIconOptions`)
-- **Enum usage**: `DevIconStyles` enum for icon style variants
-- **Component props**: Strongly typed with imported interfaces
-- **Readonly arrays**: Data constants use `readonly` for immutability
-- **Next.js config**: `outputStandalone: true` for Docker deployment optimization
+- **Interface naming**: Prefix with `I` (e.g., `IExperienceItem`)
+- **Enum usage**: `DevIconStyles` for icon variants
+- **Readonly arrays**: Data constants use `readonly`
+- **Secret management**: 1Password CLI (`op://`) for local dev
+- **Analytics proxy**: `/api/analytics/[...path].ts` forwards to Umami, gracefully handles upstream failures
+
+## External Integrations
+
+- **GitHub GraphQL API** - Pinned repositories (build-time)
+- **Spotify API** - Now Playing (runtime)
+- **Umami Analytics** - Self-hosted at mtgibbs-tracking.herokuapp.com
+- **Cloudflare** - CDN and cache purging
+- **Devicons CDN** - Technology icons
+- **Font Awesome** - UI icons
+
+## Git Workflow
+
+- Primary branch: `mater` (Latin for "mother")
+- See `ANTIGRAVITY.md` for detailed workflow guide and agent personas
