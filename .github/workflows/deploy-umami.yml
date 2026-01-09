@@ -26,13 +26,13 @@ jobs:
           # Login to Heroku Container Registry
           echo $HEROKU_API_KEY | docker login --username=_ --password-stdin registry.heroku.com
           
-          # Pull official Umami image
+          # Pull official Umami image from GHCR
           echo "Pulling latest Umami image..."
-          docker pull umami-software/umami:postgresql-latest
+          docker pull ghcr.io/umami-software/umami:postgresql-latest
           
           # Tag for Heroku
           echo "Tagging image for app: $HEROKU_APP_NAME"
-          docker tag umami-software/umami:postgresql-latest registry.heroku.com/$HEROKU_APP_NAME/web
+          docker tag ghcr.io/umami-software/umami:postgresql-latest registry.heroku.com/$HEROKU_APP_NAME/web
           
           # Push to Heroku
           echo "Pushing image to Heroku..."
