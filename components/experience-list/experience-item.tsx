@@ -6,7 +6,7 @@ interface ExperienceItemProps extends IExperienceItem {
     index: number;
 }
 
-const ExperienceItem = ({ title, subTitle, description, startDate, endDate, index }: ExperienceItemProps): React.ReactNode => {
+const ExperienceItem = ({ title, subTitle, description, startDate, endDate, index, relatedReports }: ExperienceItemProps): React.ReactNode => {
 
     const isEven = index % 2 === 0;
     const isOdd = !isEven;
@@ -63,6 +63,24 @@ const ExperienceItem = ({ title, subTitle, description, startDate, endDate, inde
                     <div className="text-gray-400 text-sm sm:text-base leading-relaxed whitespace-pre-line font-light">
                         {description}
                     </div>
+
+                    {/* Related Field Reports */}
+                    {relatedReports && relatedReports.length > 0 && (
+                        <div className="mt-6 pt-4 border-t border-gray-800 font-mono text-xs space-y-2">
+                            {relatedReports.map((report) => (
+                                <a
+                                    href={`#report-${report.id}`}
+                                    key={report.id}
+                                    className="block text-gray-500 hover:text-white transition-colors cursor-pointer group/link"
+                                >
+                                    <span className="text-gray-600 group-hover/link:text-gray-400 transition-colors">{`>[${report.timestamp}] INF: RELATED_REPORT >> `}</span>
+                                    <span className={cn("font-bold underline decoration-dotted decoration-gray-600 underline-offset-4 group-hover/link:decoration-white transition-all", isEven ? "text-signal-orange" : "text-chrome-blue")}>
+                                        {`[${report.id} // ${report.title}]`}
+                                    </span>
+                                </a>
+                            ))}
+                        </div>
+                    )}
 
                 </div>
             </div>
