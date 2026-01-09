@@ -24,7 +24,9 @@ ARG DATABASE_URL="postgresql://build:5432/build?sslmode=disable"
 ENV DATABASE_URL=$DATABASE_URL
 RUN npm run build-db && \
     npm install prop-types --legacy-peer-deps && \
-    npm run build-app
+    npm run build-app && \
+    cp -r .next/standalone/* . && \
+    cp -r .next/static ./.next/static
 
 COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
