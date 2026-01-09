@@ -22,7 +22,7 @@ ARG DATABASE_TYPE=postgresql
 ENV DATABASE_TYPE=$DATABASE_TYPE
 ARG DATABASE_URL="postgresql://build:5432/build?sslmode=disable"
 ENV DATABASE_URL=$DATABASE_URL
-RUN npm run build-db && \
+RUN npx prisma generate && \
     npm install prop-types --legacy-peer-deps && \
     npm run build-app && \
     cp -r public .next/standalone/public && \
