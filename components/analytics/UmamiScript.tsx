@@ -1,14 +1,33 @@
+import React, { useEffect, useState } from 'react';
 import Script from 'next/script';
 
 const UmamiScript = () => {
-    const websiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
+    const [websiteId, setWebsiteId] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchConfig = async () => {
+            try {
+                const res = await fetch('/api/config');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.umamiWebsiteId) {
+                        console.log('Umami Tracking: Runtime ID loaded:', data.umamiWebsiteId);
+                        setWebsiteId(data.umamiWebsiteId);
+                    } else {
+                        console.warn('Umami Tracking: No ID returned from /api/config');
+                    }
+                }
+            } catch (error) {
+                console.error('Umami Tracking: Failed to fetch config', error);
+            }
+        };
+
+        fetchConfig();
+    }, []);
 
     if (!websiteId) {
-        console.warn('Umami Tracking: No NEXT_PUBLIC_UMAMI_WEBSITE_ID found. Tracking disabled.');
         return null;
     }
-
-    console.log('Umami Tracking: Initialized with ID:', websiteId);
 
     return (
         <Script
