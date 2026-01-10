@@ -15,23 +15,45 @@ const ExperienceItem = ({ title, subTitle, description, startDate, endDate, inde
         <li className="w-full list-none">
             <div className={
                 cn({
-                    even: isEven,
-                    odd: isOdd,
-                    "ml-0 pl-4 sm:ml-8 sm:pl-0 md:ml-16 rounded-l-md": isEven,
-                    "mr-0 pr-4 sm:mr-8 sm:pr-0 md:mr-16 rounded-r-md": isOdd,
+                    "even": isEven,
+                    "odd": isOdd,
+
+                    // Mobile (< md): Full Width Wrapper
+                    // This creates the "canvas" for the background to extend edge-to-edge
+                    "w-full mx-0 mb-8": true,
+
+                    // Tablet/Desktop (>= md): Floating & Centered
+                    "md:w-11/12 md:max-w-4xl md:mx-auto md:mb-12": true,
+
+                    // Desktop Stagger (lg+): Shift positions
+                    "lg:translate-x-8": isEven,
+                    "lg:-translate-x-8": isOdd,
                 }, "relative")
             }>
-                {/* Old Background Gradients */}
+                {/* Background Gradients */}
                 <div className={cn({
-                    "bg-gradient-to-l -skew-y-3 sm:skew-y-0 sm:-rotate-3 from-phosphor-amber to-tracking-red": isEven,
-                    "transform skew-y-3 sm:skew-y-0 sm:rotate-3 from-signal-orange to-chrome-blue": isOdd,
-                }, "absolute z-0 inset-0 bg-gradient-to-r shadow-lg transform sm:rounded-md")}></div>
+                    // Gradients
+                    "bg-gradient-to-l -skew-y-3 md:skew-y-0 md:-rotate-3 from-phosphor-amber to-tracking-red": isEven,
+                    "transform skew-y-3 md:skew-y-0 md:rotate-3 from-signal-orange to-chrome-blue": isOdd,
+
+                    // Corner Radius
+                    // Mobile: Square (Flush with both edges due to w-full)
+                    "rounded-none": true,
+                    // Desktop: Full Rounding
+                    "md:rounded-xl": true
+                }, "absolute z-0 inset-0 bg-gradient-to-r shadow-lg")}></div>
 
                 {/* Content Container */}
                 <div className={cn({
-                    "rounded-l-md": isEven,
-                    "rounded-r-md": isOdd,
-                }, "shadow-md p-8 rounded-none sm:rounded-md z-10 relative bg-magnetic-black bg-opacity-100")}>
+                    // Mobile Layout: 
+                    // Even: Right Attached (mr-0), Gap Left (ml-8)
+                    "ml-8 mr-0 rounded-l-xl rounded-r-none": isEven,
+                    // Odd: Left Attached (ml-0), Gap Right (mr-8)
+                    "mr-8 ml-0 rounded-r-xl rounded-l-none": isOdd,
+
+                    // Desktop Layout: Reset Margins & Rounding
+                    "md:m-0 md:rounded-xl": true
+                }, "shadow-md p-8 z-10 relative bg-magnetic-black bg-opacity-100")}>
 
                     {/* New Internal Layout */}
                     <div className="flex flex-col mb-4 gap-2">

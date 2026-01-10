@@ -101,10 +101,15 @@ const Home: NextPage<HomeProps> = ({ pinnedProjects }) => {
         {/* System Anomalies moved below Projects */}
 
         <section className="relative z-10 w-full h-full px-0 py-24 pb-16 bg-static-grey border-t-4 border-chrome-blue">
-          <div className="px-0 sm:px-5">
+          {/* Section Title - Decoupled from content centering to maintain standard left alignment */}
+          <div className="px-0 sm:px-5 mb-12 lg:mb-16">
             <SectionTitle title='Experience' color="blue" classKey="EXP_LOG"></SectionTitle>
           </div>
-          <ExperienceList experienceItems={EXPERIENCE}></ExperienceList>
+
+          {/* Responsive Content Container: Full width on mobile, centered/constrained on desktop */}
+          <div className="w-full lg:max-w-7xl lg:mx-auto">
+            <ExperienceList experienceItems={EXPERIENCE}></ExperienceList>
+          </div>
         </section>
 
         <section className="relative z-10 w-full h-full px-0 sm:px-5 py-24 pb-16 bg-magnetic-black border-t-4 border-signal-orange">

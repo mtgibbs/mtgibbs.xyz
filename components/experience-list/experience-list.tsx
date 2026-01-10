@@ -11,7 +11,7 @@ const ExperienceList = ({ experienceItems }: ExperienceListProps): React.ReactNo
     return (
         <div className="relative w-full">
             {/* Timeline Line */}
-            <div className="hidden sm:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-signal-orange via-chrome-blue to-phosphor-amber opacity-20 transform -translate-x-1/2"></div>
+            <div className="hidden sm:block absolute left-1/2 top-0 bottom-8 md:bottom-12 w-0.5 bg-gradient-to-b from-signal-orange via-chrome-blue to-phosphor-amber opacity-20 transform -translate-x-1/2"></div>
 
             <ol className="flex flex-col space-y-12 sm:space-y-24 relative list-none m-0 p-0">
                 {experienceItems.map((item, index) => (
