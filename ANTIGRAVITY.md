@@ -206,3 +206,28 @@ In your prompt, simply state:
 - [x] **System Logs Activity Feed**: Real-time (or cached) GitHub commit stream styled as raw mainframe output.
 - [x] **VHS/VCR Tracking Toggle**: Global switch for CRT distortion, chromatic aberration, and scanline jitter.
 - [x] **Interactive "Mainframe" Dashboard**: A 70s NASA-style control panel (Project Deck) with physical-looking buttons, radar visualization, and "offline" simulation modes.
+
+# ⚡️ HARDWARE OPERATING PROFILES
+
+> **CURRENT STATUS:** [ 🔴 BATTLESTATION ]  
+
+## 📢 Startup Protocol
+**At the beginning of every new chat session**, you MUST plainly state which profile is active based on the **CURRENT STATUS** line above.
+Example: *"Initializing in [ 🔴 BATTLESTATION ] mode. Full visual verification enabled."*
+
+## 🟢 PROFILE: LAPTOP (Battery & Efficiency)
+**Trigger:** When status is LAPTOP or user says "battery mode".
+**Constraint Checklist:**
+1.  **Single-Threaded Focus:** Do NOT spawn parallel sub-agents for planning. Execute tasks linearly (one at a time) to save RAM.
+2.  **Vision Rationing:** Do NOT automatically open the browser or take screenshots for validation unless explicitly requested. Rely on unit tests and terminal output for verification.
+3.  **Polling Discipline:** Reduce file-watching frequency. If waiting for a build, do not "busy wait" (check logs every 30s, not 5s).
+4.  **Lightweight Tooling:** Prefer `grep`/`find` over extensive index searches.
+5.  **Validation:** Skip visual regression steps; assume visual correctness if DOM structure matches, until explicitly asked to "verify visually."
+
+## 🔴 PROFILE: BATTLESTATION (Performance & Power)
+**Trigger:** When status is BATTLESTATION or user says "full power".
+**Constraint Checklist:**
+1.  **Swarm Mode:** You are authorized to spawn up to 3 concurrent sub-agents for complex refactors (e.g., one writing tests, one updating docs, one fixing code).
+2.  **Visual Omni-Presence:** Always keep the browser integration active. Verify every CSS change visually by inspecting the rendered DOM.
+3.  **Deep Search:** You may index the entire codebase and dependency tree for context.
+4.  **Auto-Fix:** If a build fails, immediately spawn a sub-process to investigate logs while maintaining the main planning thread.
