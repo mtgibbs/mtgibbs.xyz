@@ -48,46 +48,48 @@ const Home: NextPage<HomeProps> = ({ pinnedProjects }) => {
         <CyberGrid />
 
         <section className="relative z-10 w-full h-full px-0 py-12 sm:py-16 md:py-20 bg-transparent text-faded-cardboard">
-          {/* Desktop Spotify Player - Drifting in Hero Space */}
-          <div className="hidden lg:block absolute top-[10%] right-8 z-20">
-            <div className="rotate-3 opacity-90 hover:rotate-0 hover:scale-105 transition-all duration-500">
-              <SpotifyCard />
+          <div className="w-full max-w-7xl mx-auto relative">
+            {/* Desktop Spotify Player - Drifting in Hero Space */}
+            <div className="hidden lg:block absolute top-[10%] right-8 z-20">
+              <div className="rotate-3 opacity-90 hover:rotate-0 hover:scale-105 transition-all duration-500">
+                <SpotifyCard />
+              </div>
             </div>
-          </div>
 
-          <div className="container mx-auto">
-            <h1 className="text-6xl md:text-8xl font-bold text-center mb-8 glitch opacity-20" data-text="MTGIBBS.XYZ">
-              <span className="sr-only">MTGIBBS.XYZ</span>
-            </h1>
-          </div>
-          <CodeHero titleText="Hi. I'm Matt." secondText='Software Developer'></CodeHero>
+            <div className="container mx-auto">
+              <h1 className="text-6xl md:text-8xl font-bold text-center mb-8 glitch opacity-20" data-text="MTGIBBS.XYZ">
+                <span className="sr-only">MTGIBBS.XYZ</span>
+              </h1>
+            </div>
+            <CodeHero titleText="Hi. I'm Matt." secondText='Software Developer'></CodeHero>
 
-          <p className="container mx-auto text-xl py-16 sm:pt-24 px-8 sm:px-16 xl:px-24 font-mono">
+            <p className="container mx-auto text-xl py-16 sm:pt-24 px-8 sm:px-16 xl:px-24 font-mono">
 
-            I&apos;m a problem solver, craftsman, engineering leader, and mentor.
-            <br />
-            <br />
-            Most of my career has been spent working through complexity and helping teams untangle it. I&apos;ve modernized legacy systems, designed platforms that scale, and helped turn unclear problems into software that lasts. Along the way, I&apos;ve worked across finance, application security, and data platforms, often in systems that had to be both reliable and easy to reason about.
-            <br />
-            <br />
-            I&apos;m particularly drawn to front-end engineering and developer experience. I care about building systems and teams that make good work easier, and about demystifying technology so it feels more approachable and less fragile.
+              I&apos;m a problem solver, craftsman, engineering leader, and mentor.
+              <br />
+              <br />
+              Most of my career has been spent working through complexity and helping teams untangle it. I&apos;ve modernized legacy systems, designed platforms that scale, and helped turn unclear problems into software that lasts. Along the way, I&apos;ve worked across finance, application security, and data platforms, often in systems that had to be both reliable and easy to reason about.
+              <br />
+              <br />
+              I&apos;m particularly drawn to front-end engineering and developer experience. I care about building systems and teams that make good work easier, and about demystifying technology so it feels more approachable and less fragile.
 
-          </p>
+            </p>
 
-          <div className="flex flex-col sm:flex-row h-24 sm:h-auto mt-4 mb-8 sm:my-0 justify-center content-evenly items-center">
+            <div className="flex flex-col sm:flex-row h-24 sm:h-auto mt-4 mb-8 sm:my-0 justify-center content-evenly items-center">
 
-            <a className="text-2xl mx-4 my-1 text-signal-orange hover:text-phosphor-amber transition-colors flex items-center gap-2" href="https://github.com/mtgibbs">
-              GitHub <i className="devicon-github-original"></i>
-            </a>
-            <a className="text-2xl mx-4 my-1 text-tracking-red hover:text-signal-orange transition-colors flex items-center gap-2" href="https://www.linkedin.com/in/mtgibbs21">
-              LinkedIn <i className="devicon-linkedin-plain"></i>
-            </a>
-            <a className="text-2xl mx-4 my-1 text-chrome-blue hover:text-faded-cardboard transition-colors flex items-center gap-2" href="mailto:matt@mtgibbs.xyz">
-              Email <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-            </a>
-            <a className="text-2xl mx-4 my-1 text-faded-cardboard hover:text-white transition-colors flex items-center gap-2" href="https://discordapp.com/users/pwnysenpai#6317/">
-              Discord <i className="devicon-discord-original"></i>
-            </a>
+              <a className="text-2xl mx-4 my-1 text-signal-orange hover:text-phosphor-amber transition-colors flex items-center gap-2" href="https://github.com/mtgibbs">
+                GitHub <i className="devicon-github-original"></i>
+              </a>
+              <a className="text-2xl mx-4 my-1 text-tracking-red hover:text-signal-orange transition-colors flex items-center gap-2" href="https://www.linkedin.com/in/mtgibbs21">
+                LinkedIn <i className="devicon-linkedin-plain"></i>
+              </a>
+              <a className="text-2xl mx-4 my-1 text-chrome-blue hover:text-faded-cardboard transition-colors flex items-center gap-2" href="mailto:matt@mtgibbs.xyz">
+                Email <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+              </a>
+              <a className="text-2xl mx-4 my-1 text-faded-cardboard hover:text-white transition-colors flex items-center gap-2" href="https://discordapp.com/users/pwnysenpai#6317/">
+                Discord <i className="devicon-discord-original"></i>
+              </a>
+            </div>
           </div>
 
         </section>
