@@ -209,7 +209,7 @@ In your prompt, simply state:
 
 # ⚡️ HARDWARE OPERATING PROFILES
 
-> **CURRENT STATUS:** [ 🔴 BATTLESTATION ]  
+> **CURRENT STATUS:** [ 🟢 LAPTOP ]  
 
 ## 📢 Startup Protocol
 **At the beginning of every new chat session**, you MUST plainly state which profile is active based on the **CURRENT STATUS** line above.
