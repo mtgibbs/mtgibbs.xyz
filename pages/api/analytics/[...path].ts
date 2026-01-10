@@ -2,16 +2,16 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { path } = req.query;
-    const hostUrl = process.env.UMAMI_HOST_URL;
+    const hostUrl = process.env.UMAMI_HOST_URL || 'https://mtgibbs-tracking.herokuapp.com';
 
-    // 1. Silent Exit if not configured
-    if (!hostUrl) {
-        return res.status(200).end();
-    }
+    console.log(`[Umami Proxy] Request for: ${path}`);
+    console.log(`[Umami Proxy] Upstream Host: ${hostUrl}`);
 
     // Reconstruct the path (e.g., ["script.js"] -> "/script.js")
     const pathStr = Array.isArray(path) ? path.join('/') : path;
     const targetUrl = `${hostUrl.replace(/\/$/, '')}/${pathStr}`;
+
+    console.log(`[Umami Proxy] Proxying to: ${targetUrl}`);
 
     try {
         // 2. Prepare headers
