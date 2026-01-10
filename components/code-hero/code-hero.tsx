@@ -8,6 +8,7 @@ import styles from '../../styles/CodeHero.module.css';
 interface CodeHeroProps {
     titleText: string;
     secondText?: string;
+    secondTextDesktop?: string;
 }
 
 const sourceCodeFetcher = (...args: any) => fetch(args).then(res => {
@@ -54,7 +55,7 @@ const _FILES = [
     'https://raw.githubusercontent.com/mtgibbs/mtgibbs.xyz/4.0.0/src/app/experience-list/experience-item.component.scss',
 ];
 
-const CodeHero = ({ titleText, secondText }: CodeHeroProps): React.ReactNode => {
+const CodeHero = ({ titleText, secondText, secondTextDesktop }: CodeHeroProps): React.ReactNode => {
     const { isVhsActive: globalVhsActive } = useVhs();
     const [file, setFile] = React.useState(_FILES[Math.floor(Math.random() * _FILES.length)]);
     const { data, error } = useSWR(file, sourceCodeFetcher);
@@ -75,7 +76,7 @@ const CodeHero = ({ titleText, secondText }: CodeHeroProps): React.ReactNode => 
     return (
         <>
             <div aria-hidden role='presentation' className="relative mx-auto w-full px-2 sm:px-0">
-                <div className="absolute z-0 inset-0 shadow-lg transform skew-y-0 sm:-skew-y-6">
+                <div className="absolute z-0 top-0 bottom-0 -left-[100vw] -right-[100vw] shadow-lg transform skew-y-0 sm:-skew-y-6">
                     {/* VHS Stripes - purely decorative vector lines */}
                     <div className="absolute z-0 inset-x-0 bottom-80 h-4 bg-phosphor-amber opacity-80"></div>
                     <div className="absolute z-0 inset-x-0 bottom-60 h-8 bg-tracking-red opacity-60"></div>
@@ -106,10 +107,22 @@ const CodeHero = ({ titleText, secondText }: CodeHeroProps): React.ReactNode => 
                             </span>
                         </h2>
                     }
+                    {/* Mobile Version */}
                     {secondText &&
-                        <div className="relative w-full text-center z-20 transform mt-4 sm:mt-0 sm:translate-x-24 sm:translate-y-6 rotate-0 sm:-rotate-12 pointer-events-auto" >
-                            <span className="text-sm sm:text-3xl text-faded-cardboard/85 font-bold tracking-wide lazer84 hover:text-signal-orange transition-colors duration-300">
-                                <span className="glitch relative inline-block" data-text={secondText}>{secondText}</span>
+                        <div className="relative w-full text-center z-20 transform mt-4 sm:hidden pointer-events-auto">
+                            <span className="text-sm text-faded-cardboard/85 font-bold tracking-wide lazer84 hover:text-signal-orange transition-colors duration-300">
+                                <span className="glitch relative inline-block text-left" data-text={secondText}>{secondText}</span>
+                            </span>
+                        </div>
+                    }
+
+                    {/* Desktop Version */}
+                    {(secondTextDesktop || secondText) &&
+                        <div className="hidden sm:block relative w-full text-center z-20 transform sm:translate-x-24 sm:translate-y-6 sm:-rotate-12 pointer-events-auto">
+                            <span className="text-3xl text-faded-cardboard/85 font-bold tracking-wide lazer84 hover:text-signal-orange transition-colors duration-300">
+                                <span className="glitch relative inline-block text-left whitespace-pre-line" data-text={secondTextDesktop || secondText}>
+                                    {secondTextDesktop || secondText}
+                                </span>
                             </span>
                         </div>
                     }

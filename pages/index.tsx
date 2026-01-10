@@ -50,7 +50,7 @@ const Home: NextPage<HomeProps> = ({ pinnedProjects }) => {
         <section className="relative z-10 w-full h-full px-0 py-12 sm:py-16 md:py-20 bg-transparent text-faded-cardboard">
           <div className="w-full max-w-7xl mx-auto relative">
             {/* Desktop Spotify Player - Drifting in Hero Space */}
-            <div className="hidden lg:block absolute top-[10%] right-8 z-20">
+            <div className="hidden lg:block absolute -top-[1%] right-8 z-20">
               <div className="rotate-3 opacity-90 hover:rotate-0 hover:scale-105 transition-all duration-500">
                 <SpotifyCard />
               </div>
@@ -61,7 +61,11 @@ const Home: NextPage<HomeProps> = ({ pinnedProjects }) => {
                 <span className="sr-only">MTGIBBS.XYZ</span>
               </h1>
             </div>
-            <CodeHero titleText="Hi. I'm Matt." secondText='Software Developer'></CodeHero>
+            <CodeHero
+              titleText="Hi. I'm Matt."
+              secondText="Building Teams & Software"
+              secondTextDesktop={"Building Teams\n& Software"}
+            ></CodeHero>
 
             <p className="container mx-auto text-xl py-16 sm:pt-24 px-8 sm:px-16 xl:px-24 font-mono">
 
@@ -71,7 +75,7 @@ const Home: NextPage<HomeProps> = ({ pinnedProjects }) => {
               Most of my career has been spent working through complexity and helping teams untangle it. I&apos;ve modernized legacy systems, designed platforms that scale, and helped turn unclear problems into software that lasts. Along the way, I&apos;ve worked across finance, application security, and data platforms, often in systems that had to be both reliable and easy to reason about.
               <br />
               <br />
-              I&apos;m particularly drawn to front-end engineering and developer experience. I care about building systems and teams that make good work easier, and about demystifying technology so it feels more approachable and less fragile.
+              I&apos;m particularly drawn to product engineering and developer experience. I care about building systems and teams that make good work easier, and about demystifying technology so it feels more approachable and less fragile.
 
             </p>
 
