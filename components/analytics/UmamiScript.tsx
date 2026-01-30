@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Script from 'next/script';
 
+declare global {
+    interface Window {
+        umami?: {
+            track: (eventName: string, data?: Record<string, any>) => void;
+        };
+    }
+}
+
 const UmamiScript = () => {
     const [websiteId, setWebsiteId] = useState<string | null>(null);
 
@@ -24,6 +32,18 @@ const UmamiScript = () => {
 
         fetchConfig();
     }, []);
+
+    useEffect(() => {
+        if (!websiteId) return;
+
+        const heartbeat = setInterval(() => {
+            if (document.visibilityState === 'visible' && window.umami) {
+                window.umami.track('heartbeat');
+            }
+        }, 30000);
+
+        return () => clearInterval(heartbeat);
+    }, [websiteId]);
 
     if (!websiteId) {
         return null;
