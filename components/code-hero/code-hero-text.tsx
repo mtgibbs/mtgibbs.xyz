@@ -46,10 +46,8 @@ const CodeHeroText = ({ codeText }: CodeHeroTextProps): React.ReactNode => {
         setIndex(0);
     }, [codeText]);
 
-    // Follow the cursor like a real terminal so the takeover stays on screen
-    useEffect(() => {
-        cursorRef.current?.scrollIntoView({ block: 'nearest' });
-    }, [index]);
+    // Deliberately no cursor-follow: auto-scrolling during typing caused the
+    // page to jump on mobile. The sequence is short enough to land in view.
 
     useEffect(() => {
         if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {

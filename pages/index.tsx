@@ -13,7 +13,8 @@ import SpotifyCard from '../components/spotify/spotify-card'
 import SystemLogs from '../components/system-logs/system-logs'
 import SystemAnomalies from '../components/system-anomalies/system-anomalies'
 import ProjectDeck from '../components/project-deck/project-deck'
-import { EXPERIENCE, ICON_OPTIONS, PROJECTS } from '../data'
+import AiOps from '../components/ai-ops/ai-ops'
+import { EXPERIENCE, ICON_OPTIONS, PROJECTS, FLEET_AGENTS } from '../data'
 import { getPinnedProjects } from '../lib/github'
 import { IProject } from '../components/project-deck/model/project'
 import styles from '../styles/Home.module.css'
@@ -105,6 +106,16 @@ const Home: NextPage<HomeProps> = ({ pinnedProjects }) => {
         </section>
 
         {/* System Anomalies moved below Projects */}
+
+        <section className="relative z-10 w-full h-full px-0 sm:px-5 py-24 pb-16 bg-magnetic-black border-t-4 border-phosphor-amber">
+          <div className="absolute inset-0 bg-vhs-stripes pointer-events-none z-0 mix-blend-overlay opacity-20"></div>
+          <div className="relative z-10">
+            <SectionTitle title='AI Ops' color="amber" classKey="FLEET_OPS"></SectionTitle>
+          </div>
+          <div className="container mx-auto px-4 relative z-10">
+            <AiOps agents={FLEET_AGENTS} />
+          </div>
+        </section>
 
         <section className="relative z-10 w-full h-full px-0 py-24 pb-16 bg-static-grey border-t-4 border-chrome-blue">
           {/* Section Title - Decoupled from content centering to maintain standard left alignment */}
