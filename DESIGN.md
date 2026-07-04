@@ -53,9 +53,16 @@ Canvas star chart of the WHOLE GitHub account as bodies in 3D space
 - **Uplink signals**: dashed lines with a moving pulse between related
   bodies (e.g. mtgibbs.xyz ↔ pi-cluster ↔ pi-cluster-mcp). Extend with a
   relations map in /data later.
-- Census readout: bodies charted / navigable / derelict / signals.
+- **Private repos = classified contacts**: unnamed red open-circle
+  blips; only the COUNT ships publicly ("CLASSIFIED n // SIGNAL
+  WITHHELD"). Never bake private repo names into the public site.
+- Orientation: center datum crosshair at the world origin (always on);
+  X/Y/Z tripod exists behind a `SHOW_AXES` flag, default OFF.
+- Ambient star alpha floor 0.28 so old bodies survive the scanlines.
+- Census readout: charted / navigable / derelict / classified / signals.
 - Production version fetches repos at build time (GraphQL pinned +
-  REST repo list); prototype ships a baked 2026-07-04 snapshot.
+  REST repo list + authed private count); prototype ships a baked
+  2026-07-04 snapshot. CHECKPOINTED 2026-07-04 (proto-g final for now).
 
 ### 3. HAL mnemonic panels — `proto-b-hal.html`
 Section/panel grammar: framed displays on a strict grid, each owned by a
