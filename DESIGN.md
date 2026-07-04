@@ -60,9 +60,13 @@ Canvas star chart of the WHOLE GitHub account as bodies in 3D space
   X/Y/Z tripod exists behind a `SHOW_AXES` flag, default OFF.
 - Ambient star alpha floor 0.28 so old bodies survive the scanlines.
 - Census readout: charted / navigable / derelict / classified / signals.
-- Production version fetches repos at build time (GraphQL pinned +
-  REST repo list + authed private count); prototype ships a baked
-  2026-07-04 snapshot. CHECKPOINTED 2026-07-04 (proto-g final for now).
+- SHIPPED as `components/project-deck/StarChart.tsx` (replaces
+  NavVisualizer): baked build-time catalog (GraphQL pinned + authed
+  REST list + private COUNT) renders instantly and survives offline;
+  the client then live-refreshes from the PUBLIC repos endpoint via
+  SWR (5 min) — the site's cached-then-live pattern. The deck owns
+  selection; the chart follows `current` with zoom-to-lock + pan.
+  Prototype remains at public/comps/proto-g-starfield.html.
 
 ### 3. HAL mnemonic panels — `proto-b-hal.html`
 Section/panel grammar: framed displays on a strict grid, each owned by a
