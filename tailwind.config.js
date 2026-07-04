@@ -25,6 +25,7 @@ module.exports = {
         'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'scanline': 'scanline 10s linear infinite',
         'cursor': 'cursor 1s step-end infinite',
+        'panel-sync': 'panelSync 0.18s steps(2) 1',
       },
       keyframes: {
         glitch: {
@@ -39,6 +40,9 @@ module.exports = {
         cursor: {
           '0%, 100%': { opacity: 1 },
           '50%': { opacity: 0 },
+        },
+        panelSync: {
+          '50%': { transform: 'translateY(2px)', opacity: '0.7' },
         },
       },
     },

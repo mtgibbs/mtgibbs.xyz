@@ -11,10 +11,10 @@ const SystemAnomalies = () => {
         <div className="w-full">
             {/* Header Area with Title and Action Button */}
             <div className="relative mb-12 z-20">
-                <SectionTitle title="FIELD_REPORTS" color="red" classKey="FLD_REP" />
+                <SectionTitle title="Field Reports" mnemonic="FLD" color="red" classKey="FLD_REP" />
 
-                {/* Toggle Button - Absolutely positioned relative to the section width */}
-                <div className="absolute top-0 right-4 sm:right-0 sm:top-4 z-30">
+                {/* Toggle Button - hangs below the panel rule, right-aligned */}
+                <div className="absolute -bottom-14 right-4 sm:right-6 z-30">
                     <button
                         onClick={() => setAreAllExpanded(!areAllExpanded)}
                         className="text-xs font-bold font-mono text-tracking-red hover:text-white uppercase tracking-widest flex items-center gap-2 transition-colors focus:outline-none border border-tracking-red hover:border-white px-4 py-2 bg-black bg-opacity-80 backdrop-blur-sm shadow-lg hover:shadow-tracking-red/20"
