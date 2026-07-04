@@ -35,13 +35,23 @@ static, life is composited.**
 - Judge perf with the bench's FPS meter with the window VISIBLE
   (occluded windows throttle rAF to ~1fps and lie).
 
-### 2. NAV 3D project radar — `proto-f-nav-radar.html` (DEFINITE KEEP)
-Canvas star chart of projects as bodies in 3D space. Camera pitch ~0.52
-rad so rings render as ellipses. Rotating sweep with fading wedge;
-targets cycle (auto + PREV/NEXT); **zoom-to-lock**: reticle brackets
-close, camera zooms, `LOCK` stamps, side readout fills (designation /
-class / epoch / range / status). To be wired to real pinned projects —
-successor to the current `NavVisualizer`.
+### 2. NAV 3D project radar — `proto-g-starfield.html` (DEFINITE KEEP)
+Canvas star chart of the WHOLE GitHub account as bodies in 3D space
+(`proto-f-nav-radar.html` is the earlier lorem version). Camera pitch
+~0.52 rad so rings render as ellipses.
+- **Pinned repos = navigable targets**: sweep/lock cycle (auto +
+  PREV/NEXT), zoom-to-lock with camera PAN that centers the target,
+  reticle brackets, side readout (class/epoch/last-signal/status).
+- **Every other repo = ambient star** (non-selectable): position is
+  diegetic — created-year sets the orbital shell (2013 core → 2026 rim),
+  name-hash sets azimuth, push-recency sets brightness, repo size sets
+  dot radius. Forks render dim chrome-blue ("derelict hulls").
+- **Uplink signals**: dashed lines with a moving pulse between related
+  bodies (e.g. mtgibbs.xyz ↔ pi-cluster ↔ pi-cluster-mcp). Extend with a
+  relations map in /data later.
+- Census readout: bodies charted / navigable / derelict / signals.
+- Production version fetches repos at build time (GraphQL pinned +
+  REST repo list); prototype ships a baked 2026-07-04 snapshot.
 
 ### 3. HAL mnemonic panels — `proto-b-hal.html`
 Section/panel grammar: framed displays on a strict grid, each owned by a
