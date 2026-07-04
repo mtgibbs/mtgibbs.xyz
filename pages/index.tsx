@@ -14,15 +14,17 @@ import SystemLogs from '../components/system-logs/system-logs'
 import SystemAnomalies from '../components/system-anomalies/system-anomalies'
 import ProjectDeck from '../components/project-deck/project-deck'
 import { EXPERIENCE, ICON_OPTIONS, PROJECTS } from '../data'
-import { getPinnedProjects } from '../lib/github'
+import { getPinnedProjects, getRepoCatalog } from '../lib/github'
 import { IProject } from '../components/project-deck/model/project'
+import { IStarCatalog } from '../components/project-deck/model/repo-star'
 import styles from '../styles/Home.module.css'
 
 interface HomeProps {
   pinnedProjects: IProject[];
+  repoCatalog: IStarCatalog;
 }
 
-const Home: NextPage<HomeProps> = ({ pinnedProjects }) => {
+const Home: NextPage<HomeProps> = ({ pinnedProjects, repoCatalog }) => {
   // Use pinned projects from GitHub. If empty, we pass empty array to trigger Offline/Jammed state in ProjectDeck.
   const displayProjects = pinnedProjects || [];
 
@@ -124,7 +126,7 @@ const Home: NextPage<HomeProps> = ({ pinnedProjects }) => {
             <SectionTitle title='Projects' mnemonic="PRJ" color="orange" classKey="PROJ_DB"></SectionTitle>
           </div>
           <div className="container mx-auto px-4 relative z-10">
-            <ProjectDeck projects={displayProjects} />
+            <ProjectDeck projects={displayProjects} catalog={repoCatalog} />
           </div>
         </section>
 
@@ -152,10 +154,14 @@ const Home: NextPage<HomeProps> = ({ pinnedProjects }) => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const pinnedProjects = await getPinnedProjects();
+  const [pinnedProjects, repoCatalog] = await Promise.all([
+    getPinnedProjects(),
+    getRepoCatalog(),
+  ]);
   return {
     props: {
       pinnedProjects,
+      repoCatalog,
     },
     revalidate: 60 * 60, // 1 hour
   };

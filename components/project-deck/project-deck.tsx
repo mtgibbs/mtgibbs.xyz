@@ -4,13 +4,15 @@ import { IProject } from './model/project';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBackward, faForward, faCode } from '@fortawesome/free-solid-svg-icons';
 import styles from './ProjectDeck.module.css';
-import NavVisualizer from './NavVisualizer';
+import StarChart from './StarChart';
+import { IStarCatalog } from './model/repo-star';
 
 interface ProjectDeckProps {
     projects: readonly IProject[];
+    catalog: IStarCatalog;
 }
 
-const ProjectDeck = ({ projects }: ProjectDeckProps) => {
+const ProjectDeck = ({ projects, catalog }: ProjectDeckProps) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isSimulatingOffline, setIsSimulatingOffline] = useState(false);
 
@@ -161,10 +163,11 @@ const ProjectDeck = ({ projects }: ProjectDeckProps) => {
                         {/* RIGHT: Radar & Controls Sidebar */}
                         <div className="w-full md:w-64 bg-black/20 flex flex-col border-t border-chrome-blue/20 md:border-t-0 p-4 gap-4 relative z-10">
 
-                            {/* Radar Module */}
+                            {/* NAV Star Chart Module */}
                             <div className="relative w-full aspect-square border border-chrome-blue/20 bg-black/40 rounded-sm overflow-hidden group/radar">
-                                <NavVisualizer
-                                    total={projects.length}
+                                <StarChart
+                                    projects={projects}
+                                    catalog={catalog}
                                     current={currentIndex}
                                     className="w-full h-full"
                                     isOffline={isOffline}
