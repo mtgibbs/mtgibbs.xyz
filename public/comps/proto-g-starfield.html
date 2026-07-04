@@ -86,6 +86,8 @@
   // ===== REAL DATA — snapshot of github.com/mtgibbs, 2026-07-04 =====
   const REPOS = [{"c":"2026","f":false,"l":"TypeScript","n":"ai-workflow-orchestrator","p":"2026-02-04","s":8},{"c":"2019","f":true,"l":"n/a","n":"anypull","p":"2019-10-11","s":9},{"c":"2026","f":false,"l":"TypeScript","n":"blackduck-polaris-mcp","p":"2026-02-27","s":769},{"c":"2026","f":false,"l":"TypeScript","n":"canvas-lms-mcp","p":"2026-02-13","s":309},{"c":"2026","f":false,"l":"TypeScript","n":"carl","p":"2026-01-14","s":276},{"c":"2016","f":false,"l":"JavaScript","n":"chartist-plugin-barlabels","p":"2017-04-05","s":32},{"c":"2016","f":false,"l":"JavaScript","n":"chartist-plugin-labelclasses","p":"2017-09-01","s":11},{"c":"2026","f":false,"l":"n/a","n":"claude-hiring-assistant","p":"2026-01-22","s":216},{"c":"2016","f":false,"l":"TypeScript","n":"d3-source-sink","p":"2016-10-04","s":17},{"c":"2018","f":true,"l":"TypeScript","n":"DefinitelyTyped","p":"2018-10-18","s":369127},{"c":"2015","f":false,"l":"CSS","n":"estudu","p":"2016-03-26","s":814},{"c":"2018","f":true,"l":"Java","n":"fod-uploader-java","p":"2018-10-18","s":246},{"c":"2013","f":false,"l":"Python","n":"FontAwesome3to4","p":"2013-11-19","s":124},{"c":"2019","f":true,"l":"n/a","n":"fortify-on-demand-uploader-plugin","p":"2019-10-11","s":629},{"c":"2015","f":false,"l":"JavaScript","n":"GamesDBdotNetGetter","p":"2015-06-18","s":132},{"c":"2015","f":false,"l":"C#","n":"GitStache","p":"2015-01-15","s":472},{"c":"2015","f":false,"l":"JavaScript","n":"gulp-less-branding-js","p":"2016-03-07","s":32},{"c":"2016","f":false,"l":"TypeScript","n":"hubot-fod","p":"2017-09-01","s":60},{"c":"2015","f":false,"l":"PowerShell","n":"inkscape-stroke-to-path","p":"2018-01-05","s":35},{"c":"2016","f":false,"l":"Python","n":"iot-gd","p":"2017-09-01","s":8},{"c":"2026","f":false,"l":"TypeScript","n":"kiwix-mcp","p":"2026-05-22","s":51},{"c":"2026","f":false,"l":"TypeScript","n":"local-llm-mcp","p":"2026-05-21","s":27},{"c":"2026","f":false,"l":"n/a","n":"mtgibbs","p":"2026-07-04","s":11342},{"c":"2016","f":false,"l":"CSS","n":"mtgibbs.github.io","p":"2016-02-26","s":18},{"c":"2016","f":false,"l":"TypeScript","n":"mtgibbs.xyz","p":"2026-07-04","s":1809},{"c":"2014","f":false,"l":"JavaScript","n":"NapkinTour","p":"2014-09-02","s":296},{"c":"2014","f":false,"l":"TypeScript","n":"NapkinTourTS","p":"2014-09-02","s":200},{"c":"2019","f":true,"l":"n/a","n":"nHydrate","p":"2019-10-18","s":28390},{"c":"2017","f":true,"l":"JavaScript","n":"node-typescript-compiler","p":"2016-08-15","s":12},{"c":"2014","f":false,"l":"TypeScript","n":"NodeWebScraper","p":"2014-08-29","s":208},{"c":"2025","f":false,"l":"Python","n":"pi-cluster","p":"2026-07-04","s":2070},{"c":"2026","f":false,"l":"TypeScript","n":"pi-cluster-mcp","p":"2026-06-10","s":288},{"c":"2026","f":true,"l":"Shell","n":"ralph","p":"2026-02-26","s":4801},{"c":"2026","f":false,"l":"TypeScript","n":"ralph-mcp","p":"2026-02-17","s":31},{"c":"2026","f":false,"l":"Python","n":"ralph-voice","p":"2026-02-17","s":40},{"c":"2019","f":false,"l":"JavaScript","n":"recipecate-api","p":"2024-08-03","s":181},{"c":"2019","f":false,"l":"TypeScript","n":"recipecate-ui","p":"2024-08-28","s":491},{"c":"2019","f":true,"l":"Groovy","n":"repository-permissions-updater","p":"2019-11-07","s":2384},{"c":"2026","f":false,"l":"n/a","n":"taskflow","p":"2026-02-21","s":27},{"c":"2018","f":true,"l":"JavaScript","n":"text-mask","p":"2018-10-18","s":4990},{"c":"2022","f":true,"l":"n/a","n":"umami","p":"2026-01-09","s":24085}];
   const PINNED = ["mtgibbs.xyz","hubot-fod","pi-cluster","claude-hiring-assistant","canvas-lms-mcp","pi-cluster-mcp"];
+  // private repos appear as unnamed classified contacts — count only, no names
+  const PRIVATE_COUNT = 5;
   // real relationships — signals move between related bodies
   const LINKS = [
     ["mtgibbs.xyz","pi-cluster"],       // the site deploys onto the cluster
@@ -115,6 +117,18 @@
       dot: Math.max(1.1, Math.min(2.6, Math.log10(Math.max(r.s,2)) * 0.85)) + (pinned ? 1.8 : 0),
     };
   });
+  // classified contacts: deterministic positions, mid shells, no identity
+  for (let i = 0; i < PRIVATE_COUNT; i++){
+    const h1 = hash('classified-' + i), h2 = hash('classified*' + i);
+    const radius = 0.45 + h2 * 0.45;
+    const theta = h1 * Math.PI * 2;
+    bodies.push({
+      n: null, pinned: false, f: false, classified: true,
+      pos: [Math.cos(theta)*radius, (hash('y'+i) - .5) * 0.5, Math.sin(theta)*radius],
+      theta, bright: 0.7, dot: 1.9,
+    });
+  }
+
   const targets = bodies.filter(b => b.pinned);
   const linkPairs = LINKS.map(([a,b]) => [bodies.find(x=>x.n===a), bodies.find(x=>x.n===b)]).filter(p => p[0] && p[1]);
 
@@ -168,6 +182,7 @@
     `BODIES CHARTED <b>${bodies.length}</b><br>` +
     `NAVIGABLE <b>${targets.length}</b> // PINNED<br>` +
     `<span class="fk">DERELICT ${forks} // FORKED HULLS</span><br>` +
+    `<span style="color:var(--red)">CLASSIFIED ${PRIVATE_COUNT} // SIGNAL WITHHELD</span><br>` +
     `SIGNALS <b>${linkPairs.length}</b> // UPLINKS ACTIVE<br>` +
     `SHELLS 2013 (CORE) → 2026 (RIM)`;
 
@@ -234,9 +249,16 @@
       const isSel = b.pinned && targets[sel] === b && mode !== 'scan';
       const r = (isSel ? b.dot*1.4 : b.dot) * p.k * px;
       ctx.beginPath(); ctx.arc(p.sx, p.sy, r, 0, Math.PI*2);
-      ctx.fillStyle = isSel ? ORANGE : (b.f ? BLUE : AMBER);
-      ctx.globalAlpha = Math.min(1, (b.pinned ? .95 : b.bright*.75) * (0.5 + p.k*0.5));
-      ctx.fill(); ctx.globalAlpha = 1;
+      ctx.globalAlpha = Math.max(0.28, Math.min(1, (b.pinned ? .95 : b.bright*.75) * (0.5 + p.k*0.5)));
+      if (b.classified){
+        // classified contact — open circle, no fill, no name
+        ctx.strokeStyle = 'rgba(217,54,54,.8)'; ctx.lineWidth = px;
+        ctx.stroke();
+      } else {
+        ctx.fillStyle = isSel ? ORANGE : (b.f ? BLUE : AMBER);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
       if (b.pinned){
         ctx.font = `${10*px}px Nineteen, monospace`;
         ctx.fillStyle = isSel ? CARD : 'rgba(245,240,225,.55)';
