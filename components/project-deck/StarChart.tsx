@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef } from 'react';
+import useSWR from 'swr';
 import { IProject } from './model/project';
-import { IStarCatalog } from './model/repo-star';
+import { IRepoStar, IStarCatalog } from './model/repo-star';
 import { PROJECT_RELATIONS } from '../../data';
 
 interface StarChartProps {
@@ -20,6 +21,36 @@ const hash = (s: string) => {
     return (h >>> 0) / 4294967295;
 };
 
+const publicRepoFetcher = (url: string) =>
+    fetch(url).then(res => {
+        if (!res.ok) throw new Error(`GitHub ${res.status}`);
+        return res.json();
+    });
+
+// The site's data pattern: the build bakes a cached catalog, then the
+// client live-updates from PUBLIC GitHub data (same as SystemLogs).
+// On any fetch failure the baked catalog keeps the chart lit. The
+// private-contact count is build-time only — no token in the browser.
+const useLiveCatalog = (baked: IStarCatalog): IStarCatalog => {
+    const { data } = useSWR(
+        'https://api.github.com/users/mtgibbs/repos?per_page=100&type=owner',
+        publicRepoFetcher,
+        { refreshInterval: 5 * 60 * 1000, revalidateOnFocus: false }
+    );
+
+    return useMemo(() => {
+        if (!Array.isArray(data) || data.length === 0) return baked;
+        const repos: IRepoStar[] = data.map((r: any) => ({
+            name: r.name,
+            createdYear: new Date(r.created_at).getFullYear(),
+            pushedAt: r.pushed_at,
+            sizeKb: r.size,
+            fork: r.fork,
+        }));
+        return { repos, privateCount: baked.privateCount };
+    }, [data, baked]);
+};
+
 interface IBody {
     name: string | null;
     pos: [number, number, number];
@@ -34,7 +65,8 @@ interface IBody {
 // Position is diegetic — created-year sets the orbital shell, name-hash
 // the azimuth, push-recency the brightness, repo size the dot radius.
 // The deck owns selection; this chart just zooms-to-lock on `current`.
-const StarChart = ({ projects, catalog, current, isOffline, className }: StarChartProps) => {
+const StarChart = ({ projects, catalog: bakedCatalog, current, isOffline, className }: StarChartProps) => {
+    const catalog = useLiveCatalog(bakedCatalog);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const stateRef = useRef({ rot: 0.6, zoom: 1, zoomT: 1, ox: 0, oy: 0, lock: 0, locking: false, sel: 0, pulse: 0, offline: false });
 
