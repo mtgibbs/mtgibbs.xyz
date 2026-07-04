@@ -88,6 +88,9 @@
   const PINNED = ["mtgibbs.xyz","hubot-fod","pi-cluster","claude-hiring-assistant","canvas-lms-mcp","pi-cluster-mcp"];
   // private repos appear as unnamed classified contacts — count only, no names
   const PRIVATE_COUNT = 5;
+  // orientation aids: axis tripod is optional (off for now); the center
+  // datum mark always shows so the orbit has an anchor
+  const SHOW_AXES = false;
   // real relationships — signals move between related bodies
   const LINKS = [
     ["mtgibbs.xyz","pi-cluster"],       // the site deploys onto the cluster
@@ -211,23 +214,33 @@
     ring(0.62, 'rgba(59,92,125,.42)', [4*px,5*px]);
     ring(0.30, 'rgba(59,92,125,.28)', [2*px,6*px]);
 
-    // orientation tripod — fixed X/Y/Z axes at the true world origin
-    // (replaces the sweep beam, which slid off-pivot under camera pan)
+    // world origin — the datum everything orbits
     const o = project([0,0,0]);
-    [
-      { v:[1.12,0,0], c:'rgba(255,176,0,.45)',  t:'X' },
-      { v:[0,1.02,0], c:'rgba(245,240,225,.40)', t:'Y' },
-      { v:[0,0,1.12], c:'rgba(59,130,246,.50)',  t:'Z' },
-    ].forEach(ax => {
-      const p = project(ax.v);
-      ctx.beginPath(); ctx.moveTo(o.sx,o.sy); ctx.lineTo(p.sx,p.sy);
-      ctx.strokeStyle = ax.c; ctx.lineWidth = px; ctx.stroke();
-      ctx.font = `${10*px}px Nineteen, monospace`;
-      ctx.fillStyle = ax.c;
-      ctx.fillText(ax.t, p.sx + 5*px, p.sy - 4*px);
-    });
-    ctx.beginPath(); ctx.arc(o.sx,o.sy,1.6*px,0,Math.PI*2);
-    ctx.fillStyle = 'rgba(245,240,225,.55)'; ctx.fill();
+    if (SHOW_AXES){
+      // optional orientation tripod (off by default)
+      [
+        { v:[1.12,0,0], c:'rgba(255,176,0,.45)',  t:'X' },
+        { v:[0,1.02,0], c:'rgba(245,240,225,.40)', t:'Y' },
+        { v:[0,0,1.12], c:'rgba(59,130,246,.50)',  t:'Z' },
+      ].forEach(ax => {
+        const p = project(ax.v);
+        ctx.beginPath(); ctx.moveTo(o.sx,o.sy); ctx.lineTo(p.sx,p.sy);
+        ctx.strokeStyle = ax.c; ctx.lineWidth = px; ctx.stroke();
+        ctx.font = `${10*px}px Nineteen, monospace`;
+        ctx.fillStyle = ax.c;
+        ctx.fillText(ax.t, p.sx + 5*px, p.sy - 4*px);
+      });
+    }
+    // center datum mark — small crosshair + dot
+    ctx.strokeStyle = 'rgba(245,240,225,.5)'; ctx.lineWidth = px;
+    ctx.beginPath();
+    ctx.moveTo(o.sx - 8*px, o.sy); ctx.lineTo(o.sx - 3*px, o.sy);
+    ctx.moveTo(o.sx + 3*px, o.sy); ctx.lineTo(o.sx + 8*px, o.sy);
+    ctx.moveTo(o.sx, o.sy - 8*px); ctx.lineTo(o.sx, o.sy - 3*px);
+    ctx.moveTo(o.sx, o.sy + 3*px); ctx.lineTo(o.sx, o.sy + 8*px);
+    ctx.stroke();
+    ctx.beginPath(); ctx.arc(o.sx, o.sy, 1.6*px, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(255,176,0,.8)'; ctx.fill();
 
     // uplink signals — faint line + moving pulse
     linkPairs.forEach(([a,b],li) => {
