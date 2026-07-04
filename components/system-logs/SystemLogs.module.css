@@ -231,7 +231,8 @@
 }
 
 .crtText {
-  animation: textShadow 1.6s infinite;
+  /* Phosphor fuzz is STATIC and inherited from .vhs-effects (globals.css).
+     Never reintroduce animated text-shadow (DESIGN.md motion rules). */
   position: relative;
   z-index: 10;
 }

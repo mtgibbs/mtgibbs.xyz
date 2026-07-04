@@ -18,6 +18,7 @@ export const VhsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         <VhsContext.Provider value={{ isVhsActive, toggleVhs }}>
             <div className={isVhsActive ? 'vhs-active vhs-effects' : 'vhs-effects'}>
                 <div className="tracking-noise" />
+                <div className="phosphor-roll" />
                 {children}
             </div>
         </VhsContext.Provider>

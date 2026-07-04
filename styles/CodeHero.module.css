@@ -228,7 +228,9 @@
 }
 
 .crt {
-  animation: textShadow 1.6s infinite;
+  /* Phosphor fuzz is STATIC and inherited from .vhs-effects (globals.css).
+     Never reintroduce animated text-shadow — it repaints every glyph
+     every frame (DESIGN.md motion rules). */
 }
 
 .vhsSync::before {

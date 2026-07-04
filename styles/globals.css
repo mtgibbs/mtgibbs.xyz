@@ -365,14 +365,23 @@ a {
   font-family: "Nineteen Ninety Seven";
 }
 
-/* Global VHS Tracking Effects */
+/* Global Phosphor CRT stack (DESIGN.md §1)
+   Rule: glyph fuzz is STATIC, life is COMPOSITED.
+   Never animate text-shadow — it repaints every glyph every frame. */
 .vhs-effects {
   position: relative;
   transition: filter 0.3s ease;
+  /* tight pixel fuzz: misconvergence fringe + phosphor bloom, painted once */
+  text-shadow:
+    0 0 1px currentColor,
+    0.6px 0 1px rgba(255, 70, 50, 0.34),
+    -0.6px 0 1px rgba(70, 130, 255, 0.30),
+    0 0 7px rgba(255, 176, 0, 0.42);
 }
 
+/* flicker lives on the ::after veil (composited overlay), not the wrapper —
+   animating the whole tree's opacity forced full-page compositing */
 .vhs-active {
-  animation: vhs-flicker 0.15s infinite;
 }
 
 .vhs-active::after {
@@ -383,11 +392,50 @@ a {
   left: 0;
   bottom: 0;
   right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
-    linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  /* slot-mask phosphor triads + scanlines — static layer */
+  background:
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.12) 50%),
+    repeating-linear-gradient(90deg,
+      rgba(255, 80, 40, 0.045) 0 1px,
+      rgba(120, 255, 120, 0.035) 1px 2px,
+      rgba(80, 120, 255, 0.045) 2px 3px);
   z-index: 9999;
   background-size: 100% 3px, 3px 100%;
   pointer-events: none;
+  animation: phosphor-veil 0.46s steps(3) infinite;
+}
+
+@keyframes phosphor-veil {
+  0%, 100% { opacity: 0.7; }
+  33% { opacity: 1; }
+  66% { opacity: 0.45; }
+}
+
+/* roll bar — transform-only sweep, shown while VHS is active */
+.phosphor-roll {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: -90px;
+  height: 90px;
+  pointer-events: none;
+  z-index: 9998;
+  display: none;
+  background: linear-gradient(180deg,
+    transparent,
+    rgba(255, 176, 0, 0.04) 45%,
+    rgba(245, 240, 225, 0.07) 50%,
+    rgba(255, 176, 0, 0.04) 55%,
+    transparent);
+  animation: phosphor-roll 9s linear infinite;
+}
+
+.vhs-active .phosphor-roll {
+  display: block;
+}
+
+@keyframes phosphor-roll {
+  to { transform: translateY(calc(100vh + 180px)); }
 }
 
 .vhs-active .glitch-text {
@@ -468,6 +516,8 @@ a {
   }
 }
 
+/* fine warm grain + ordered dither — static SVG tiles, no animated GIF,
+   no blend mode. Always on as the base texture; VHS mode adds the spray. */
 .tracking-noise {
   position: fixed;
   top: 0;
@@ -476,15 +526,21 @@ a {
   height: 100%;
   z-index: 10000;
   pointer-events: none;
-  opacity: 0.03;
-  background-image: url("/vhs_static.gif");
-  mix-blend-mode: overlay;
-  display: none;
+  opacity: 0.10;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cfilter id='g'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 .69  0 0 0 0 0  0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='90' height='90' filter='url(%23g)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cg fill='%23FFB000' fill-opacity='.10'%3E%3Crect x='0' y='0' width='1' height='1'/%3E%3Crect x='4' y='2' width='1' height='1'/%3E%3Crect x='2' y='5' width='1' height='1'/%3E%3Crect x='6' y='6' width='1' height='1'/%3E%3Crect x='3' y='1' width='1' height='1'/%3E%3Crect x='7' y='3' width='1' height='1'/%3E%3Crect x='1' y='7' width='1' height='1'/%3E%3Crect x='5' y='4' width='1' height='1'/%3E%3C/g%3E%3C/svg%3E");
+  display: block;
 }
 
-
 .vhs-active .tracking-noise {
-  display: block;
+  opacity: 0.16;
+  animation: phosphor-spray 0.18s steps(2) infinite;
+}
+
+@keyframes phosphor-spray {
+  0%, 100% { opacity: 0.16; }
+  50% { opacity: 0.09; }
 }
 
 @keyframes textShadowGlobal {
@@ -595,7 +651,9 @@ a {
 }
 
 .animate-terminal-glow {
-  animation: textShadowGlobal 1.6s infinite;
+  /* static phosphor glow — the animated textShadowGlobal keyframes above
+     are retired (per-frame glyph repaints); remove them in a cleanup pass */
+  text-shadow: 0 0 2px currentColor, 0 0 8px rgba(255, 176, 0, 0.55);
 }
 
 /* Low Power Mode Optimizations */
@@ -609,6 +667,10 @@ body.low-power .vhs-active::after {
 }
 
 body.low-power .tracking-noise {
+  display: none !important;
+}
+
+body.low-power .phosphor-roll {
   display: none !important;
 }
 
@@ -643,6 +705,10 @@ body.low-power * {
   }
 
   .tracking-noise {
+    display: none !important;
+  }
+
+  .phosphor-roll {
     display: none !important;
   }
 
