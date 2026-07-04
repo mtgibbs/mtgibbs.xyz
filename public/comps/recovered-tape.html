@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COMP D — Recovered Tape (Cassette Futurism)</title>
+<style>
+  @font-face { font-family: 'KindlyRewind'; src: url('/fonts/KindlyRewind-BOon.ttf'); }
+  @font-face { font-family: 'Heavitas'; src: url('/fonts/Heavitas.ttf'); }
+  @font-face { font-family: 'Nineteen'; src: url('/fonts/NineteenNinetySeven-11XB.ttf'); }
+
+  :root{
+    --tape:#1A1A1A; --card:#F5F0E1; --static:#2F3338;
+    --orange:#FF4400; --amber:#FFB000; --blue:#3B5C7D; --red:#D93636;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    background:
+      repeating-linear-gradient(0deg, transparent 0 4px, rgba(0,0,0,.28) 4px 6px), /* thick scanlines */
+      radial-gradient(ellipse at 50% -10%, #24252a, transparent 70%),
+      var(--tape);
+    color:var(--card); font-family:'Nineteen', 'VT323', monospace;
+    padding:48px 5vw 90px; overflow-x:hidden;
+  }
+  /* film grain */
+  body::after{
+    content:'';position:fixed;inset:0;pointer-events:none;opacity:.06;z-index:50;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .shelf{max-width:1040px;margin:0 auto;display:grid;gap:44px}
+
+  /* ================= THE SLEEVE (faded cardboard VHS packaging) ============ */
+  .sleeve{
+    background:
+      linear-gradient(180deg, rgba(26,26,26,.05), transparent 30%),
+      var(--card);
+    color:var(--tape);
+    border-radius:10px; /* blocky-round plastic corners */
+    border:4px solid var(--tape);
+    box-shadow:10px 10px 0 var(--blue); /* hard shadow, zero blur */
+    overflow:hidden;position:relative;
+  }
+  /* sleeve wear */
+  .sleeve::after{
+    content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background:
+      radial-gradient(ellipse at 100% 0%, rgba(26,26,26,.14), transparent 30%),
+      radial-gradient(ellipse at 0% 100%, rgba(26,26,26,.10), transparent 25%);
+  }
+
+  /* the classic VHS stripe band */
+  .stripes{display:grid}
+  .stripes i{height:14px;display:block}
+  .stripes i:nth-child(1){background:var(--orange)}
+  .stripes i:nth-child(2){background:var(--amber)}
+  .stripes i:nth-child(3){background:#8a5a2b}
+  .stripes i:nth-child(4){background:var(--blue)}
+
+  .sleeve-body{padding:34px 38px 30px}
+  .sleeve-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+  .brand{
+    font-family:'KindlyRewind';font-size:clamp(3.2rem,8vw,5.6rem);line-height:.95;
+    color:var(--tape);
+    text-shadow:3px 0 0 rgba(255,68,0,.35), -3px 0 0 rgba(59,92,125,.35); /* ink spread */
+  }
+  .cat-no{font-size:12px;letter-spacing:.28em;text-align:right;color:rgba(26,26,26,.75)}
+  .cat-no b{display:block;font-size:18px;letter-spacing:.1em;color:var(--red)}
+
+  .sleeve-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:30px;margin-top:26px}
+  @media(max-width:720px){.sleeve-grid{grid-template-columns:1fr}}
+
+  .blurb h2{
+    font-family:'Heavitas';font-size:19px;letter-spacing:.04em;margin-bottom:10px;
+    text-transform:uppercase;
+  }
+  .blurb p{font-size:15.5px;line-height:1.75;color:rgba(26,26,26,.92);max-width:58ch}
+  .blurb p+p{margin-top:10px}
+
+  /* C64-manual spec table */
+  .spec{border:3px solid var(--tape);border-radius:6px;overflow:hidden;align-self:start}
+  .spec .hd{
+    background:var(--tape);color:var(--card);font-size:11px;letter-spacing:.3em;
+    padding:7px 12px;text-transform:uppercase;
+  }
+  .spec table{width:100%;border-collapse:collapse;font-size:13px}
+  .spec td{padding:8px 12px;border-top:2px solid rgba(26,26,26,.85)}
+  .spec tr td:first-child{width:44%;letter-spacing:.12em;color:rgba(26,26,26,.7);text-transform:uppercase;font-size:11px}
+  .spec tr td:last-child{font-weight:bold}
+
+  .warning{
+    margin-top:22px;border:3px solid var(--red);border-radius:6px;padding:10px 14px;
+    display:flex;gap:12px;align-items:center;background:rgba(217,54,54,.06);
+  }
+  .warning .sign{
+    font-family:'Heavitas';color:var(--card);background:var(--red);
+    padding:4px 10px;border-radius:4px;font-size:13px;flex:none;
+  }
+  .warning span{font-size:13px;letter-spacing:.06em;color:rgba(26,26,26,.9)}
+
+  /* ================= THE CONSOLE (analog monitor in a casing) ============ */
+  .console{
+    background:linear-gradient(180deg,#34383e,var(--static) 20%, #26292d);
+    border-radius:12px;padding:22px;
+    border:4px solid #191b1d;
+    box-shadow:10px 10px 0 rgba(0,0,0,.65), inset 0 2px 0 rgba(245,240,225,.09);
+    position:relative;
+  }
+  .console .plate{
+    display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;
+    font-size:11px;letter-spacing:.32em;color:rgba(245,240,225,.6);text-transform:uppercase;
+  }
+  .console .plate .rec{color:var(--red);display:flex;align-items:center;gap:7px}
+  .console .plate .rec i{
+    width:10px;height:10px;border-radius:50%;background:var(--red);
+    box-shadow:0 0 8px var(--red);display:inline-block;
+    animation:blink 1.4s steps(1) infinite;
+  }
+  @keyframes blink{50%{opacity:.25}}
+  @media (prefers-reduced-motion: reduce){ .console .plate .rec i{animation:none} }
+
+  .crt{
+    background:
+      repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,0,0,.55) 3px 5px),
+      radial-gradient(ellipse at center, #191512 0%, #0d0c0a 85%);
+    border-radius:8px;
+    border-top:6px solid #101214;border-left:6px solid #16181b;
+    border-right:6px solid #3d4249;border-bottom:6px solid #454b53; /* bevel */
+    padding:26px 28px;min-height:210px;
+    color:var(--amber);font-size:15px;line-height:1.9;
+    text-shadow:0 0 6px rgba(255,176,0,.55); /* phosphor bloom */
+    box-shadow:inset 0 0 42px rgba(0,0,0,.9);
+  }
+  .crt .dim{color:rgba(255,176,0,.55)}
+  .crt .cur{display:inline-block;width:.6em;height:1.05em;background:var(--amber);vertical-align:text-bottom;animation:blink 1s steps(1) infinite}
+
+  /* punch-card buttons */
+  .keys{display:flex;gap:14px;margin-top:18px;flex-wrap:wrap}
+  .key{
+    font-family:'Heavitas';font-size:13px;letter-spacing:.08em;text-transform:uppercase;
+    background:var(--orange);color:var(--card);
+    border:3px solid #191b1d;border-radius:6px;padding:10px 20px;
+    box-shadow:0 6px 0 #8f2600; /* physical key depth */
+    cursor:pointer;transition:transform .12s ease-in-out, box-shadow .12s ease-in-out;
+    position:relative;top:0;
+  }
+  .key:hover{transform:translateY(3px);box-shadow:0 3px 0 #8f2600}
+  .key:active{transform:translateY(6px);box-shadow:0 0 0 #8f2600}
+  .key.alt{background:var(--static);color:var(--card);box-shadow:0 6px 0 #101214}
+  .key.alt:hover{box-shadow:0 3px 0 #101214}
+
+  .foot{max-width:1040px;margin:34px auto 0;font-size:11px;letter-spacing:.24em;color:rgba(245,240,225,.45);text-transform:uppercase;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+  <div class="shelf">
+
+    <!-- THE SLEEVE — faded cardboard VHS packaging / C64 manual print -->
+    <section class="sleeve">
+      <div class="stripes"><i></i><i></i><i></i><i></i></div>
+      <div class="sleeve-body">
+        <div class="sleeve-top">
+          <h1 class="brand">Lorem Ipsum</h1>
+          <div class="cat-no">CAT.NO<b>LI-1997</b>STEREO // HI-FI</div>
+        </div>
+
+        <div class="sleeve-grid">
+          <div class="blurb">
+            <h2>Side A — Dolor Sit Amet</h2>
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+            accusantium doloremque laudantium, totam rem aperiam eaque ipsa
+            quae ab illo inventore veritatis et quasi architecto.</p>
+            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
+            odit aut fugit, sed quia consequuntur magni dolores eos qui
+            ratione voluptatem sequi nesciunt.</p>
+            <div class="warning"><span class="sign">NOTICE</span><span>CONSECTETUR ADIPISCING ELIT — REWIND BEFORE RETURNING.</span></div>
+          </div>
+
+          <div class="spec">
+            <div class="hd">Technical Data</div>
+            <table>
+              <tr><td>Format</td><td>Lorem / Ipsum</td></tr>
+              <tr><td>Runtime</td><td>120 min</td></tr>
+              <tr><td>Signal</td><td>Dolor sit</td></tr>
+              <tr><td>Region</td><td>Amet-6</td></tr>
+              <tr><td>Condition</td><td>Slightly decayed</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="stripes"><i></i><i></i><i></i><i></i></div>
+    </section>
+
+    <!-- THE CONSOLE — analog monitor set in bulky casing -->
+    <section class="console">
+      <div class="plate">
+        <span>MONITOR 02 // LOREM CONTROL</span>
+        <span class="rec"><i></i>REC</span>
+      </div>
+      <div class="crt">
+        &gt; LOREM_SYS v1.97 — TAPE RECOVERED<br>
+        &gt; ipsum: dolor sit amet <span class="dim">[OK]</span><br>
+        &gt; consectetur: adipiscing <span class="dim">[OK]</span><br>
+        &gt; TRACKING ▮▮▮▮▮▮▮▮░░ <span class="dim">ADJUST...</span><br>
+        &gt; <span class="cur"></span>
+      </div>
+      <div class="keys">
+        <button class="key">▶ Play</button>
+        <button class="key alt">◼ Stop</button>
+        <button class="key alt">◀◀ Rewind</button>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="foot">
+    <span>COMP D — RECOVERED TAPE</span>
+    <span>BE KIND, REWIND</span>
+  </footer>
+</body>
+</html>

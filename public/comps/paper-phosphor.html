@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COMP 01 — Paper &amp; Phosphor</title>
+<style>
+  @font-face { font-family: 'Heavitas'; src: url('/fonts/Heavitas.ttf'); }
+  @font-face { font-family: 'Lazer84'; src: url('/fonts/Lazer84.ttf'); }
+  @font-face { font-family: 'Nineteen'; src: url('/fonts/NineteenNinetySeven-11XB.ttf'); }
+  @font-face { font-family: 'AlteHaas'; src: url('/fonts/AlteHaasGroteskBold.ttf'); }
+
+  :root {
+    --black: #1A1A1A;
+    --paper: #F5F0E1;
+    --grey: #2F3338;
+    --orange: #FF4400;
+    --amber: #FFB000;
+    --blue: #3B5C7D;
+    --red: #D93636;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--black); color: var(--paper); font-family: 'Nineteen', monospace; overflow-x: hidden; }
+
+  /* ============ DARK STRIP (existing world, abbreviated) ============ */
+  .dark-strip {
+    position: relative; padding: 56px 24px 96px;
+    background:
+      repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,0,0,.35) 3px 4px),
+      var(--black);
+  }
+  .dark-strip .term {
+    max-width: 720px; margin: 0 auto; border: 4px solid var(--amber);
+    box-shadow: 8px 8px 0 var(--blue); padding: 24px; color: var(--amber);
+    font-size: 14px; line-height: 1.7;
+  }
+  .dark-strip .term .red { color: var(--red); font-weight: bold; }
+
+  /* ============ TORN EDGE ============ */
+  .tear {
+    height: 42px; background: var(--paper); position: relative; z-index: 2;
+    clip-path: polygon(0 55%, 3% 30%, 7% 60%, 11% 25%, 16% 55%, 21% 20%, 26% 65%,
+      31% 35%, 36% 70%, 42% 30%, 48% 60%, 54% 22%, 60% 58%, 66% 30%, 72% 68%,
+      78% 28%, 84% 60%, 90% 32%, 95% 58%, 100% 25%, 100% 100%, 0 100%);
+    margin-top: -42px;
+  }
+  .tear.flip { transform: scaleY(-1); margin-top: 0; margin-bottom: -42px; }
+
+  /* ============ PAPER SPREAD (the new space) ============ */
+  .paper {
+    position: relative; background: var(--paper); color: var(--black);
+    padding: 48px 24px 96px; z-index: 1;
+  }
+  /* riso grain + halftone corner */
+  .paper::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .5;
+    background-image: radial-gradient(rgba(26,26,26,.16) 1px, transparent 1.5px);
+    background-size: 7px 7px;
+    -webkit-mask-image: radial-gradient(ellipse at 85% 8%, black 0%, transparent 45%);
+            mask-image: radial-gradient(ellipse at 85% 8%, black 0%, transparent 45%);
+  }
+  .spread { max-width: 1080px; margin: 0 auto; position: relative; }
+
+  /* Giant stamped section title, misregistered riso ink */
+  .stamp {
+    font-family: 'Heavitas'; font-size: clamp(3rem, 9vw, 6rem); line-height: .95;
+    text-transform: uppercase; color: var(--black);
+    transform: rotate(-2deg); letter-spacing: -0.02em;
+    text-shadow: 4px 3px 0 rgba(217,54,54,.55);
+    margin-bottom: 8px;
+  }
+  .stamp-sub {
+    display: inline-block; font-family: 'Nineteen', monospace; font-size: 13px;
+    background: var(--black); color: var(--paper); padding: 4px 10px;
+    transform: rotate(-2deg); letter-spacing: .18em;
+  }
+
+  .cols { display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; margin-top: 56px; align-items: start; }
+  @media (max-width: 760px) { .cols { grid-template-columns: 1fr; gap: 40px; } }
+
+  /* zine article — dark ink on paper, real contrast */
+  .article h3 { font-family: 'AlteHaas', sans-serif; font-size: 28px; margin-bottom: 2px; }
+  .article .role-tag {
+    font-family: 'Nineteen', monospace; font-size: 13px; color: var(--red);
+    font-weight: bold; letter-spacing: .06em; display: block; margin-bottom: 18px;
+  }
+  .article p { font-size: 16px; line-height: 1.75; max-width: 62ch; margin-bottom: 16px; }
+  .article .marginalia {
+    font-family: 'Lazer84'; font-size: 20px; color: var(--red);
+    transform: rotate(-3deg); display: inline-block; margin-top: 10px;
+  }
+
+  /* ink bars = the streaks, printed */
+  .inkbars { display: flex; gap: 6px; margin: 26px 0 0; transform: rotate(-2deg); }
+  .inkbars span { height: 10px; }
+  .inkbars .a { width: 34%; background: var(--amber); }
+  .inkbars .b { width: 12%; background: var(--red); }
+  .inkbars .c { width: 22%; background: var(--blue); }
+  .inkbars .d { width: 7%;  background: var(--orange); }
+
+  /* taped-in terminal "photo" */
+  .taped {
+    background: var(--black); color: var(--amber); padding: 20px;
+    font-size: 13px; line-height: 1.7; transform: rotate(1.5deg);
+    box-shadow: 0 14px 28px rgba(26,26,26,.35);
+    position: relative;
+  }
+  .taped .dim { color: rgba(245,240,225,.72); }
+  .taped .grn { color: #19b47a; }
+  .tape {
+    position: absolute; width: 110px; height: 30px;
+    background: rgba(245,224,150,.55); border: 1px solid rgba(26,26,26,.12);
+    transform: rotate(-40deg); top: -14px; left: -34px;
+  }
+  .tape.r { left: auto; right: -34px; transform: rotate(40deg); }
+
+  /* dymo label */
+  .dymo {
+    display: inline-block; font-family: 'Nineteen', monospace; font-size: 12px;
+    letter-spacing: .3em; background: var(--red); color: var(--paper);
+    padding: 6px 14px; transform: rotate(-2deg); margin-top: 22px;
+    box-shadow: 2px 3px 0 rgba(26,26,26,.8);
+  }
+
+  /* index card footnote */
+  .footnote {
+    margin-top: 64px; border-top: 3px solid var(--black); padding-top: 14px;
+    display: flex; justify-content: space-between; font-size: 12px;
+    font-family: 'Nineteen', monospace; letter-spacing: .12em;
+  }
+
+  .dark-close { padding: 72px 24px; text-align: center; }
+  .dark-close .lzr { font-family: 'Lazer84'; color: var(--paper); font-size: 26px; opacity: .9; }
+</style>
+</head>
+<body>
+
+  <!-- Existing dark world, for context -->
+  <section class="dark-strip">
+    <div class="term">
+      &gt; [17:12:48] SYS_LOG: PUSH &gt;&gt; [mtgibbs/pi-cluster] to main<br>
+      &gt; <span class="red">[SIG_OVERRIDE] :: REMOTE_SESSION_ATTACHED</span><br>
+      &gt; the machine layer stays exactly this: warm charcoal, amber phosphor. █
+    </div>
+  </section>
+
+  <!-- THE TEAR: machine rips open to paper -->
+  <div class="tear"></div>
+
+  <!-- THE NEW SPACE: human layer printed on paper -->
+  <section class="paper">
+    <div class="spread">
+      <h2 class="stamp">Experience</h2>
+      <span class="stamp-sub">FIELD NOTES // ISSUE 06 // PRINTED IN ATL</span>
+
+      <div class="cols">
+        <div class="article">
+          <h3>Senior Software Engineering Manager</h3>
+          <span class="role-tag">DATA STRATEGY &amp; AUDIT INTELLIGENCE — 2021→NOW</span>
+          <p>
+            I run strategy and delivery for data analytics platforms that support
+            inventory audits and portfolio risk analysis. The work is balancing
+            speed, accuracy, and trust — building systems customers rely on when
+            the decisions are real.
+          </p>
+          <p>
+            Alongside the platform work, I built an engineering internship
+            pipeline with Georgia Tech, Kennesaw State, and Georgia State that
+            turns early-career engineers into shipping engineers.
+          </p>
+          <span class="marginalia">this part is the whole job &rarr;</span>
+          <div class="inkbars"><span class="a"></span><span class="b"></span><span class="c"></span><span class="d"></span></div>
+        </div>
+
+        <div>
+          <div class="taped">
+            <span class="tape"></span><span class="tape r"></span>
+            $ fleet ps --short<br>
+            <span class="dim">PID&nbsp;&nbsp;AGENT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STATUS</span><br>
+            001&nbsp;&nbsp;claude-fable-5&nbsp;&nbsp;<span class="grn">● active</span><br>
+            006&nbsp;&nbsp;fluxcd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="grn">● active</span><br>
+            <span class="dim">// terminals become photos taped into the zine</span>
+          </div>
+          <span class="dymo">HUMAN_IN_THE_LOOP</span>
+        </div>
+      </div>
+
+      <div class="footnote">
+        <span>MTGIBBS.XYZ — A DECADE OF ITERATIONS</span>
+        <span>PG. 06 / AMBER &amp; INK</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tear back into the machine -->
+  <div class="tear flip"></div>
+  <section class="dark-close">
+    <span class="lzr">…and back into the phosphor</span>
+  </section>
+
+</body>
+</html>
