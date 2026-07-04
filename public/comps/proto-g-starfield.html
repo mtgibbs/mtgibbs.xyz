@@ -128,9 +128,10 @@
   }
   resize(); addEventListener('resize', resize);
 
-  let rot = 0.6, sweep = 0, zoom = 1, zoomT = 1, sel = 0, lock = 0, lockTimer = 0, pulse = 0;
+  let rot = 0.6, zoom = 1, zoomT = 1, sel = 0, lock = 0, lockTimer = 0, pulse = 0;
   let ox = 0, oy = 0; // camera pan — lock centers its target
   let mode = 'scan';
+  let manual = false; // once the user takes control, auto-cycling stops
   const S = () => Math.min(W,H) * 0.42;
   const PITCH = 0.52;
 
@@ -181,8 +182,8 @@
     mode = 'locking'; lock = 0; zoomT = 1.5;
     if (announce) ui.log.innerHTML = `&gt; TGT — <span class="a">${b.n}</span><br>&gt; ZOOM-TO-LOCK ENGAGED`;
   }
-  document.getElementById('next').onclick = () => setTarget(sel+1, true);
-  document.getElementById('prev').onclick = () => setTarget(sel-1, true);
+  document.getElementById('next').onclick = () => { manual = true; setTarget(sel+1, true); };
+  document.getElementById('prev').onclick = () => { manual = true; setTarget(sel-1, true); };
 
   function draw(){
     const px = devicePixelRatio;
@@ -195,16 +196,23 @@
     ring(0.62, 'rgba(59,92,125,.42)', [4*px,5*px]);
     ring(0.30, 'rgba(59,92,125,.28)', [2*px,6*px]);
 
-    // sweep
-    if (mode === 'scan'){
-      for(let t=0;t<=14;t++){
-        const a = sweep - t*0.045;
-        const p = project([Math.cos(a),0,Math.sin(a)]);
-        ctx.beginPath(); ctx.moveTo(CX,CY); ctx.lineTo(p.sx,p.sy);
-        ctx.strokeStyle = `rgba(255,176,0,${t===0?0.55:.10*(1-t/14)})`;
-        ctx.lineWidth = (t===0?1.5:1)*px; ctx.stroke();
-      }
-    }
+    // orientation tripod — fixed X/Y/Z axes at the true world origin
+    // (replaces the sweep beam, which slid off-pivot under camera pan)
+    const o = project([0,0,0]);
+    [
+      { v:[1.12,0,0], c:'rgba(255,176,0,.45)',  t:'X' },
+      { v:[0,1.02,0], c:'rgba(245,240,225,.40)', t:'Y' },
+      { v:[0,0,1.12], c:'rgba(59,130,246,.50)',  t:'Z' },
+    ].forEach(ax => {
+      const p = project(ax.v);
+      ctx.beginPath(); ctx.moveTo(o.sx,o.sy); ctx.lineTo(p.sx,p.sy);
+      ctx.strokeStyle = ax.c; ctx.lineWidth = px; ctx.stroke();
+      ctx.font = `${10*px}px Nineteen, monospace`;
+      ctx.fillStyle = ax.c;
+      ctx.fillText(ax.t, p.sx + 5*px, p.sy - 4*px);
+    });
+    ctx.beginPath(); ctx.arc(o.sx,o.sy,1.6*px,0,Math.PI*2);
+    ctx.fillStyle = 'rgba(245,240,225,.55)'; ctx.fill();
 
     // uplink signals — faint line + moving pulse
     linkPairs.forEach(([a,b],li) => {
@@ -224,16 +232,10 @@
     proj.forEach(p => {
       const b = p.b;
       const isSel = b.pinned && targets[sel] === b && mode !== 'scan';
-      // sweep flare for ambient stars
-      let flare = 0;
-      if (mode === 'scan' && !b.pinned){
-        const d = Math.abs(((b.theta + rot - sweep) % (Math.PI*2) + Math.PI*3) % (Math.PI*2) - Math.PI);
-        flare = Math.max(0, 1 - d/0.5) * 0.5;
-      }
       const r = (isSel ? b.dot*1.4 : b.dot) * p.k * px;
       ctx.beginPath(); ctx.arc(p.sx, p.sy, r, 0, Math.PI*2);
       ctx.fillStyle = isSel ? ORANGE : (b.f ? BLUE : AMBER);
-      ctx.globalAlpha = Math.min(1, (b.pinned ? .95 : b.bright*.75 + flare) * (0.5 + p.k*0.5));
+      ctx.globalAlpha = Math.min(1, (b.pinned ? .95 : b.bright*.75) * (0.5 + p.k*0.5));
       ctx.fill(); ctx.globalAlpha = 1;
       if (b.pinned){
         ctx.font = `${10*px}px Nineteen, monospace`;
@@ -270,7 +272,7 @@
   let prev = performance.now();
   function tick(now){
     const dt = Math.min((now-prev)/1000,.05); prev = now;
-    if (!reduced){ rot += dt*(mode==='locked'?0.05:0.11); sweep += dt*1.35; pulse = (pulse + dt*0.25) % 1; }
+    if (!reduced){ rot += dt*(mode==='locked'?0.03:0.07); pulse = (pulse + dt*0.25) % 1; }
     zoom += (zoomT - zoom)*Math.min(1, dt*3);
     // pan the camera so the locked body rides to center; drift home on scan
     if (mode !== 'scan'){
@@ -286,10 +288,11 @@
       if (lock>=1){ mode='locked'; ui.sta.textContent='TRACKING'; ui.state.textContent='LOCK'; ui.state.classList.add('lock'); lockTimer=0; }
     } else if (mode==='locked'){
       lockTimer += dt;
-      if (lockTimer>3.6 && !reduced){
+      // demo mode only: auto-advance until the user takes control
+      if (lockTimer>3.6 && !reduced && !manual){
         mode='scan'; zoomT=1;
         ui.state.textContent='SCANNING'; ui.state.classList.remove('lock');
-        setTimeout(() => setTarget(sel+1,true), 1500);
+        setTimeout(() => { if (!manual) setTarget(sel+1,true); }, 1500);
       }
     }
     draw();

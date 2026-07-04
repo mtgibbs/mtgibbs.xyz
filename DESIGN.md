@@ -39,9 +39,13 @@ static, life is composited.**
 Canvas star chart of the WHOLE GitHub account as bodies in 3D space
 (`proto-f-nav-radar.html` is the earlier lorem version). Camera pitch
 ~0.52 rad so rings render as ellipses.
-- **Pinned repos = navigable targets**: sweep/lock cycle (auto +
-  PREV/NEXT), zoom-to-lock with camera PAN that centers the target,
-  reticle brackets, side readout (class/epoch/last-signal/status).
+- **Pinned repos = navigable targets**: demo-mode auto-cycle until the
+  user takes control (PREV/NEXT) — after that, no auto behavior; they
+  chose their target. Zoom-to-lock with camera PAN that centers the
+  target, reticle brackets, side readout (class/epoch/last-signal/status).
+- **No sweep beam** (it slid off-pivot under camera pan). Orientation
+  comes from a fixed faint X/Y/Z axis tripod at the world origin plus
+  the age-shell rings. Rotation is slow (0.07 rad/s, 0.03 when locked).
 - **Every other repo = ambient star** (non-selectable): position is
   diegetic — created-year sets the orbital shell (2013 core → 2026 rim),
   name-hash sets azimuth, push-recency sets brightness, repo size sets
