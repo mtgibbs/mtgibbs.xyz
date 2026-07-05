@@ -110,8 +110,8 @@ const Home: NextPage<HomeProps> = ({ pinnedProjects, repoCatalog }) => {
 
         <section className="relative z-10 w-full h-full px-0 py-24 pb-16 bg-static-grey border-t-4 border-chrome-blue">
           {/* Section Title - Decoupled from content centering to maintain standard left alignment */}
-          <div className="mb-12 lg:mb-16">
-            <SectionTitle title='Experience' mnemonic="EXP" color="blue" classKey="EXP_LOG"></SectionTitle>
+          <div className="px-0 sm:px-5 mb-12 lg:mb-16">
+            <SectionTitle title='Experience' color="blue" classKey="EXP_LOG"></SectionTitle>
           </div>
 
           {/* Responsive Content Container: Full width on mobile, centered/constrained on desktop */}
@@ -122,8 +122,8 @@ const Home: NextPage<HomeProps> = ({ pinnedProjects, repoCatalog }) => {
 
         <section className="relative z-10 w-full h-full px-0 sm:px-5 py-24 pb-16 bg-magnetic-black border-t-4 border-signal-orange">
           <div className="absolute inset-0 bg-vhs-stripes pointer-events-none z-0 mix-blend-overlay opacity-30"></div>
-          <div className="relative z-10 mb-12">
-            <SectionTitle title='Projects' mnemonic="PRJ" color="orange" classKey="PROJ_DB"></SectionTitle>
+          <div className="relative z-10">
+            <SectionTitle title='Projects' color="orange" classKey="PROJ_DB"></SectionTitle>
           </div>
           <div className="container mx-auto px-4 relative z-10">
             <ProjectDeck projects={displayProjects} catalog={repoCatalog} />
@@ -136,8 +136,8 @@ const Home: NextPage<HomeProps> = ({ pinnedProjects, repoCatalog }) => {
         </section>
 
         <section className="relative z-10 w-full h-full px-0 sm:px-5 py-24 pb-16 bg-static-grey border-t-4 border-chrome-blue">
-          <div className="mb-12">
-            <SectionTitle title='Technologies' mnemonic="SYS" color="blue" classKey="TECH_SYS"></SectionTitle>
+          <div>
+            <SectionTitle title='Technologies' color="blue" classKey="TECH_SYS"></SectionTitle>
           </div>
           <DevIconList icons={ICON_OPTIONS}></DevIconList>
         </section>

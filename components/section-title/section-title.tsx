@@ -3,70 +3,86 @@ import cn from 'classnames';
 
 interface SectionTitleProps {
     title: string;
-    mnemonic?: string;
     color?: 'orange' | 'blue' | 'green' | 'amber' | 'red';
     classKey?: string;
 }
 
 const COLORS = {
     orange: {
-        tile: 'bg-signal-orange text-magnetic-black',
-        rule: 'border-signal-orange/40',
-        deco: 'text-signal-orange/70'
+        border: 'border-signal-orange',
+        text: 'text-signal-orange',
+        shadow: 'shadow-signal-orange/20',
+        bg: 'bg-signal-orange/10'
     },
     blue: {
-        tile: 'bg-chrome-blue text-faded-cardboard',
-        rule: 'border-chrome-blue/40',
-        deco: 'text-chrome-blue'
+        border: 'border-chrome-blue',
+        text: 'text-chrome-blue',
+        shadow: 'shadow-chrome-blue/20',
+        bg: 'bg-chrome-blue/10'
     },
     green: {
-        tile: 'bg-emerald-500 text-magnetic-black',
-        rule: 'border-emerald-500/40',
-        deco: 'text-emerald-500/70'
+        border: 'border-emerald-500',
+        text: 'text-emerald-500',
+        shadow: 'shadow-emerald-500/20',
+        bg: 'bg-emerald-500/10'
     },
     amber: {
-        tile: 'bg-phosphor-amber text-magnetic-black',
-        rule: 'border-phosphor-amber/40',
-        deco: 'text-phosphor-amber/70'
+        border: 'border-phosphor-amber',
+        text: 'text-phosphor-amber',
+        shadow: 'shadow-phosphor-amber/20',
+        bg: 'bg-phosphor-amber/10'
     },
     red: {
-        tile: 'bg-tracking-red text-faded-cardboard',
-        rule: 'border-tracking-red/40',
-        deco: 'text-tracking-red/80'
+        border: 'border-tracking-red',
+        text: 'text-tracking-red',
+        shadow: 'shadow-tracking-red/20',
+        bg: 'bg-tracking-red/10'
     }
 };
 
-// HAL panel header (DESIGN.md §3): flat mnemonic tile + tracked mono name
-// on a hairline rule. Tight and aligned — no rotation, no collage angles.
-const SectionTitle = ({ title, mnemonic, color = 'orange', classKey = 'MK_II' }: SectionTitleProps): React.ReactNode => {
+const SectionTitle = ({ title, color = 'orange', classKey = 'MK_II' }: SectionTitleProps): React.ReactNode => {
     const theme = COLORS[color];
-    const mn = (mnemonic || title.substring(0, 3)).toUpperCase();
     const techId = `0x${title.substring(0, 2).toUpperCase()}_${title.length}`;
 
     return (
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
-            <div className={cn(
-                "flex items-stretch border-b-2 hover:animate-panel-sync motion-reduce:animate-none",
-                theme.rule
+        <div className={cn(
+            "relative w-full sm:w-auto -mt-28 sm:-mt-32 sm:-ml-4 transform -skew-y-2 sm:-rotate-3 z-20 group inline-block top-[-85px] sm:top-[-50px]"
+        )}>
+            {/* Decorative 'Connection' Line (Top Left) */}
+            <div className={cn("absolute -top-4 -left-4 w-8 h-8 border-l-2 border-t-2 opacity-50 transition-all group-hover:w-full group-hover:h-full group-hover:opacity-100 duration-500", theme.border)} />
+
+            <h2 className={cn(
+                "relative text-xl md:text-2xl font-bold bg-magnetic-black bg-opacity-95 backdrop-blur-sm",
+                "px-8 py-4 sm:px-12 sm:py-6",
+                "min-w-[280px] sm:min-w-[400px]", // Enforce consistent width
+                "border-y-2 sm:border-2",
+                theme.border,
+                theme.text,
+                "text-center tracking-widest uppercase shadow-xl hover:shadow-2xl transition-all duration-300",
+                "heavitas overflow-hidden sm:rounded-sm"
             )}>
-                <h2 className="flex items-stretch m-0">
-                    <span className={cn(
-                        "heavitas text-xl md:text-2xl px-4 py-2 tracking-wide select-none",
-                        theme.tile
-                    )} aria-hidden="true">
-                        {mn}
-                    </span>
-                    <span className="self-center px-4 font-mono text-xs md:text-sm tracking-[0.3em] uppercase text-faded-cardboard/90">
-                        {title}
-                    </span>
-                </h2>
-                <span className={cn(
-                    "ml-auto self-center font-mono text-[9px] md:text-[10px] tracking-[0.2em] opacity-70 whitespace-nowrap",
-                    theme.deco
-                )} aria-hidden="true">
-                    CLASS: {classKey} // ADDR: {techId}
+                {/* Internal Scanline Texture */}
+                <div className="absolute inset-0 opacity-10 pointer-events-none bg-[url('/vhs_static.gif')] mix-blend-overlay"></div>
+                <div className={cn("absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300", theme.bg)}></div>
+
+                {/* Glitch Title */}
+                <span className="glitch inline-block relative z-10 drop-shadow-md" data-text={title}>
+                    {title}
                 </span>
-            </div>
+
+                {/* Tech Deco: Index Number */}
+                <span className="absolute top-1 left-2 text-[9px] font-mono opacity-50 font-normal tracking-tight">
+                    CLASS: {classKey} //
+                </span>
+
+                {/* Tech Deco: Hex Code */}
+                <span className="absolute bottom-1 right-2 text-[9px] font-mono opacity-40 font-normal tracking-tight">
+                    ADDR: {techId}
+                </span>
+            </h2>
+
+            {/* Decorative 'Bracket' (Bottom Right) */}
+            <div className={cn("absolute -bottom-2 -right-2 w-4 h-4 border-r-2 border-b-2 opacity-50 transition-all group-hover:opacity-100", theme.border)} />
         </div>
     );
 }
