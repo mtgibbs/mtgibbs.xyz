@@ -248,6 +248,7 @@ const StarChart = ({ projects, catalog: bakedCatalog, current, isOffline, classN
         };
 
         const tick = (now: number) => {
+            if (!running) return;
             const dt = Math.min((now - prev) / 1000, .05); prev = now;
             if (!reduced && !st.offline) {
                 st.rot += dt * (st.lock >= 1 ? 0.03 : 0.07);
@@ -273,8 +274,33 @@ const StarChart = ({ projects, catalog: bakedCatalog, current, isOffline, classN
         };
 
         if (reduced) { st.lock = 1; st.zoom = 1.45; }
-        raf = requestAnimationFrame(tick);
-        return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+
+        // the loop sleeps when the chart is offscreen or the tab is hidden —
+        // a canvas animating below the fold was costing scroll frames
+        let running = false;
+        let visible = true;
+        const start = () => {
+            if (!running && visible && !document.hidden) {
+                running = true;
+                prev = performance.now();
+                raf = requestAnimationFrame(tick);
+            }
+        };
+        const stop = () => { running = false; cancelAnimationFrame(raf); };
+        const io = new IntersectionObserver(([e]) => {
+            visible = e.isIntersecting;
+            visible ? start() : stop();
+        }, { rootMargin: '80px' });
+        io.observe(cv);
+        const onVis = () => { document.hidden ? stop() : start(); };
+        document.addEventListener('visibilitychange', onVis);
+
+        return () => {
+            stop();
+            io.disconnect();
+            ro.disconnect();
+            document.removeEventListener('visibilitychange', onVis);
+        };
     }, [bodies, links]);
 
     return (

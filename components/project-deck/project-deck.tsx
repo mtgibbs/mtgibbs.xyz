@@ -113,7 +113,7 @@ const ProjectDeck = ({ projects, catalog }: ProjectDeckProps) => {
                     <div className="flex-1 flex flex-col md:flex-row relative">
 
                         {/* LEFT: Project Information */}
-                        <div className={cn("flex-1 p-6 relative flex flex-col h-[400px] md:h-auto overflow-y-auto md:overflow-visible custom-scrollbar", styles.crtText)}>
+                        <div className={cn("flex-1 p-6 relative flex flex-col h-[400px] md:h-auto overflow-y-auto md:overflow-visible custom-scrollbar phosphor-text", styles.crtText)}>
 
                             <div className="relative z-10 flex-1 flex flex-col">
                                 <div className="flex flex-col gap-1 mb-6 border-l-2 border-phosphor-amber/50 pl-4">

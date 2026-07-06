@@ -93,7 +93,7 @@ const CodeHero = ({ titleText, secondText, secondTextDesktop }: CodeHeroProps): 
                         globalVhsActive && styles.vhsSync
                     )}>
                     <div ref={scrollContainerRef} className={cn(
-                        "object-cover font-mono text-phosphor-amber h-full py-4 overflow-scroll scrollbar-thin scrollbar-thumb-signal-orange scrollbar-track-transparent scrollbar-thumb-rounded select-none bg-black/20"
+                        "object-cover font-mono text-phosphor-amber h-full py-4 overflow-scroll scrollbar-thin scrollbar-thumb-signal-orange scrollbar-track-transparent scrollbar-thumb-rounded select-none bg-black/20 phosphor-text"
                     )}>
                         <CodeHeroText codeText={codeText}></CodeHeroText>
                     </div>

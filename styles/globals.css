@@ -371,12 +371,17 @@ a {
 .vhs-effects {
   position: relative;
   transition: filter 0.3s ease;
-  /* tight pixel fuzz: misconvergence fringe + phosphor bloom, painted once */
+}
+
+/* tight pixel fuzz: misconvergence fringe + phosphor bloom, painted once.
+   SCOPED to terminal surfaces only — site-wide blurred text-shadow made
+   every newly-rasterized scroll region repaint every glyph 4x. */
+.phosphor-text {
   text-shadow:
     0 0 1px currentColor,
     0.6px 0 1px rgba(255, 70, 50, 0.34),
     -0.6px 0 1px rgba(70, 130, 255, 0.30),
-    0 0 7px rgba(255, 176, 0, 0.42);
+    0 0 6px rgba(255, 176, 0, 0.40);
 }
 
 /* flicker lives on the ::after veil (composited overlay), not the wrapper —
@@ -533,14 +538,10 @@ a {
   display: block;
 }
 
+/* static under VHS too — the 5.5Hz spray animation stacked with the veil
+   and roll was one full-screen composite too many */
 .vhs-active .tracking-noise {
-  opacity: 0.16;
-  animation: phosphor-spray 0.18s steps(2) infinite;
-}
-
-@keyframes phosphor-spray {
-  0%, 100% { opacity: 0.16; }
-  50% { opacity: 0.09; }
+  opacity: 0.15;
 }
 
 @keyframes textShadowGlobal {
