@@ -69,9 +69,12 @@ Canvas star chart of the WHOLE GitHub account as bodies in 3D space
   Prototype remains at public/comps/proto-g-starfield.html.
 
 ### 3. HAL mnemonic panels — `proto-b-hal.html`
-Section/panel grammar: framed displays on a strict grid, each owned by a
-fat Heavitas 3-letter mnemonic tile (`SYS` `COM` `NAV` `LOG` …) with the
-full name in small mono beside it. One-frame resync roll on hover.
+Panel grammar for CONTENT modules: framed displays on a strict grid,
+owned by a fat Heavitas 3-letter mnemonic tile with the full name in
+small mono beside it. One-frame resync roll on hover.
+**NOT for section headers** — the v5 rotated glitch section plates are
+SACRED (tried 2026-07-05, rejected hard, reverted in 78ea025). Do not
+replace SectionTitle again.
 
 ### 4. LOG event stream — `proto-b-hal.html` LOG panel
 Approved pattern for existing readouts (System Logs etc.):
@@ -87,6 +90,11 @@ line-by-line text draw for sparse moments (`proto-a-muthur.html`).
 
 - Composited properties only (`transform`, `opacity`); no animated
   text-shadow, no layout-property animation.
+- Blurred text-shadow (`.phosphor-text`) is scoped to terminal surfaces
+  only — NEVER site-wide (it taxes every rasterized scroll region).
+- No huge animated layers: cap decorative backdrops to the viewport
+  they're visible in (see CyberGrid), and canvas rAF loops must sleep
+  when offscreen (IntersectionObserver) and on hidden tabs.
 - Blinks and state changes use `steps()` — mechanical, not smooth.
 - Easing is slightly sluggish ease-in-out ("mechanical weight").
 - Every animation has a `prefers-reduced-motion` fallback (final state
