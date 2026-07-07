@@ -48,6 +48,8 @@ const Visualizer: React.FC<VisualizerProps> = ({ trackId, isPlaying, progressMs,
 
     const containerRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const dotTxRef = useRef<HTMLDivElement>(null);
+    const dotRxRef = useRef<HTMLDivElement>(null);
     const requestRef = useRef<number>(0);
 
     // Band levels lerped per-frame; the trace samples through them
@@ -166,19 +168,22 @@ const Visualizer: React.FC<VisualizerProps> = ({ trackId, isPlaying, progressMs,
         const { r, g, b } = colorRef.current;
         const cy = h * 0.52;
         const amp = h * (isPlaying ? 0.34 : 0.16);
+        // trace runs terminal to terminal, pinned flat into each dot
+        const inset = 7;
 
         ctx.beginPath();
         for (let i = 0; i < SAMPLES; i++) {
             const x = i / (SAMPLES - 1);
+            const env = Math.min(1, Math.min(x, 1 - x) * 7);
             const f = x * (BANDS - 1);
             const i0 = Math.floor(f);
             const i1 = Math.min(BANDS - 1, i0 + 1);
             const v = bands[i0] + (bands[i1] - bands[i0]) * (f - i0);
             const y = cy
-                + Math.sin(x * 24 + t * 5.5) * v * amp
-                + Math.sin(x * 5 - t * 1.2) * h * 0.05;
-            if (i === 0) ctx.moveTo(0, y);
-            else ctx.lineTo(x * w, y);
+                + (Math.sin(x * 24 + t * 5.5) * v * amp
+                + Math.sin(x * 5 - t * 1.2) * h * 0.05) * env;
+            if (i === 0) ctx.moveTo(inset, y);
+            else ctx.lineTo(inset + x * (w - inset * 2), y);
         }
         ctx.strokeStyle = `rgba(${r},${g},${b},0.28)`;
         ctx.lineWidth = 3.5;
@@ -203,6 +208,21 @@ const Visualizer: React.FC<VisualizerProps> = ({ trackId, isPlaying, progressMs,
         c.r += (mood.r - c.r) * 0.06;
         c.g += (mood.g - c.g) * 0.06;
         c.b += (mood.b - c.b) * 0.06;
+
+        // terminals follow the mood color; RX breathes with the live level
+        const rgb = `${Math.round(c.r)},${Math.round(c.g)},${Math.round(c.b)}`;
+        const tx = dotTxRef.current;
+        const rx = dotRxRef.current;
+        if (tx) {
+            tx.style.backgroundColor = `rgb(${rgb})`;
+            tx.style.boxShadow = `0 0 5px rgba(${rgb},0.55)`;
+        }
+        if (rx) {
+            const level = bandsRef.current[BANDS - 1];
+            rx.style.backgroundColor = `rgb(${rgb})`;
+            rx.style.boxShadow = `0 0 5px rgba(${rgb},0.55)`;
+            rx.style.transform = `scale(${(1 + level * 0.7).toFixed(3)})`;
+        }
     };
 
     useEffect(() => {
@@ -258,12 +278,19 @@ const Visualizer: React.FC<VisualizerProps> = ({ trackId, isPlaying, progressMs,
             {/* Retro Grid Background */}
             <div className="absolute inset-x-0 bottom-0 h-full opacity-10 pointer-events-none bg-[linear-gradient(90deg,rgba(255,255,255,.1)_1px,transparent_1px),linear-gradient(rgba(255,255,255,.1)_1px,transparent_1px)] bg-[size:10px_10px] mask-image-b-fade"></div>
 
-            {/* Scope frame — faint instrument window with sweep ticks.
-                Lives outside the canvas so the persistence veil can't
-                accumulate it toward full brightness. */}
-            <div className="absolute inset-x-0 bottom-0 h-12 border border-faded-cardboard/10 pointer-events-none" aria-hidden="true">
-                <div className="absolute inset-x-0 bottom-0 h-[3px] bg-[repeating-linear-gradient(90deg,rgba(245,240,225,0.09)_0_1px,transparent_1px_16px)]"></div>
-            </div>
+            {/* Signal terminals — the trace oscillates between these. Static
+                DOM, not canvas: the persistence veil would accumulate them
+                toward full brightness. */}
+            <div
+                ref={dotTxRef}
+                className="absolute left-1 bottom-5 z-10 h-1.5 w-1.5 rounded-full pointer-events-none"
+                aria-hidden="true"
+            ></div>
+            <div
+                ref={dotRxRef}
+                className="absolute right-1 bottom-5 z-10 h-1.5 w-1.5 rounded-full pointer-events-none"
+                aria-hidden="true"
+            ></div>
 
             {/* Scope trace */}
             <canvas
