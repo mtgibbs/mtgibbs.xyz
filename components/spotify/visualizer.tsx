@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo } from 'react';
+import React, { useEffect, useRef } from 'react';
 import useSWR from 'swr';
 import cn from 'classnames';
 import { useGPU } from '../../hooks/use-gpu';
@@ -25,8 +25,16 @@ interface AudioAnalysis {
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
+const BANDS = 12;
+const SAMPLES = 56;
+
+// Magnetic Spectrum mood mapping (chrome-blue calm / amber mid / orange hot)
+const MOOD_BLUE = { r: 108, g: 150, b: 190 };
+const MOOD_AMBER = { r: 255, g: 176, b: 0 };
+const MOOD_ORANGE = { r: 255, g: 68, b: 0 };
+const MOOD_IDLE = { r: 245, g: 240, b: 225 };
+
 const Visualizer: React.FC<VisualizerProps> = ({ trackId, isPlaying, progressMs, timestamp }) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { isLowPower } = useGPU();
     const { data: analysisData } = useSWR<AudioAnalysis>(
         trackId ? `/api/spotify-analysis?id=${trackId}` : null,
@@ -39,11 +47,15 @@ const Visualizer: React.FC<VisualizerProps> = ({ trackId, isPlaying, progressMs,
     );
 
     const containerRef = useRef<HTMLDivElement>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
     const requestRef = useRef<number>(0);
-    const barRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-    // Store current heights in a ref to avoid reading from DOM or State
-    const currentHeights = useRef<number[]>(new Array(12).fill(0.1));
+    // Band levels lerped per-frame; the trace samples through them
+    const bandsRef = useRef<number[]>(new Array(BANDS).fill(0.12));
+    const colorRef = useRef({ ...MOOD_IDLE });
+    const visibleRef = useRef(true);
+    const sizeRef = useRef({ w: 0, h: 0 });
+    const frameCountRef = useRef(0);
 
     // Refs for animation state to avoid closure staleness
     const stateRef = useRef({
@@ -51,43 +63,46 @@ const Visualizer: React.FC<VisualizerProps> = ({ trackId, isPlaying, progressMs,
         progressMs,
         timestamp,
         analysisData,
-        isLowPower
+        isLowPower,
+        trackId,
     });
 
     useEffect(() => {
-        stateRef.current = { isPlaying, progressMs, timestamp, analysisData, isLowPower };
-    }, [isPlaying, progressMs, timestamp, analysisData, isLowPower]);
+        stateRef.current = { isPlaying, progressMs, timestamp, analysisData, isLowPower, trackId };
+    }, [isPlaying, progressMs, timestamp, analysisData, isLowPower, trackId]);
 
-    const frameCountRef = useRef(0);
+    const sizeCanvas = () => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const rect = canvas.getBoundingClientRect();
+        if (!rect.width) return;
+        const dpr = Math.min(2, window.devicePixelRatio || 1);
+        canvas.width = Math.round(rect.width * dpr);
+        canvas.height = Math.round(rect.height * dpr);
+        sizeRef.current = { w: rect.width, h: rect.height };
+        const ctx = canvas.getContext('2d');
+        if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
 
-    const animate = () => {
-        const { isPlaying, progressMs, timestamp, analysisData, isLowPower } = stateRef.current; // Updated destructuring
+    const computeTargets = (): { bars: number[]; mood: { r: number; g: number; b: number }; hasData: boolean } => {
+        const { isPlaying, progressMs, timestamp, analysisData, trackId } = stateRef.current;
 
-        frameCountRef.current += 1;
-        // Throttle to 30fps on low power mode
-        if (isLowPower && frameCountRef.current % 2 !== 0) {
-            requestRef.current = requestAnimationFrame(animate);
-            return;
-        }
-
-        let targetBars = new Array(12).fill(0.1); // Default low level
-        let valence = 0.5;
+        let targetBars = new Array(BANDS).fill(0.1);
+        let mood = MOOD_IDLE;
         let hasData = false;
 
         if (isPlaying && analysisData && analysisData.segments) {
-            const now = Date.now();
-            const elapsed = now - timestamp;
-            const currentPos = progressMs + elapsed;
-            const currentPosSec = currentPos / 1000;
-
+            const currentPosSec = (progressMs + (Date.now() - timestamp)) / 1000;
             const segment = analysisData.segments.find(s =>
                 currentPosSec >= s.start && currentPosSec < (s.start + s.duration)
             );
-
             if (segment) {
                 targetBars = segment.pitches;
-                valence = analysisData.features.valence;
                 hasData = true;
+                const { valence, energy } = analysisData.features;
+                if (valence < 0.45 || energy < 0.45) mood = MOOD_BLUE;
+                else if (energy > 0.75) mood = MOOD_ORANGE;
+                else mood = MOOD_AMBER;
             }
         }
 
@@ -95,15 +110,15 @@ const Visualizer: React.FC<VisualizerProps> = ({ trackId, isPlaying, progressMs,
             if (isPlaying) {
                 // PROCEDURAL SYNC MODE
                 const trackHash = (trackId || '').split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-                const mode = trackHash % 3;
+                const modeN = trackHash % 3;
                 const time = Date.now() / 1000;
 
                 targetBars = targetBars.map((_, i) => {
                     let val = 0.1;
-                    if (mode === 0) {
+                    if (modeN === 0) {
                         const offset = i * 0.2;
                         val = Math.abs(Math.sin(time * 3 + offset + trackHash));
-                    } else if (mode === 1) {
+                    } else if (modeN === 1) {
                         const center = 6;
                         const dist = Math.abs(i - center);
                         const beat = Math.pow(Math.sin(time * 4), 10);
@@ -114,8 +129,9 @@ const Visualizer: React.FC<VisualizerProps> = ({ trackId, isPlaying, progressMs,
                     }
                     return Math.max(0.1, Math.min(1, val));
                 });
+                mood = modeN === 0 ? MOOD_BLUE : modeN === 1 ? MOOD_AMBER : MOOD_ORANGE;
             } else {
-                // Idle animation
+                // Idle ripple — NO_CARRIER
                 const time = Date.now() / 1000;
                 targetBars = targetBars.map((_, i) =>
                     0.15 + 0.1 * Math.sin(time * 2 + i * 0.5)
@@ -123,74 +139,131 @@ const Visualizer: React.FC<VisualizerProps> = ({ trackId, isPlaying, progressMs,
             }
         }
 
-        // Apply to DOM
-        currentHeights.current = currentHeights.current.map((prev, i) => {
-            const target = targetBars[i] || 0.1;
-            // Adjust lerp factor based on power mode
-            const baseLerp = (hasData && valence < 0.4) ? 0.05 : (isPlaying ? 0.2 : 0.15);
-            // On low power (30fps), we increase the lerp speed slightly to compensate for frame skipping, keeping responsiveness
-            const lerpFactor = isLowPower ? Math.min(1, baseLerp * 1.5) : baseLerp;
-            const nextHeight = prev + (target - prev) * lerpFactor;
+        return { bars: targetBars, mood, hasData };
+    };
 
-            // Direct DOM update
-            const el = barRefs.current[i];
-            if (el) {
-                el.style.height = `${Math.max(10, nextHeight * 100)}%`;
-            }
-            return nextHeight;
-        });
+    // Phosphor scope trace (proto H5). `still` renders one frame with no decay
+    // trail for the reduced-motion path.
+    const draw = (t: number, still: boolean) => {
+        const canvas = canvasRef.current;
+        const ctx = canvas?.getContext('2d');
+        const { w, h } = sizeRef.current;
+        if (!canvas || !ctx || !w) return;
 
-        requestRef.current = requestAnimationFrame(animate);
+        const { isPlaying, isLowPower } = stateRef.current;
+
+        if (still) {
+            ctx.clearRect(0, 0, w, h);
+        } else {
+            // persistence veil — fade prior sweeps toward transparent
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.fillStyle = `rgba(0,0,0,${isLowPower ? 0.26 : 0.15})`;
+            ctx.fillRect(0, 0, w, h);
+            ctx.globalCompositeOperation = 'source-over';
+        }
+
+        const bands = bandsRef.current;
+        const { r, g, b } = colorRef.current;
+        const cy = h * 0.55;
+        const amp = h * (isPlaying ? 0.38 : 0.18);
+
+        ctx.beginPath();
+        for (let i = 0; i < SAMPLES; i++) {
+            const x = i / (SAMPLES - 1);
+            const f = x * (BANDS - 1);
+            const i0 = Math.floor(f);
+            const i1 = Math.min(BANDS - 1, i0 + 1);
+            const v = bands[i0] + (bands[i1] - bands[i0]) * (f - i0);
+            const y = cy
+                + Math.sin(x * 24 + t * 5.5) * v * amp
+                + Math.sin(x * 5 - t * 1.2) * h * 0.05;
+            if (i === 0) ctx.moveTo(0, y);
+            else ctx.lineTo(x * w, y);
+        }
+        ctx.strokeStyle = `rgba(${r},${g},${b},0.28)`;
+        ctx.lineWidth = 3.5;
+        ctx.stroke();
+        ctx.strokeStyle = `rgba(${r},${g},${b},${isPlaying ? 0.95 : 0.5})`;
+        ctx.lineWidth = 1.4;
+        ctx.stroke();
+    };
+
+    const step = () => {
+        const { bars: targetBars, mood, hasData } = computeTargets();
+        const { isPlaying, isLowPower, analysisData } = stateRef.current;
+        const valence = analysisData?.features?.valence ?? 0.5;
+
+        const baseLerp = (hasData && valence < 0.4) ? 0.05 : (isPlaying ? 0.2 : 0.15);
+        const lerpFactor = isLowPower ? Math.min(1, baseLerp * 1.5) : baseLerp;
+        bandsRef.current = bandsRef.current.map((prev, i) =>
+            prev + ((targetBars[i] || 0.1) - prev) * lerpFactor
+        );
+
+        const c = colorRef.current;
+        c.r += (mood.r - c.r) * 0.06;
+        c.g += (mood.g - c.g) * 0.06;
+        c.b += (mood.b - c.b) * 0.06;
     };
 
     useEffect(() => {
-        // Start animation loop
-        requestRef.current = requestAnimationFrame(animate);
-        return () => {
-            if (requestRef.current) cancelAnimationFrame(requestRef.current);
+        sizeCanvas();
+
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        const animate = () => {
+            requestRef.current = requestAnimationFrame(animate);
+
+            frameCountRef.current += 1;
+            // Throttle to 30fps on low power mode
+            if (stateRef.current.isLowPower && frameCountRef.current % 2 !== 0) return;
+            // Sleep while the footer is offscreen
+            if (!visibleRef.current) return;
+
+            step();
+            draw(Date.now() / 1000, false);
         };
+
+        const stillFrame = () => {
+            step();
+            draw(4.2, true);
+        };
+
+        const start = () => {
+            cancelAnimationFrame(requestRef.current);
+            if (reduced.matches) stillFrame();
+            else requestRef.current = requestAnimationFrame(animate);
+        };
+        start();
+        reduced.addEventListener('change', start);
+
+        const io = new IntersectionObserver(([entry]) => {
+            visibleRef.current = entry.isIntersecting;
+        }, { rootMargin: '48px' });
+        if (containerRef.current) io.observe(containerRef.current);
+
+        const ro = new ResizeObserver(() => sizeCanvas());
+        if (canvasRef.current) ro.observe(canvasRef.current);
+
+        return () => {
+            cancelAnimationFrame(requestRef.current);
+            reduced.removeEventListener('change', start);
+            io.disconnect();
+            ro.disconnect();
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // Derived styles for colors (these update rarely, so React state is fine)
-    const features = analysisData?.features;
-
-    // Helper to get bar color class
-    const getBarColorClass = (i: number) => {
-        if (features) {
-            if (features.valence < 0.45 || features.energy < 0.45) return "bg-gradient-to-t from-chrome-blue to-indigo-500";
-            if (features.energy > 0.75) return "bg-gradient-to-t from-signal-orange to-phosphor-amber";
-            return "bg-gradient-to-t from-fuchsia-500 to-purple-600";
-        }
-
-        if (isPlaying) {
-            const hash = (trackId || '').split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-            const mode = hash % 3;
-            if (mode === 0) return "bg-gradient-to-t from-chrome-blue to-indigo-500";
-            if (mode === 1) return "bg-gradient-to-t from-fuchsia-500 to-purple-600";
-            return "bg-gradient-to-t from-signal-orange to-phosphor-amber";
-        }
-
-        return "bg-static-grey";
-    };
-
     return (
-        <div className="relative flex items-end h-16 w-full justify-between pt-4" ref={containerRef}>
+        <div className="relative h-16 w-full pt-4" ref={containerRef}>
             {/* Retro Grid Background */}
             <div className="absolute inset-x-0 bottom-0 h-full opacity-10 pointer-events-none bg-[linear-gradient(90deg,rgba(255,255,255,.1)_1px,transparent_1px),linear-gradient(rgba(255,255,255,.1)_1px,transparent_1px)] bg-[size:10px_10px] mask-image-b-fade"></div>
 
-            {/* Bars Container */}
-            <div className="relative z-10 flex items-end justify-between w-full h-8 space-x-1">
-                {new Array(12).fill(0).map((_, i) => (
-                    <div
-                        key={i}
-                        ref={el => { barRefs.current[i] = el; }}
-                        className={cn("w-1.5 rounded-t-sm transition-colors duration-500", getBarColorClass(i))}
-                        style={{
-                            height: '10%' // Initial height
-                        }}
-                    />
-                ))}
-            </div>
+            {/* Scope trace */}
+            <canvas
+                ref={canvasRef}
+                className="absolute inset-x-0 bottom-0 z-10 h-12 w-full"
+                aria-hidden="true"
+            />
 
             {/* Status Text Left */}
             <div className="absolute -top-1 left-0 flex flex-col pointer-events-none">
