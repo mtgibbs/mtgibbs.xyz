@@ -133,6 +133,7 @@ const DevIconList = ({ icons }: DevIconListProps): React.ReactNode => {
                                 isColor={iconOption.isColor}
                                 isWordmark={iconOption.isWordmark}
                                 style={iconOption.style}
+                                glow
                                 className="animate-terminal-glow text-phosphor-amber drop-shadow-[0_0_8px_rgba(255,176,0,0.8)]"
                             />
                         </div>
