@@ -78,6 +78,9 @@ const Home: NextPage<HomeProps> = ({ pinnedProjects, repoCatalog }) => {
               <br />
               <br />
               I&apos;m particularly drawn to product engineering and developer experience. I care about building systems and teams that make good work easier, and about demystifying technology so it feels more approachable and less fragile.
+              <br />
+              <br />
+              Right now that means AI-assisted engineering: agent harnesses, evaluation gates in CI, and measuring what agents do instead of taking their word for it. My homelab runs the same experiments — a GitOps K3s cluster with MCP servers and agent loops. Every build of this site lands there too.
 
             </p>
 

@@ -51,8 +51,15 @@ Canvas star chart of the WHOLE GitHub account as bodies in 3D space
   name-hash sets azimuth, push-recency sets brightness, repo size sets
   dot radius. Forks render dim chrome-blue ("derelict hulls").
 - **Uplink signals**: dashed lines with a moving pulse between related
-  bodies (e.g. mtgibbs.xyz ↔ pi-cluster ↔ pi-cluster-mcp). Extend with a
-  relations map in /data later.
+  bodies, driven by `PROJECT_RELATIONS` in /data. Every line must be a
+  real relationship (deploys-on, same family, reports-to) — diegetic
+  honesty applies to the map.
+- **Factions**: repo families (`PROJECT_FACTIONS` in /data) tint their
+  member dots and intra-faction uplinks — amber HOMELAB fleet, lifted
+  chrome-blue RALPH, cardboard CAMPUS. Faction tint overrides fork
+  styling (an active fork can fly faction colors); classified and
+  selected styling always win. Colors stay in the warm Magnetic
+  Spectrum family.
 - **Private repos = classified contacts**: unnamed red open-circle
   blips; only the COUNT ships publicly ("CLASSIFIED n // SIGNAL
   WITHHELD"). Never bake private repo names into the public site.

@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef } from 'react';
 import useSWR from 'swr';
 import { IProject } from './model/project';
 import { IRepoStar, IStarCatalog } from './model/repo-star';
-import { PROJECT_RELATIONS } from '../../data';
+import { PROJECT_RELATIONS, PROJECT_FACTIONS } from '../../data';
 
 interface StarChartProps {
     projects: readonly IProject[];
@@ -59,7 +59,12 @@ interface IBody {
     fork: boolean;
     classified: boolean;
     targetIndex: number; // -1 for ambient stars
+    faction: string | null; // faction tint; overrides fork/default coloring
 }
+
+const FACTION_BY_MEMBER = new Map<string, string>(
+    PROJECT_FACTIONS.flatMap(f => f.members.map(m => [m, f.color] as [string, string]))
+);
 
 // The NAV star chart (DESIGN.md §2): every repo is a body in 3D space.
 // Position is diegetic — created-year sets the orbital shell, name-hash
@@ -84,6 +89,7 @@ const StarChart = ({ projects, catalog: bakedCatalog, current, isOffline, classN
             const theta = h1 * Math.PI * 2;
             return {
                 name, fork, classified: false, targetIndex,
+                faction: FACTION_BY_MEMBER.get(name) ?? null,
                 pos: [Math.cos(theta) * radius, (h2 - .5) * 0.5, Math.sin(theta) * radius],
                 bright,
                 dot: Math.max(1.1, Math.min(2.4, Math.log10(Math.max(sizeKb, 2)) * 0.8)) + (targetIndex >= 0 ? 1.6 : 0),
@@ -106,7 +112,7 @@ const StarChart = ({ projects, catalog: bakedCatalog, current, isOffline, classN
             const radius = 0.45 + h2 * 0.45;
             const theta = h1 * Math.PI * 2;
             out.push({
-                name: null, fork: false, classified: true, targetIndex: -1,
+                name: null, fork: false, classified: true, targetIndex: -1, faction: null,
                 pos: [Math.cos(theta) * radius, (hash('y' + i) - .5) * 0.5, Math.sin(theta) * radius],
                 bright: 0.7, dot: 1.7,
             });
@@ -114,10 +120,15 @@ const StarChart = ({ projects, catalog: bakedCatalog, current, isOffline, classN
         return out;
     }, [projects, catalog]);
 
+    // trade routes: an uplink inside one faction flies that faction's colors
     const links = useMemo(() =>
         PROJECT_RELATIONS
-            .map(([a, b]) => [bodies.find(x => x.name === a), bodies.find(x => x.name === b)])
-            .filter((p): p is [IBody, IBody] => Boolean(p[0] && p[1])),
+            .map(([a, b]) => ({
+                a: bodies.find(x => x.name === a),
+                b: bodies.find(x => x.name === b),
+            }))
+            .filter((l): l is { a: IBody; b: IBody } => Boolean(l.a && l.b))
+            .map(l => ({ ...l, color: l.a.faction && l.a.faction === l.b.faction ? l.a.faction : AMBER })),
         [bodies]);
 
     // selection changes ride in via ref so the rAF loop isn't re-created
@@ -190,16 +201,17 @@ const StarChart = ({ projects, catalog: bakedCatalog, current, isOffline, classN
             ctx.stroke();
 
             // uplink signals
-            links.forEach(([a, b], li) => {
+            links.forEach(({ a, b, color }, li) => {
                 const pa = project(a.pos), pb = project(b.pos);
                 ctx.beginPath(); ctx.moveTo(pa.sx, pa.sy); ctx.lineTo(pb.sx, pb.sy);
-                ctx.strokeStyle = `rgba(255,176,0,${.14 * dim})`; ctx.lineWidth = px;
+                ctx.strokeStyle = color; ctx.globalAlpha = .16 * dim; ctx.lineWidth = px;
                 ctx.setLineDash([2 * px, 4 * px]); ctx.stroke(); ctx.setLineDash([]);
+                ctx.globalAlpha = 1;
                 if (!st.offline) {
                     const t = (st.pulse + li * 0.5) % 1;
                     ctx.beginPath();
                     ctx.arc(pa.sx + (pb.sx - pa.sx) * t, pa.sy + (pb.sy - pa.sy) * t, 1.4 * px, 0, Math.PI * 2);
-                    ctx.fillStyle = AMBER; ctx.globalAlpha = .8; ctx.fill(); ctx.globalAlpha = 1;
+                    ctx.fillStyle = color; ctx.globalAlpha = .8; ctx.fill(); ctx.globalAlpha = 1;
                 }
             });
 
@@ -216,7 +228,8 @@ const StarChart = ({ projects, catalog: bakedCatalog, current, isOffline, classN
                 if (b.classified) {
                     ctx.strokeStyle = RED; ctx.lineWidth = px * 0.8; ctx.stroke();
                 } else {
-                    ctx.fillStyle = isSel ? ORANGE : (b.fork ? BLUE : (st.offline ? RED : AMBER));
+                    // priority: selected > offline > faction colors > derelict fork > ambient
+                    ctx.fillStyle = isSel ? ORANGE : (st.offline ? RED : (b.faction ?? (b.fork ? BLUE : AMBER)));
                     ctx.fill();
                 }
                 ctx.globalAlpha = 1;

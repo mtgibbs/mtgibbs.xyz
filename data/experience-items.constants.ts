@@ -8,7 +8,9 @@ export const EXPERIENCE: readonly IExperienceItem[] = [
 
 I work closely with Product and UX partners to turn loosely defined problems into clear technical direction. A large part of my focus is helping teams navigate trade-offs, establish ownership, and build solutions that are resilient and understandable over time. I care deeply about technical standards and about creating an environment where engineers can move quickly without cutting corners.
 
-Alongside the platform work, I established and continue to lead DataScan’s engineering internship program in partnership with several local universities, including Georgia Tech, Kennesaw State, and Georgia State. What began as a small effort has grown into a repeatable pipeline for developing early-career engineers, and it remains one of the most rewarding parts of my role.`,
+Lately I’ve been driving our AI-assisted engineering adoption by building the proofs myself: evaluation gates that measure AI-written code in CI, a lab-proven harness that turns a ticket mention into a draft merge request, and the marketplace that distributes our agent tooling. The other half is making the case honestly — briefings, workshops with live demos, and real capacity baselines instead of wishful multipliers.
+
+Alongside the platform work, I established and continue to lead DataScan’s engineering internship program in partnership with several local universities, including Georgia Tech, Kennesaw State, and Georgia State. What began as a small effort has grown into a repeatable pipeline for developing early-career engineers — and lately, the first place our AI-native workflows get taught — and it remains one of the most rewarding parts of my role.`,
         startDate: '2021',
         endDate: 'Present',
         relatedReports: [
