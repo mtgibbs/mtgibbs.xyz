@@ -164,21 +164,24 @@ const Visualizer: React.FC<VisualizerProps> = ({ trackId, isPlaying, progressMs,
 
         const bands = bandsRef.current;
         const { r, g, b } = colorRef.current;
-        const cy = h * 0.55;
-        const amp = h * (isPlaying ? 0.38 : 0.18);
+        const cy = h * 0.52;
+        const amp = h * (isPlaying ? 0.34 : 0.16);
+        const inset = 8;
 
         ctx.beginPath();
         for (let i = 0; i < SAMPLES; i++) {
             const x = i / (SAMPLES - 1);
+            // pin the trace toward the frame edges (E4 enclosure)
+            const env = Math.min(1, Math.min(x, 1 - x) * 10);
             const f = x * (BANDS - 1);
             const i0 = Math.floor(f);
             const i1 = Math.min(BANDS - 1, i0 + 1);
             const v = bands[i0] + (bands[i1] - bands[i0]) * (f - i0);
             const y = cy
-                + Math.sin(x * 24 + t * 5.5) * v * amp
-                + Math.sin(x * 5 - t * 1.2) * h * 0.05;
-            if (i === 0) ctx.moveTo(0, y);
-            else ctx.lineTo(x * w, y);
+                + (Math.sin(x * 24 + t * 5.5) * v * amp
+                + Math.sin(x * 5 - t * 1.2) * h * 0.05) * env;
+            if (i === 0) ctx.moveTo(inset, y);
+            else ctx.lineTo(inset + x * (w - inset * 2), y);
         }
         ctx.strokeStyle = `rgba(${r},${g},${b},0.28)`;
         ctx.lineWidth = 3.5;
@@ -186,6 +189,14 @@ const Visualizer: React.FC<VisualizerProps> = ({ trackId, isPlaying, progressMs,
         ctx.strokeStyle = `rgba(${r},${g},${b},${isPlaying ? 0.95 : 0.5})`;
         ctx.lineWidth = 1.4;
         ctx.stroke();
+
+        // scope frame — thin instrument window with sweep ticks
+        ctx.strokeStyle = 'rgba(245,240,225,0.28)';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(0.5, 1.5, w - 1, h - 3);
+        ctx.fillStyle = 'rgba(245,240,225,0.22)';
+        const ticks = Math.floor((w - 1) / 16);
+        for (let i = 1; i < ticks; i++) ctx.fillRect(0.5 + i * 16, h - 5, 1, 3);
     };
 
     const step = () => {
