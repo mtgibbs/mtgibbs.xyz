@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PROTO H — SIG/WAVEFORM</title>
+<style>
+  @font-face { font-family:'Heavitas'; src:url('/fonts/Heavitas.ttf'); }
+  @font-face { font-family:'Nineteen'; src:url('/fonts/NineteenNinetySeven-11XB.ttf'); }
+  :root{
+    --black:#1A1A1A; --card:#F5F0E1; --amber:#FFB000;
+    --orange:#FF4400; --red:#D93636; --blue:#3B5C7D;
+    --line:rgba(245,240,225,.25);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    background:var(--black);color:var(--card);
+    font-family:'Nineteen',monospace;min-height:100vh;padding:26px;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:'';position:fixed;inset:0;z-index:40;pointer-events:none;
+    background:repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,0,0,.32) 3px 4px);
+  }
+  body::after{
+    content:'';position:fixed;inset:0;z-index:41;pointer-events:none;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .frame{max-width:1120px;margin:0 auto;border:1px solid var(--line)}
+
+  .masthead{
+    display:flex;justify-content:space-between;align-items:stretch;flex-wrap:wrap;
+    border-bottom:1px solid var(--line);
+  }
+  .masthead h1{
+    font-family:'Heavitas';font-size:clamp(1.3rem,4vw,2.2rem);
+    padding:18px 22px;letter-spacing:.04em;
+  }
+  .masthead h1 em{font-style:normal;color:var(--amber)}
+
+  .controls{display:flex;align-items:center;gap:0;border-left:1px solid var(--line)}
+  .controls button{
+    appearance:none;background:none;border:none;border-left:1px solid var(--line);
+    color:var(--card);font-family:'Nineteen',monospace;font-size:11px;
+    letter-spacing:.18em;padding:0 18px;height:100%;min-height:52px;cursor:pointer;
+  }
+  .controls button:first-child{border-left:none}
+  .controls button[aria-pressed="true"]{background:var(--amber);color:var(--black)}
+  .controls button:focus-visible{outline:2px solid var(--amber);outline-offset:-4px}
+  @media(max-width:520px){
+    .controls{width:100%;border-left:none;border-top:1px solid var(--line)}
+    .controls button{flex:1;padding:0 8px;min-height:44px}
+  }
+
+  .brief{
+    padding:12px 22px;border-bottom:1px solid var(--line);
+    font-size:11px;letter-spacing:.14em;color:rgba(245,240,225,.55);
+  }
+  .brief b{color:var(--amber);font-weight:normal}
+
+  .panels{display:grid;grid-template-columns:1fr 1fr;}
+  @media(max-width:860px){.panels{grid-template-columns:1fr}}
+
+  .panel{border-bottom:1px solid var(--line);padding:16px 22px 20px}
+  .panel:nth-child(odd){border-right:1px solid var(--line)}
+  @media(max-width:860px){.panel:nth-child(odd){border-right:none}}
+  .panel.wide{grid-column:1 / -1;border-right:none}
+
+  .panel header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+  .panel h2{font-family:'Heavitas';font-size:15px;letter-spacing:.06em}
+  .panel h2 span{color:var(--amber)}
+  .stat{font-size:9px;letter-spacing:.22em;color:rgba(245,240,225,.4)}
+  .stat i{font-style:normal;color:rgba(255,68,0,.7);animation:blink 1.4s steps(2) infinite}
+  @keyframes blink{50%{opacity:.25}}
+
+  .panel p{
+    font-size:11px;line-height:1.6;color:rgba(245,240,225,.55);
+    letter-spacing:.06em;margin-bottom:12px;max-width:60ch;
+  }
+
+  .scope{position:relative;height:150px;border:1px solid rgba(245,240,225,.14)}
+  .scope canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+  .footnote{
+    padding:12px 22px;font-size:10px;letter-spacing:.14em;
+    color:rgba(245,240,225,.4);line-height:1.8;
+  }
+  .footnote b{color:rgba(255,176,0,.8);font-weight:normal}
+
+  @media (prefers-reduced-motion: reduce){
+    .stat i{animation:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="frame">
+  <div class="masthead">
+    <h1>PROTO H — <em>SIG</em>/WAVEFORM</h1>
+    <div class="controls" role="group" aria-label="Signal mode">
+      <button type="button" data-mode="calm" aria-pressed="false">CALM</button>
+      <button type="button" data-mode="groove" aria-pressed="true">GROOVE</button>
+      <button type="button" data-mode="peak" aria-pressed="false">PEAK</button>
+      <button type="button" id="run" aria-pressed="true">RUN</button>
+    </div>
+  </div>
+
+  <div class="brief">
+    CANDIDATE REPLACEMENTS FOR THE FOOTER SPOTIFY VISUALIZER //
+    ALL PANELS READ <b>ONE SHARED SIGNAL</b> — SWITCH MODE TO COMPARE TEMPERAMENT
+  </div>
+
+  <div class="panels">
+
+    <div class="panel">
+      <header>
+        <h2><span>H1</span> RIDGE FIELD</h2>
+        <div class="stat">FREQ.MOD <i>●</i></div>
+      </header>
+      <p>Waveform history as stacked terrain. Each line is a past frame sliding
+         away; the newest rides brightest at the bottom. Flow, not bounce.</p>
+      <div class="scope"><canvas data-viz="ridge"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <header>
+        <h2><span>H2</span> MIRROR PULSE</h2>
+        <div class="stat">FREQ.MOD <i>●</i></div>
+      </header>
+      <p>One continuous trace bouncing from the center axis with a dimmer
+         mirrored underside — signal above, reflection below.</p>
+      <div class="scope"><canvas data-viz="pulse"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <header>
+        <h2><span>H3</span> MIRROR GRID</h2>
+        <div class="stat">FREQ.MOD <i>●</i></div>
+      </header>
+      <p>A line grid that breathes. Horizontal rules bulge away from the center
+         axis with the signal — the grid itself is the waveform.</p>
+      <div class="scope"><canvas data-viz="grid"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <header>
+        <h2><span>H4</span> MIRROR LADDER</h2>
+        <div class="stat">FREQ.MOD <i>●</i></div>
+      </header>
+      <p>Quantized dash columns climbing out from the center in both directions.
+         Mechanical steps — the VU-meter answer, tips run hot.</p>
+      <div class="scope"><canvas data-viz="ladder"></canvas></div>
+    </div>
+
+    <div class="panel wide">
+      <header>
+        <h2><span>H5</span> SCOPE TRACE</h2>
+        <div class="stat">FREQ.MOD <i>●</i></div>
+      </header>
+      <p>Single oscilloscope line with phosphor persistence — old sweeps decay
+         instead of vanishing. The most literal 197X instrument read.</p>
+      <div class="scope" style="height:170px"><canvas data-viz="scope"></canvas></div>
+    </div>
+
+  </div>
+
+  <div class="footnote">
+    NOTES // ALL CANVAS, ONE rAF LOOP, PANELS SLEEP OFFSCREEN (IntersectionObserver) //
+    <b>prefers-reduced-motion</b>: LOOP HALTS, EACH PANEL HOLDS ONE DRAWN FRAME //
+    FOOTER TARGET IS ~64px TALL — EVERY CANDIDATE DEGRADES TO THAT HEIGHT //
+    PALETTE LOCKED TO MAGNETIC SPECTRUM (AMBER SIGNAL, ORANGE HOT TIPS, BLUE REFLECTION)
+  </div>
+</div>
+
+<script>
+(() => {
+  'use strict';
+
+  const AMBER  = '255,176,0';
+  const ORANGE = '255,68,0';
+  const BLUE   = '59,92,125';
+  const CARD   = '245,240,225';
+
+  // ---- shared signal engine -------------------------------------------
+  // mirrors the component's procedural fallback: bands 0..1 across x
+  let mode = 'groove';
+  const clamp = (v) => Math.max(0.04, Math.min(1, v));
+
+  function band(x, t) {
+    if (mode === 'calm') {
+      return clamp(0.28
+        + 0.18 * Math.sin(t * 1.6 + x * 7.0)
+        + 0.10 * Math.sin(t * 0.7 + x * 23.0));
+    }
+    if (mode === 'peak') {
+      const nz   = Math.sin(t * 9 + x * 431.7);
+      const beat = Math.pow(Math.max(0, Math.sin(t * 3.1)), 4);
+      return clamp(0.22 + (nz > 0.35 ? 0.40 : 0.10)
+        + 0.28 * beat * (0.5 + 0.5 * Math.sin(x * 5 + t)));
+    }
+    // groove — center-weighted thump plus drift
+    const beat = Math.pow(Math.max(0, Math.sin(t * 2.3)), 8);
+    const env  = Math.max(0, 1 - Math.abs(x - 0.5) * 1.7);
+    return clamp(0.16
+      + 0.12 * Math.sin(t * 3.0 + x * 9.0)
+      + 0.75 * beat * env
+      + 0.06 * Math.sin(t * 0.9 + x * 31.0));
+  }
+
+  function sample(n, t, out) {
+    out = out || new Array(n);
+    for (let i = 0; i < n; i++) out[i] = band(i / (n - 1), t);
+    return out;
+  }
+
+  // smooth polyline through band samples
+  function tracePath(ctx, pts) {
+    ctx.beginPath();
+    ctx.moveTo(pts[0][0], pts[0][1]);
+    for (let i = 1; i < pts.length - 1; i++) {
+      const mx = (pts[i][0] + pts[i + 1][0]) / 2;
+      const my = (pts[i][1] + pts[i + 1][1]) / 2;
+      ctx.quadraticCurveTo(pts[i][0], pts[i][1], mx, my);
+    }
+    ctx.lineTo(pts[pts.length - 1][0], pts[pts.length - 1][1]);
+  }
+
+  // ---- renderers -------------------------------------------------------
+  // each: (ctx, w, h, t, store) — store persists per canvas between frames
+
+  const RENDER = {
+
+    ridge(ctx, w, h, t, store) {
+      const ROWS = 12, N = 56;
+      if (!store.rows) { store.rows = []; store.last = 0; }
+      if (t - store.last > 0.09) {           // shift history ~11 times/sec
+        store.rows.unshift(sample(N, t));
+        if (store.rows.length > ROWS) store.rows.pop();
+        store.last = t;
+      }
+      ctx.clearRect(0, 0, w, h);
+      const baseY = h - 12, step = (h - 34) / ROWS, amp = h * 0.42;
+      // oldest first so newer terrain occludes it
+      for (let r = store.rows.length - 1; r >= 0; r--) {
+        const row = store.rows[r];
+        const y0 = baseY - r * step;
+        const pts = row.map((v, i) => [ (i / (N - 1)) * w, y0 - v * amp * (1 - r / (ROWS + 3)) ]);
+        tracePath(ctx, pts);
+        // occlude the rows behind — terrain effect
+        ctx.lineTo(w, h); ctx.lineTo(0, h); ctx.closePath();
+        ctx.fillStyle = '#1A1A1A';
+        ctx.fill();
+        tracePath(ctx, pts);
+        const age = 1 - r / ROWS;
+        ctx.strokeStyle = `rgba(${AMBER},${(0.12 + 0.7 * age * age).toFixed(3)})`;
+        ctx.lineWidth = r === 0 ? 1.8 : 1;
+        ctx.stroke();
+      }
+    },
+
+    pulse(ctx, w, h, t, store) {
+      const N = 72, cy = h * 0.52, amp = h * 0.34;
+      const s = sample(N, t, store.buf); store.buf = s;
+      ctx.clearRect(0, 0, w, h);
+      // center axis
+      ctx.strokeStyle = `rgba(${CARD},0.16)`;
+      ctx.lineWidth = 1;
+      ctx.setLineDash([2, 4]);
+      ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(w, cy); ctx.stroke();
+      ctx.setLineDash([]);
+      const top = s.map((v, i) => [ (i / (N - 1)) * w, cy - v * amp ]);
+      const bot = s.map((v, i) => [ (i / (N - 1)) * w, cy + v * amp * 0.8 ]);
+      // fill between trace and reflection
+      tracePath(ctx, top);
+      for (let i = bot.length - 1; i >= 0; i--) ctx.lineTo(bot[i][0], bot[i][1]);
+      ctx.closePath();
+      const g = ctx.createLinearGradient(0, cy - amp, 0, cy + amp);
+      g.addColorStop(0, `rgba(${AMBER},0.16)`);
+      g.addColorStop(0.5, `rgba(${AMBER},0.02)`);
+      g.addColorStop(1, `rgba(${BLUE},0.14)`);
+      ctx.fillStyle = g;
+      ctx.fill();
+      // underglow then signal
+      tracePath(ctx, top);
+      ctx.strokeStyle = `rgba(${AMBER},0.25)`; ctx.lineWidth = 4; ctx.stroke();
+      tracePath(ctx, top);
+      ctx.strokeStyle = `rgba(${AMBER},0.95)`; ctx.lineWidth = 1.6; ctx.stroke();
+      // reflection — cooler, dimmer
+      tracePath(ctx, bot);
+      ctx.strokeStyle = `rgba(${BLUE},0.55)`; ctx.lineWidth = 1.2; ctx.stroke();
+    },
+
+    grid(ctx, w, h, t, store) {
+      const COLS = Math.round(w / 26), ROWS = 9, N = 48;
+      const s = sample(N, t, store.buf); store.buf = s;
+      ctx.clearRect(0, 0, w, h);
+      // static verticals
+      ctx.strokeStyle = `rgba(${CARD},0.10)`;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let c = 1; c < COLS; c++) {
+        const x = (c / COLS) * w;
+        ctx.moveTo(x, 6); ctx.lineTo(x, h - 6);
+      }
+      ctx.stroke();
+      // horizontals displaced away from center axis
+      const cy = h / 2, half = (ROWS - 1) / 2, gap = (h - 24) / (ROWS - 1);
+      for (let r = 0; r < ROWS; r++) {
+        const off = r - half;                    // -half..half, 0 = center
+        const dir = Math.sign(off) || 0;
+        const falloff = 1 - Math.abs(off) / (half + 1.5);
+        const rest = cy + off * gap;
+        const pts = [];
+        for (let i = 0; i < N; i++) {
+          const x = (i / (N - 1)) * w;
+          const push = s[i] * falloff * gap * 1.8 * dir;
+          pts.push([x, rest + push]);
+        }
+        tracePath(ctx, pts);
+        const hot = falloff * falloff;
+        ctx.strokeStyle = off === 0
+          ? `rgba(${CARD},0.18)`
+          : `rgba(${AMBER},${(0.14 + 0.6 * hot).toFixed(3)})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    },
+
+    ladder(ctx, w, h, t, store) {
+      const COL_W = 9, N = Math.floor(w / COL_W), cy = h / 2;
+      const DASH = 3, GAP = 2, UNIT = DASH + GAP;
+      const maxUnits = Math.floor((h / 2 - 8) / UNIT);
+      const s = sample(N, t, store.buf); store.buf = s;
+      ctx.clearRect(0, 0, w, h);
+      for (let i = 0; i < N; i++) {
+        const x = i * COL_W + COL_W / 2 - 1.5;
+        const units = Math.max(1, Math.round(s[i] * maxUnits));
+        for (let u = 0; u < units; u++) {
+          const hotTip = u === units - 1 && s[i] > 0.78;
+          const a = 0.25 + 0.7 * (1 - u / maxUnits);
+          ctx.fillStyle = hotTip ? `rgba(${ORANGE},0.95)` : `rgba(${AMBER},${a.toFixed(3)})`;
+          // above center
+          ctx.fillRect(x, cy - (u + 1) * UNIT + GAP, 3, DASH);
+          // mirrored below, slightly dimmer
+          ctx.fillStyle = hotTip ? `rgba(${ORANGE},0.55)` : `rgba(${AMBER},${(a * 0.5).toFixed(3)})`;
+          ctx.fillRect(x, cy + u * UNIT + GAP, 3, DASH);
+        }
+      }
+      // center axis
+      ctx.fillStyle = `rgba(${CARD},0.25)`;
+      ctx.fillRect(0, cy - 0.5, w, 1);
+    },
+
+    scope(ctx, w, h, t, store) {
+      const N = 110, cy = h / 2;
+      if (!store.primed) {                      // opaque base once
+        ctx.fillStyle = '#1A1A1A';
+        ctx.fillRect(0, 0, w, h);
+        store.primed = true;
+      }
+      // persistence veil — old sweeps decay instead of vanishing
+      ctx.fillStyle = 'rgba(26,26,26,0.16)';
+      ctx.fillRect(0, 0, w, h);
+      // graticule
+      ctx.strokeStyle = `rgba(${CARD},0.05)`;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let gx = 1; gx < 10; gx++) { const x = (gx / 10) * w; ctx.moveTo(x, 0); ctx.lineTo(x, h); }
+      ctx.moveTo(0, cy); ctx.lineTo(w, cy);
+      ctx.stroke();
+      // composite trace: bands modulate a carrier
+      const pts = [];
+      for (let i = 0; i < N; i++) {
+        const x = i / (N - 1);
+        const v = band(x, t);
+        const y = cy
+          + Math.sin(x * 26 + t * 5.5) * v * h * 0.30
+          + Math.sin(x * 5 - t * 1.2) * h * 0.06;
+        pts.push([x * w, y]);
+      }
+      tracePath(ctx, pts);
+      ctx.strokeStyle = `rgba(${AMBER},0.30)`; ctx.lineWidth = 3.5; ctx.stroke();
+      tracePath(ctx, pts);
+      ctx.strokeStyle = `rgba(${AMBER},0.95)`; ctx.lineWidth = 1.4; ctx.stroke();
+    }
+  };
+
+  // ---- harness ---------------------------------------------------------
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let running = true;
+
+  const panels = Array.from(document.querySelectorAll('canvas[data-viz]')).map(el => ({
+    el,
+    draw: RENDER[el.dataset.viz],
+    store: {},
+    visible: true,
+    w: 0, h: 0
+  }));
+
+  function size(p) {
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    const r = p.el.getBoundingClientRect();
+    if (!r.width) return;
+    p.w = r.width; p.h = r.height;
+    p.el.width = Math.round(r.width * dpr);
+    p.el.height = Math.round(r.height * dpr);
+    const ctx = p.el.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    p.store = {};                              // reset persistence buffers
+  }
+
+  const io = new IntersectionObserver(entries => {
+    for (const e of entries) {
+      const p = panels.find(p => p.el === e.target);
+      if (p) p.visible = e.isIntersecting;
+    }
+  }, { rootMargin: '60px' });
+  panels.forEach(p => { size(p); io.observe(p.el); });
+
+  let resizeT;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeT);
+    resizeT = setTimeout(() => { panels.forEach(size); drawAll(performance.now() / 1000); }, 150);
+  });
+
+  function drawAll(t) {
+    for (const p of panels) {
+      if (!p.visible || !p.w) continue;
+      p.draw(p.el.getContext('2d'), p.w, p.h, t, p.store);
+    }
+  }
+
+  function loop(now) {
+    if (running && !reduced.matches) drawAll(now / 1000);
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+
+  // reduced motion: hold a single drawn frame
+  function still() { drawAll(4.2); }
+  if (reduced.matches) still();
+  reduced.addEventListener('change', () => { if (reduced.matches) still(); });
+
+  // ---- controls --------------------------------------------------------
+  document.querySelectorAll('[data-mode]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      mode = btn.dataset.mode;
+      document.querySelectorAll('[data-mode]').forEach(b =>
+        b.setAttribute('aria-pressed', String(b === btn)));
+      if (reduced.matches || !running) still();
+    });
+  });
+
+  const runBtn = document.getElementById('run');
+  runBtn.addEventListener('click', () => {
+    running = !running;
+    runBtn.textContent = running ? 'RUN' : 'HELD';
+    runBtn.setAttribute('aria-pressed', String(running));
+  });
+})();
+</script>
+</body>
+</html>
