@@ -22,6 +22,30 @@ export const ICON_OPTIONS: IDevIconOptions[] = [
         style: DevIconStyles.Plain,
     },
     {
+        icon: 'claude',
+        isColor: false,
+        isWordmark: false,
+        style: DevIconStyles.Plain,
+    },
+    {
+        icon: 'mcp',
+        isColor: false,
+        isWordmark: false,
+        style: DevIconStyles.Plain,
+    },
+    {
+        icon: 'opencode',
+        isColor: false,
+        isWordmark: false,
+        style: DevIconStyles.Plain,
+    },
+    {
+        icon: 'ollama',
+        isColor: false,
+        isWordmark: false,
+        style: DevIconStyles.Plain,
+    },
+    {
         icon: 'typescript',
         isColor: false,
         isWordmark: false,
@@ -227,6 +251,12 @@ export const ICON_OPTIONS: IDevIconOptions[] = [
         style: DevIconStyles.Plain,
     },
     {
+        icon: 'prometheus',
+        isColor: false,
+        isWordmark: false,
+        style: DevIconStyles.Original,
+    },
+    {
         icon: 'chartjs',
         isColor: false,
         isWordmark: false,
@@ -243,6 +273,24 @@ export const ICON_OPTIONS: IDevIconOptions[] = [
         isColor: false,
         isWordmark: false,
         style: DevIconStyles.Original,
+    },
+    {
+        icon: 'flux',
+        isColor: false,
+        isWordmark: false,
+        style: DevIconStyles.Plain,
+    },
+    {
+        icon: 'tailscale',
+        isColor: false,
+        isWordmark: false,
+        style: DevIconStyles.Plain,
+    },
+    {
+        icon: 'cloudflare',
+        isColor: false,
+        isWordmark: false,
+        style: DevIconStyles.Plain,
     },
     {
         icon: 'apachekafka',
