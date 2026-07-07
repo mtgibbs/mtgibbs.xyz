@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PROTO D — TELEMETRY</title>
+<style>
+  @font-face { font-family:'Heavitas'; src:url('/fonts/Heavitas.ttf'); }
+  @font-face { font-family:'Nineteen'; src:url('/fonts/NineteenNinetySeven-11XB.ttf'); }
+  :root{
+    --black:#1A1A1A; --card:#F5F0E1; --amber:#FFB000;
+    --orange:#FF4400; --red:#D93636; --blue:#3B5C7D;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    background:var(--black);color:var(--card);
+    font-family:'Nineteen',monospace;min-height:100vh;padding:26px;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:'';position:fixed;inset:0;z-index:40;pointer-events:none;
+    background:repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,0,0,.32) 3px 4px);
+  }
+  body::after{
+    content:'';position:fixed;inset:0;z-index:41;pointer-events:none;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  /* tracking sweep — the whole display resyncs periodically */
+  .sweep{
+    position:fixed;left:0;right:0;height:64px;z-index:42;pointer-events:none;
+    background:linear-gradient(180deg, transparent, rgba(255,176,0,.07) 45%, rgba(245,240,225,.12) 50%, rgba(255,176,0,.07) 55%, transparent);
+    animation:sweep 9s linear infinite;top:-64px;
+  }
+  @keyframes sweep{0%{transform:translateY(0)}100%{transform:translateY(calc(100vh + 128px))}}
+
+  .frame{max-width:1120px;margin:0 auto;border:1px solid rgba(245,240,225,.25)}
+
+  .masthead{
+    display:flex;justify-content:space-between;align-items:stretch;
+    border-bottom:1px solid rgba(245,240,225,.25);
+  }
+  .masthead h1{
+    font-family:'Heavitas';font-size:clamp(1.4rem,4vw,2.4rem);
+    padding:18px 22px;letter-spacing:.04em;
+  }
+  .masthead h1 em{font-style:normal;color:var(--amber)}
+  .clock{
+    display:flex;align-items:center;gap:4px;padding:0 22px;
+    border-left:1px solid rgba(245,240,225,.25);
+  }
+  .digit{
+    font-family:'Heavitas';font-size:26px;background:var(--card);color:var(--black);
+    padding:6px 8px;min-width:34px;text-align:center;
+  }
+  .digit.flip{animation:flip .28s steps(3) 1}
+  @keyframes flip{33%{transform:scaleY(.15)}66%{transform:scaleY(1.05)}}
+
+  .grid{display:grid;grid-template-columns:1.5fr 1fr;min-height:420px}
+  @media(max-width:860px){.grid{grid-template-columns:1fr}}
+
+  /* left: strip-chart recorder */
+  .chart{border-right:1px solid rgba(245,240,225,.25);padding:22px;position:relative}
+  .chart .label{font-size:11px;letter-spacing:.3em;color:var(--amber);margin-bottom:14px}
+  .chart svg{width:100%;height:280px;display:block}
+  .trace{
+    fill:none;stroke:var(--amber);stroke-width:2;
+    stroke-dasharray:1600;stroke-dashoffset:1600;
+    animation:draw 7s linear forwards;
+  }
+  .trace.b{stroke:var(--blue);animation-delay:.6s}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  .chart .readgrid{position:absolute;inset:60px 22px 22px;pointer-events:none;
+    background:
+      repeating-linear-gradient(0deg, rgba(245,240,225,.07) 0 1px, transparent 1px 40px),
+      repeating-linear-gradient(90deg, rgba(245,240,225,.07) 0 1px, transparent 1px 40px);
+  }
+
+  /* right: readout column */
+  .readouts{display:flex;flex-direction:column}
+  .ro{
+    display:flex;justify-content:space-between;gap:10px;align-items:baseline;
+    padding:15px 20px;border-bottom:1px solid rgba(245,240,225,.15);
+    font-size:13px;letter-spacing:.14em;
+  }
+  .ro:last-child{border-bottom:none}
+  .ro b{font-weight:normal;color:rgba(245,240,225,.65);font-size:11px;letter-spacing:.28em}
+  .ro .v{color:var(--amber);font-size:17px}
+  .ro .v.warn{color:var(--orange)}
+  .ro .v.crit{color:var(--red);animation:blink 1.1s steps(1) infinite}
+  @keyframes blink{50%{opacity:.15}}
+
+  .ticker{
+    border-top:1px solid rgba(245,240,225,.25);
+    padding:12px 22px;font-size:12px;letter-spacing:.1em;color:rgba(245,240,225,.7);
+    white-space:nowrap;overflow:hidden;
+  }
+  .ticker span{display:inline-block;animation:scroll 22s linear infinite;padding-right:100%}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+
+  @media (prefers-reduced-motion: reduce){
+    .sweep,.ticker span{animation:none;display:inline}
+    .trace{animation:none;stroke-dashoffset:0}
+    .digit.flip,.ro .v.crit{animation:none}
+  }
+</style>
+</head>
+<body>
+  <div class="sweep" role="presentation"></div>
+
+  <div class="frame">
+    <header class="masthead">
+      <h1>TELEMETRY <em>// LOREM DOWNLINK</em></h1>
+      <div class="clock" aria-label="mission clock">
+        <span class="digit" id="d0">0</span><span class="digit" id="d1">4</span><span class="digit" id="d2">7</span>
+      </div>
+    </header>
+
+    <div class="grid">
+      <div class="chart">
+        <div class="label">STRIP CHART — IPSUM CHANNEL A/B</div>
+        <div class="readgrid" role="presentation"></div>
+        <svg viewBox="0 0 800 280" preserveAspectRatio="none">
+          <polyline class="trace" points="0,200 60,190 120,205 180,140 240,160 300,80 360,120 420,100 480,170 540,60 600,110 660,90 720,150 800,130"/>
+          <polyline class="trace b" points="0,240 80,230 160,245 240,220 320,235 400,210 480,225 560,205 640,220 720,200 800,215"/>
+        </svg>
+      </div>
+
+      <div class="readouts">
+        <div class="ro"><b>DOLOR RATE</b><span class="v" id="r0">142.6</span></div>
+        <div class="ro"><b>SIT AMET</b><span class="v" id="r1">0.984</span></div>
+        <div class="ro"><b>CONSECTETUR</b><span class="v warn" id="r2">67.1%</span></div>
+        <div class="ro"><b>ADIPISCING</b><span class="v" id="r3">12.40</span></div>
+        <div class="ro"><b>EIUSMOD</b><span class="v crit">TEMPOR</span></div>
+        <div class="ro"><b>MAGNA</b><span class="v" id="r4">8891</span></div>
+      </div>
+    </div>
+
+    <div class="ticker"><span>
+      &gt;&gt; UT ENIM AD MINIM VENIAM // QUIS NOSTRUD EXERCITATION ULLAMCO //
+      LABORIS NISI UT ALIQUIP EX EA COMMODO // DUIS AUTE IRURE DOLOR IN REPREHENDERIT //
+      SIGNAL NOMINAL — BE KIND, REWIND &gt;&gt;
+    </span></div>
+  </div>
+
+<script>
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduced) {
+    // mission clock flips
+    const digits = [document.getElementById('d0'), document.getElementById('d1'), document.getElementById('d2')];
+    let n = 47;
+    setInterval(() => {
+      n = (n + 1) % 1000;
+      const s = String(n).padStart(3, '0');
+      digits.forEach((d, i) => {
+        if (d.textContent !== s[i]) {
+          d.textContent = s[i];
+          d.classList.remove('flip'); void d.offsetWidth; d.classList.add('flip');
+        }
+      });
+    }, 2200);
+
+    // drifting readouts
+    const drift = [
+      ['r0', 142.6, 1, v => v.toFixed(1)],
+      ['r1', 0.984, 0.004, v => v.toFixed(3)],
+      ['r2', 67.1, 0.8, v => v.toFixed(1) + '%'],
+      ['r3', 12.4, 0.15, v => v.toFixed(2)],
+      ['r4', 8891, 12, v => String(Math.round(v))],
+    ];
+    setInterval(() => {
+      drift.forEach(([id, base, amp, fmt]) => {
+        const el = document.getElementById(id);
+        el.textContent = fmt(base + (Math.random() - .5) * 2 * amp);
+      });
+    }, 1600);
+  }
+</script>
+</body>
+</html>

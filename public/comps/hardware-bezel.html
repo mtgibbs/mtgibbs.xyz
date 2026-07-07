@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COMP C — Hardware Bezel</title>
+<style>
+  @font-face { font-family: 'Heavitas'; src: url('/fonts/Heavitas.ttf'); }
+  @font-face { font-family: 'Nineteen'; src: url('/fonts/NineteenNinetySeven-11XB.ttf'); }
+  @font-face { font-family: 'AlteHaas'; src: url('/fonts/AlteHaasGroteskBold.ttf'); }
+
+  :root{
+    --shell:#23262a; --shell-hi:#2d3136; --shell-lo:#1a1c1f;
+    --paper:#F5F0E1; --amber:#FFB000; --orange:#FF4400;
+    --red:#D93636; --blue:#3B5C7D; --screen:#141210; --grn:#19b47a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    background:
+      radial-gradient(ellipse at 30% 0%, rgba(255,255,255,.03), transparent 60%),
+      var(--shell);
+    color:var(--paper); font-family:'Nineteen',monospace; padding:40px 5vw 80px;
+  }
+
+  /* devices are MODULES mounted to a rack */
+  .rack{max-width:1080px;margin:0 auto;display:grid;gap:28px}
+
+  .module{
+    background:linear-gradient(180deg, var(--shell-hi), var(--shell-lo));
+    border-radius:6px; position:relative;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.08),
+      inset 0 -2px 4px rgba(0,0,0,.5),
+      0 10px 24px rgba(0,0,0,.45);
+    padding:26px 30px 22px;
+  }
+  /* fasteners */
+  .module::before,.module::after{
+    content:''; position:absolute; width:10px;height:10px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #4a4f55, #101214 70%);
+    box-shadow:inset 0 0 2px #000;
+    top:10px;
+  }
+  .module::before{left:10px}
+  .module::after{right:10px}
+
+  /* silkscreen */
+  .silk{
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:11px;letter-spacing:.3em;color:rgba(245,240,225,.6);
+    border-bottom:1px solid rgba(245,240,225,.12);padding-bottom:10px;margin-bottom:18px;
+  }
+  .silk .id{color:var(--amber)}
+
+  h1{
+    font-family:'Heavitas';font-size:clamp(2.2rem,6vw,4rem);letter-spacing:.01em;
+    color:var(--paper);
+    text-shadow:0 -1px 0 rgba(0,0,0,.8), 0 1px 0 rgba(255,255,255,.12); /* engraved */
+  }
+  .sub{font-size:13px;color:rgba(245,240,225,.65);margin-top:8px;letter-spacing:.12em}
+
+  /* LED cluster */
+  .leds{display:flex;gap:14px;margin-top:18px;align-items:center}
+  .led{display:flex;gap:6px;align-items:center;font-size:10px;letter-spacing:.2em;color:rgba(245,240,225,.55)}
+  .led i{width:8px;height:8px;border-radius:50%;display:inline-block}
+  .led .on{background:var(--grn);box-shadow:0 0 6px var(--grn)}
+  .led .warn{background:var(--amber);box-shadow:0 0 6px var(--amber)}
+  .led .off{background:#3a3f45}
+
+  /* embedded CRT screen — the machine lives INSIDE the hardware */
+  .screen{
+    background:
+      repeating-linear-gradient(0deg, transparent 0 2px, rgba(0,0,0,.5) 2px 3px),
+      var(--screen);
+    border-radius:4px;padding:18px 20px;color:var(--amber);font-size:13px;line-height:1.8;
+    box-shadow:inset 0 0 30px rgba(0,0,0,.9), inset 0 0 4px #000;
+    border:1px solid #0c0d0e;
+  }
+  .screen .dim{color:rgba(245,240,225,.6)}
+
+  /* PCB trace divider */
+  .trace{height:34px;position:relative;margin:0 8px}
+  .trace svg{width:100%;height:100%}
+
+  .grid2{display:grid;grid-template-columns:1.2fr .8fr;gap:24px}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr}}
+
+  .card p{font-family:'AlteHaas';font-size:17px;line-height:1.7;color:rgba(245,240,225,.92);max-width:60ch}
+
+  /* dymo */
+  .dymo{
+    display:inline-block;font-size:11px;letter-spacing:.3em;background:var(--red);
+    color:var(--paper);padding:5px 12px;transform:rotate(-1.5deg);margin-top:16px;
+    border-radius:2px;box-shadow:0 2px 4px rgba(0,0,0,.5);
+  }
+  /* physical switch */
+  .switch{
+    display:inline-flex;align-items:center;gap:10px;margin-top:16px;
+    font-size:10px;letter-spacing:.25em;color:rgba(245,240,225,.55);
+  }
+  .switch .well{
+    width:46px;height:22px;border-radius:12px;background:var(--shell-lo);
+    box-shadow:inset 0 2px 5px rgba(0,0,0,.8);position:relative;
+  }
+  .switch .knob{
+    position:absolute;top:2px;left:26px;width:18px;height:18px;border-radius:50%;
+    background:linear-gradient(180deg,#54595f,#2c2f33);
+    box-shadow:0 1px 2px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.15);
+  }
+</style>
+</head>
+<body>
+  <div class="rack">
+
+    <div class="module">
+      <div class="silk"><span>LOREM SYSTEMS CORP.</span><span class="id">MODEL LI-06</span><span>SER. NO. 0x1997</span></div>
+      <h1>LOREM IPSUM DOLOR</h1>
+      <p class="sub">SIT AMET CONSECTETUR // ADIPISCING UNIT</p>
+      <div class="leds">
+        <span class="led"><i class="on"></i>PWR</span>
+        <span class="led"><i class="on"></i>LINK</span>
+        <span class="led"><i class="warn"></i>BUF</span>
+        <span class="led"><i class="off"></i>ERR</span>
+        <span class="switch">MODE<span class="well"><span class="knob"></span></span></span>
+      </div>
+    </div>
+
+    <div class="trace">
+      <svg viewBox="0 0 1080 34" preserveAspectRatio="none" fill="none">
+        <path d="M0 17 H320 L350 4 H560 L590 30 H820 L850 17 H1080" stroke="#FFB000" stroke-opacity=".35" stroke-width="2"/>
+        <circle cx="320" cy="17" r="4" fill="#FFB000" fill-opacity=".5"/>
+        <circle cx="590" cy="30" r="4" fill="#FFB000" fill-opacity=".5"/>
+        <circle cx="850" cy="17" r="4" fill="#FFB000" fill-opacity=".5"/>
+      </svg>
+    </div>
+
+    <div class="grid2">
+      <div class="module card">
+        <div class="silk"><span>PANEL A</span><span class="id">TEXT_UNIT</span></div>
+        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+        doloremque laudantium, totam rem aperiam eaque ipsa quae ab illo inventore.</p>
+        <p style="margin-top:12px">Nemo enim ipsam voluptatem quia voluptas sit aspernatur
+        aut odit aut fugit, sed quia consequuntur magni dolores.</p>
+        <span class="dymo">LOREM_LABEL</span>
+      </div>
+
+      <div class="module">
+        <div class="silk"><span>PANEL B</span><span class="id">CRT_UNIT</span></div>
+        <div class="screen">
+          $ ipsum --status<br>
+          <span class="dim">MODE&nbsp;&nbsp;&nbsp;: dolor</span><br>
+          <span class="dim">STATE&nbsp;&nbsp;: sit_amet</span><br>
+          UNIT_OK &gt;&gt; 100% ▮▮▮▮▮▮▮▮▮▮<br>
+          &gt; _
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COMP A — Phosphor Maximal</title>
+<style>
+  @font-face { font-family: 'Heavitas'; src: url('/fonts/Heavitas.ttf'); }
+  @font-face { font-family: 'Lazer84'; src: url('/fonts/Lazer84.ttf'); }
+  @font-face { font-family: 'Nineteen'; src: url('/fonts/NineteenNinetySeven-11XB.ttf'); }
+  @font-face { font-family: 'AlteHaas'; src: url('/fonts/AlteHaasGroteskBold.ttf'); }
+
+  :root {
+    --black:#17181a; --paper:#F5F0E1; --orange:#FF4400;
+    --amber:#FFB000; --blue:#3B82F6; --red:#D93636; --yellow:#f2c14e;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    background:
+      repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,0,0,.4) 3px 4px),
+      var(--black);
+    color:var(--paper); font-family:'Nineteen',monospace; overflow-x:hidden;
+  }
+
+  /* deep streak field — layered, not just stripes */
+  .streaks{position:fixed;inset:0;pointer-events:none;z-index:0}
+  .streaks i{position:absolute;left:-20vw;right:-20vw;transform:rotate(-7deg);display:block}
+  .streaks .s1{top:12%;height:70px;background:var(--yellow);opacity:.14}
+  .streaks .s2{top:16%;height:10px;background:var(--red);opacity:.5}
+  .streaks .s3{top:58%;height:120px;background:var(--blue);opacity:.10}
+  .streaks .s4{top:64%;height:6px;background:var(--orange);opacity:.65}
+  .streaks .s5{top:86%;height:26px;background:var(--amber);opacity:.18}
+
+  /* MASSIVE type as structure — cropped off canvas */
+  .mega{
+    position:relative;z-index:1;padding:9vh 0 0 4vw;line-height:.82;
+    font-family:'Heavitas';text-transform:uppercase;
+    font-size:clamp(5rem,15vw,11.5rem);letter-spacing:-.02em;
+    color:var(--paper);
+  }
+  .mega .row{display:block;white-space:nowrap}
+  .mega .ghost{
+    -webkit-text-stroke:2px rgba(245,240,225,.35);color:transparent;
+  }
+  .mega .hot{color:var(--orange);text-shadow:6px 5px 0 rgba(217,54,54,.4), -4px -3px 0 rgba(59,130,246,.35)}
+  .mega .shift{margin-left:14vw}
+
+  .kicker{
+    position:relative;z-index:2;display:inline-block;margin:26px 0 0 4vw;
+    background:var(--red);color:var(--paper);padding:8px 18px;
+    font-size:14px;letter-spacing:.28em;transform:rotate(-2deg);
+    box-shadow:5px 5px 0 #000;
+  }
+
+  /* overlapping collage band */
+  .band{position:relative;z-index:1;margin:12vh 4vw 14vh;min-height:520px}
+  .panel{
+    position:absolute;background:rgba(23,24,26,.92);border:3px solid var(--amber);
+    padding:26px;width:min(560px,72vw);
+    box-shadow:10px 10px 0 rgba(59,92,125,.9);
+  }
+  .panel h3{font-family:'AlteHaas';font-size:30px;margin-bottom:12px;color:var(--paper)}
+  .panel p{font-size:15px;line-height:1.8;color:rgba(245,240,225,.88)}
+  .p1{top:0;left:0;transform:rotate(-1.5deg)}
+  .p2{top:210px;left:min(420px,38vw);transform:rotate(1.2deg);border-color:var(--blue);z-index:2}
+  .p2 .mono{color:var(--amber);font-size:13px;line-height:1.7}
+
+  .num{
+    position:absolute;right:2vw;top:-70px;font-family:'Heavitas';
+    font-size:clamp(8rem,20vw,16rem);color:transparent;
+    -webkit-text-stroke:3px rgba(255,68,0,.5);z-index:0;line-height:1;
+  }
+  .scrawl{
+    position:absolute;left:8vw;bottom:-40px;font-family:'Lazer84';
+    font-size:clamp(1.2rem,3vw,2rem);color:var(--yellow);transform:rotate(-4deg);z-index:3;
+  }
+  .tag{
+    position:absolute;top:-18px;left:22px;background:var(--black);
+    border:2px solid var(--amber);padding:3px 10px;font-size:11px;letter-spacing:.2em;color:var(--amber)
+  }
+  .p2 .tag{border-color:var(--blue);color:var(--blue)}
+
+  .foot{position:relative;z-index:1;padding:0 4vw 8vh;font-size:12px;letter-spacing:.18em;color:rgba(245,240,225,.55)}
+</style>
+</head>
+<body>
+  <div class="streaks"><i class="s1"></i><i class="s2"></i><i class="s3"></i><i class="s4"></i><i class="s5"></i></div>
+
+  <h1 class="mega">
+    <span class="row ghost">LOREM IPSUM</span>
+    <span class="row hot">DOLOR&nbsp;SIT</span>
+    <span class="row shift">AMET.</span>
+  </h1>
+  <span class="kicker">CONSECTETUR // 0x06 // ADIPISCING</span>
+
+  <section class="band">
+    <div class="num">06</div>
+    <div class="panel p1">
+      <span class="tag">SECTION_A</span>
+      <h3>Lorem ipsum dolor</h3>
+      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+      doloremque laudantium, totam rem aperiam eaque ipsa quae ab illo inventore
+      veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+    </div>
+    <div class="panel p2">
+      <span class="tag">MODULE_B</span>
+      <p class="mono">
+        $ lorem --ipsum ▮▮▮▮▮▮▮▮▮▮ 100%<br>
+        &gt; dolor_sit: amet<br>
+        &gt; consectetur: [OK]<br>
+        &gt; adipiscing: [OK]<br>
+      </p>
+    </div>
+    <span class="scrawl">nemo enim ipsam! →</span>
+  </section>
+
+  <footer class="foot">COMP A — PHOSPHOR MAXIMAL // TYPE AS STRUCTURE, DEPTH VIA OVERLAP</footer>
+</body>
+</html>

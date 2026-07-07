@@ -187,7 +187,7 @@ const SystemLogs = (): React.ReactNode => {
                     {/* CRT Screen Glow */}
                     <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(59,92,125,0.08)_0%,transparent_100%)] z-30" />
 
-                    <div className={cn("flex flex-col gap-1 relative z-10", styles.crtText)}>
+                    <div className={cn("flex flex-col gap-1 relative z-10 phosphor-text", styles.crtText)}>
                         {logs.map((log, i) => {
                             const isSystem = log.includes('INF:');
                             const isBoot = log.includes('[BOOT]');

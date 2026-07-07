@@ -1,197 +1,11 @@
-/* Milder CRT effects for Project Deck */
-@keyframes flicker {
-    0% {
-        opacity: 0.95;
-    }
-
-    5% {
-        opacity: 0.85;
-    }
-
-    10% {
-        opacity: 0.9;
-    }
-
-    15% {
-        opacity: 0.85;
-    }
-
-    20% {
-        opacity: 0.95;
-    }
-
-    25% {
-        opacity: 0.9;
-    }
-
-    30% {
-        opacity: 0.85;
-    }
-
-    35% {
-        opacity: 0.95;
-    }
-
-    40% {
-        opacity: 0.9;
-    }
-
-    45% {
-        opacity: 0.95;
-    }
-
-    50% {
-        opacity: 0.85;
-    }
-
-    55% {
-        opacity: 0.9;
-    }
-
-    60% {
-        opacity: 0.95;
-    }
-
-    65% {
-        opacity: 0.9;
-    }
-
-    70% {
-        opacity: 0.85;
-    }
-
-    75% {
-        opacity: 0.9;
-    }
-
-    80% {
-        opacity: 0.95;
-    }
-
-    85% {
-        opacity: 0.9;
-    }
-
-    90% {
-        opacity: 0.85;
-    }
-
-    95% {
-        opacity: 0.95;
-    }
-
-    100% {
-        opacity: 0.9;
-    }
-}
-
-@keyframes textShadow {
-
-    /* Much tighter shadows: max offset ~0.5px, blur ~1px */
-    0% {
-        text-shadow: 0.1px 0 0.5px rgba(0, 30, 255, 0.4), -0.1px 0 0.5px rgba(255, 0, 80, 0.2), 0 0 1px;
-    }
-
-    5% {
-        text-shadow: 0.4px 0 0.5px rgba(0, 30, 255, 0.4), -0.4px 0 0.5px rgba(255, 0, 80, 0.2), 0 0 1px;
-    }
-
-    10% {
-        text-shadow: 0.1px 0 0.5px rgba(0, 30, 255, 0.4), -0.1px 0 0.5px rgba(255, 0, 80, 0.2), 0 0 1px;
-    }
-
-    15% {
-        text-shadow: 0.2px 0 0.5px rgba(0, 30, 255, 0.4), -0.2px 0 0.5px rgba(255, 0, 80, 0.2), 0 0 1px;
-    }
-
-    20% {
-        text-shadow: 0.5px 0 0.5px rgba(0, 30, 255, 0.4), -0.5px 0 0.5px rgba(255, 0, 80, 0.2), 0 0 1px;
-    }
-
-    25% {
-        text-shadow: 0.2px 0 0.5px rgba(0, 30, 255, 0.4), -0.2px 0 0.5px rgba(255, 0, 80, 0.2), 0 0 1px;
-    }
-
-    30% {
-        text-shadow: 0.3px 0 0.5px rgba(0, 30, 255, 0.4), -0.3px 0 0.5px rgba(255, 0, 80, 0.2), 0 0 1px;
-    }
-
-    35% {
-        text-shadow: 0.4px 0 0.5px rgba(0, 30, 255, 0.4), -0.4px 0 0.5px rgba(255, 0, 80, 0.2), 0 0 1px;
-    }
-
-    40% {
-        text-shadow: 0.3px 0 0.5px rgba(0, 30, 255, 0.4), -0.3px 0 0.5px rgba(255, 0, 80, 0.2), 0 0 1px;
-    }
-
-    45% {
-        text-shadow: 0.2px 0 0.5px rgba(0, 30, 255, 0.4), -0.2px 0 0.5px rgba(255, 0, 80, 0.2), 0 0 1px;
-    }
-
-    50% {
-        text-shadow: 0.1px 0 0.5px rgba(0, 30, 255, 0.4), -0.1px 0 0.5px rgba(255, 0, 80, 0.2), 0 0 1px;
-    }
-
-    55% {
-        text-shadow: 0.4px 0 0.5px rgba(0, 30, 255, 0.4), -0.4px 0 0.5px rgba(255, 0, 80, 0.2), 0 0 1px;
-    }
-
-    60% {
-        text-shadow: 0.2px 0 0.5px rgba(0, 30, 255, 0.4), -0.2px 0 0.5px rgba(255, 0, 80, 0.2), 0 0 1px;
-    }
-
-    65% {
-        text-shadow: 0.5px 0 0.5px rgba(0, 30, 255, 0.4), -0.5px 0 0.5px rgba(255, 0, 80, 0.2), 0 0 1px;
-    }
-
-    70% {
-        text-shadow: 0.1px 0 0.5px rgba(0, 30, 255, 0.4), -0.1px 0 0.5px rgba(255, 0, 80, 0.2), 0 0 1px;
-    }
-
-    75% {
-        text-shadow: 0.3px 0 0.5px rgba(0, 30, 255, 0.4), -0.3px 0 0.5px rgba(255, 0, 80, 0.2), 0 0 1px;
-    }
-
-    80% {
-        text-shadow: 0.1px 0 0.5px rgba(0, 30, 255, 0.4), -0.1px 0 0.5px rgba(255, 0, 80, 0.2), 0 0 1px;
-    }
-
-    85% {
-        text-shadow: 0.1px 0 0.5px rgba(0, 30, 255, 0.4), -0.1px 0 0.5px rgba(255, 0, 80, 0.2), 0 0 1px;
-    }
-
-    90% {
-        text-shadow: 0.4px 0 0.5px rgba(0, 30, 255, 0.4), -0.4px 0 0.5px rgba(255, 0, 80, 0.2), 0 0 1px;
-    }
-
-    95% {
-        text-shadow: 0.2px 0 0.5px rgba(0, 30, 255, 0.4), -0.2px 0 0.5px rgba(255, 0, 80, 0.2), 0 0 1px;
-    }
-
-    100% {
-        text-shadow: 0.3px 0 0.5px rgba(0, 30, 255, 0.4), -0.3px 0 0.5px rgba(255, 0, 80, 0.2), 0 0 1px;
-    }
-}
+/* Deck screen: static scanline mask only — glyph fuzz comes from the
+   global .phosphor-text treatment, life from the global veil.
+   Motion rules (DESIGN.md): never animate text-shadow, no per-panel
+   flicker loops. */
 
 .crtContainer {
     position: relative;
     overflow: hidden;
-}
-
-.crtContainer::after {
-    content: " ";
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: rgba(18, 16, 16, 0.05);
-    /* Reduced opacity of flicker layer */
-    opacity: 0;
-    z-index: 20;
-    pointer-events: none;
-    animation: flicker 0.15s infinite;
 }
 
 .crtContainer::before {
@@ -202,7 +16,6 @@
     left: 0;
     bottom: 0;
     right: 0;
-    /* Reduced opacity of scanlines */
     background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%),
         linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
     z-index: 20;
@@ -210,9 +23,39 @@
     pointer-events: none;
 }
 
-.crtText {
-    animation: textShadow 4s infinite;
-    /* Slower animation for less jitter */
-    position: relative;
-    z-index: 10;
+/* Handheld-scanner layout: on mobile the lens sits at the top of the
+   device, readout in the middle, controls at the bottom grip. On
+   desktop the readout takes the left column and the lens + controls
+   stack on the right. */
+
+.deckGrid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+        "chart"
+        "info"
+        "controls";
+}
+
+@media (min-width: 768px) {
+    .deckGrid {
+        grid-template-columns: minmax(0, 1fr) 24rem;
+        grid-template-rows: auto minmax(0, 1fr);
+        grid-template-areas:
+            "info chart"
+            "info controls";
+    }
+}
+
+.areaChart {
+    grid-area: chart;
+}
+
+.areaInfo {
+    grid-area: info;
+}
+
+.areaControls {
+    grid-area: controls;
 }

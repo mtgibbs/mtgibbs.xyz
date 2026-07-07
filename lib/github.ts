@@ -1,6 +1,50 @@
 import { IProject } from '../components/project-deck/model/project';
+import { IStarCatalog, IRepoStar } from '../components/project-deck/model/repo-star';
 
 const GITHUB_USERNAME = 'mtgibbs';
+
+// Build-time fetch of the full repo catalog for the star chart.
+// Public repos become named stars; private repos contribute ONLY a count
+// (rendered as unnamed classified contacts — names never ship).
+export async function getRepoCatalog(): Promise<IStarCatalog> {
+  const token = process.env.GITHUB_ACCESS_TOKEN;
+
+  if (!token) {
+    console.warn('GITHUB_ACCESS_TOKEN missing — star chart ships without catalog');
+    return { repos: [], privateCount: 0 };
+  }
+
+  try {
+    const res = await fetch('https://api.github.com/user/repos?per_page=100&affiliation=owner', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/vnd.github+json',
+      },
+    });
+
+    if (!res.ok) {
+      console.error('GitHub repo catalog fetch failed:', res.status);
+      return { repos: [], privateCount: 0 };
+    }
+
+    const all = await res.json();
+    const repos: IRepoStar[] = all
+      .filter((r: any) => !r.private)
+      .map((r: any) => ({
+        name: r.name,
+        createdYear: new Date(r.created_at).getFullYear(),
+        pushedAt: r.pushed_at,
+        sizeKb: r.size,
+        fork: r.fork,
+      }));
+    const privateCount = all.filter((r: any) => r.private).length;
+
+    return { repos, privateCount };
+  } catch (err) {
+    console.error('Failed to fetch repo catalog:', err);
+    return { repos: [], privateCount: 0 };
+  }
+}
 
 export async function getPinnedProjects(): Promise<IProject[]> {
   const token = process.env.GITHUB_ACCESS_TOKEN;

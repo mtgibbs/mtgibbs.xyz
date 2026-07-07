@@ -63,8 +63,7 @@ const CodeHero = ({ titleText, secondText, secondTextDesktop }: CodeHeroProps): 
 
     let codeText = ``;
 
-    if (error) { codeText = error; }
-    else if (data) { codeText = data; }
+    if (data && !error) { codeText = data; }
     else { codeText = _DEFAULT_CODE_TEXT; }
 
     React.useEffect(() => {
@@ -94,7 +93,7 @@ const CodeHero = ({ titleText, secondText, secondTextDesktop }: CodeHeroProps): 
                         globalVhsActive && styles.vhsSync
                     )}>
                     <div ref={scrollContainerRef} className={cn(
-                        "object-cover font-mono text-phosphor-amber h-full py-4 overflow-scroll scrollbar-thin scrollbar-thumb-signal-orange scrollbar-track-transparent scrollbar-thumb-rounded select-none bg-black/20"
+                        "object-cover font-mono text-phosphor-amber h-full py-4 overflow-scroll scrollbar-thin scrollbar-thumb-signal-orange scrollbar-track-transparent scrollbar-thumb-rounded select-none bg-black/20 phosphor-text"
                     )}>
                         <CodeHeroText codeText={codeText}></CodeHeroText>
                     </div>
@@ -102,7 +101,7 @@ const CodeHero = ({ titleText, secondText, secondTextDesktop }: CodeHeroProps): 
                 <div className="absolute w-full h-72 sm:h-64 inset-y-12 flex flex-col items-center justify-center pointer-events-none">
                     {titleText &&
                         <h2 className="relative w-full text-center z-20 transform translate-y-0 sm:-translate-x-24 sm:-translate-y-6 pointer-events-auto">
-                            <span className="bg-magnetic-black text-xs sm:text-2xl text-signal-orange font-bold p-2 sm:p-8 border-4 border-signal-orange rounded-none tracking-wide heavitas shadow-[4px_4px_0px_#3B5C7D] sm:shadow-[8px_8px_0px_#3B5C7D] transition-all duration-100 ease-in-out hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#3B5C7D] sm:hover:translate-x-[4px] sm:hover:translate-y-[4px] sm:hover:shadow-[4px_4px_0px_#3B5C7D] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none sm:active:translate-x-[8px] sm:active:translate-y-[8px]">
+                            <span className="bg-magnetic-black text-base sm:text-2xl text-signal-orange font-bold p-3 sm:p-8 border-4 border-signal-orange rounded-none tracking-wide heavitas shadow-[4px_4px_0px_#3B5C7D] sm:shadow-[8px_8px_0px_#3B5C7D] transition-all duration-100 ease-in-out hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#3B5C7D] sm:hover:translate-x-[4px] sm:hover:translate-y-[4px] sm:hover:shadow-[4px_4px_0px_#3B5C7D] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none sm:active:translate-x-[8px] sm:active:translate-y-[8px]">
                                 {titleText}
                             </span>
                         </h2>
@@ -110,7 +109,7 @@ const CodeHero = ({ titleText, secondText, secondTextDesktop }: CodeHeroProps): 
                     {/* Mobile Version */}
                     {secondText &&
                         <div className="relative w-full text-center z-20 transform mt-4 sm:hidden pointer-events-auto">
-                            <span className="text-sm text-faded-cardboard/85 font-bold tracking-wide lazer84 hover:text-signal-orange transition-colors duration-300">
+                            <span className="text-sm text-faded-cardboard font-bold tracking-wide lazer84 hover:text-signal-orange transition-colors duration-300 bg-magnetic-black/80 px-2 py-1">
                                 <span className="glitch relative inline-block text-left" data-text={secondText}>{secondText}</span>
                             </span>
                         </div>

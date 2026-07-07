@@ -4,13 +4,15 @@ import { IProject } from './model/project';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBackward, faForward, faCode } from '@fortawesome/free-solid-svg-icons';
 import styles from './ProjectDeck.module.css';
-import NavVisualizer from './NavVisualizer';
+import StarChart from './StarChart';
+import { IStarCatalog } from './model/repo-star';
 
 interface ProjectDeckProps {
     projects: readonly IProject[];
+    catalog: IStarCatalog;
 }
 
-const ProjectDeck = ({ projects }: ProjectDeckProps) => {
+const ProjectDeck = ({ projects, catalog }: ProjectDeckProps) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isSimulatingOffline, setIsSimulatingOffline] = useState(false);
 
@@ -68,32 +70,9 @@ const ProjectDeck = ({ projects }: ProjectDeckProps) => {
                                 "w-3 h-3 rounded-full shadow-[0_0_8px] animate-pulse transition-colors duration-500",
                                 isOffline ? "bg-red-500 shadow-red-500" : "bg-emerald-500 shadow-emerald-500"
                             )} />
-                            <span className="text-xs font-mono text-chrome-blue uppercase tracking-[0.2em] font-bold hidden sm:inline">
+                            <span className="text-xs font-mono text-chrome-blue uppercase tracking-[0.2em] font-bold">
                                 PROJECT_DECK // v2.0
                             </span>
-
-                            {/* Mobile Nagivation Controls (Visible only on small screens) */}
-                            <div className="flex items-center gap-2 md:hidden">
-                                <button
-                                    onClick={handlePrev}
-                                    disabled={isOffline}
-                                    className="p-1 text-chrome-blue active:text-phosphor-amber transition-colors disabled:opacity-50"
-                                    aria-label="Previous"
-                                >
-                                    <FontAwesomeIcon icon={faBackward} size="lg" />
-                                </button>
-                                <span className="text-xs font-mono text-phosphor-amber font-bold">
-                                    {currentIndex + 1}/{projects.length}
-                                </span>
-                                <button
-                                    onClick={handleNext}
-                                    disabled={isOffline}
-                                    className="p-1 text-chrome-blue active:text-phosphor-amber transition-colors disabled:opacity-50"
-                                    aria-label="Next"
-                                >
-                                    <FontAwesomeIcon icon={faForward} size="lg" />
-                                </button>
-                            </div>
                         </div>
 
                         {/* Status Tickers */}
@@ -107,11 +86,44 @@ const ProjectDeck = ({ projects }: ProjectDeckProps) => {
                         </div>
                     </div>
 
-                    {/* Main Content Area: Split View */}
-                    <div className="flex-1 flex flex-col md:flex-row relative">
+                    {/* Main Content Area: handheld-scanner grid (lens / readout / grip) */}
+                    <div className={cn("flex-1 relative", styles.deckGrid)}>
 
-                        {/* LEFT: Project Information */}
-                        <div className={cn("flex-1 p-6 relative flex flex-col h-[400px] md:h-auto overflow-y-auto md:overflow-visible custom-scrollbar", styles.crtText)}>
+                        {/* SCANNER LENS: 3:2 star chart — top of the device on mobile, upper-right on desktop */}
+                        <div className={cn("bg-black/20 border-b md:border-b-0 md:border-l border-chrome-blue/20 p-4 relative z-10", styles.areaChart)}>
+                            <div className="relative w-full aspect-[3/2] border border-chrome-blue/20 bg-black/40 rounded-sm overflow-hidden group/radar">
+                                <StarChart
+                                    projects={projects}
+                                    catalog={catalog}
+                                    current={currentIndex}
+                                    className="w-full h-full"
+                                    isOffline={isOffline}
+                                />
+                                {/* Overlay corner markers */}
+                                <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-chrome-blue/50 pointer-events-none"></div>
+                                <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-chrome-blue/50 pointer-events-none"></div>
+                                <div className="absolute bottom-0 left-0 w-2 h-2 border-l border-b border-chrome-blue/50 pointer-events-none"></div>
+                                <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-chrome-blue/50 pointer-events-none"></div>
+
+                                {/* Hidden Simulator Toggle (Hover top right) - Only visible if we have actual projects */}
+                                {projects.length > 0 && (
+                                    <button
+                                        onClick={() => setIsSimulatingOffline(!isSimulatingOffline)}
+                                        className="absolute top-1 right-1 w-4 h-4 bg-transparent z-50 opacity-0 group-hover/radar:opacity-50 hover:!opacity-100 cursor-crosshair"
+                                        title="Toggle Signal Jammer"
+                                    >
+                                        <div className={cn("w-full h-full border border-red-500/50 rounded-full flex items-center justify-center", isSimulatingOffline && "bg-red-500/20")}>
+                                            <div className="w-1 h-1 bg-red-500 rounded-full animate-ping" />
+                                        </div>
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* READOUT: Project Information */}
+                        {/* min-h pins the mobile readout to the tallest project so the
+                            grip controls don't drift under the thumb while cycling */}
+                        <div className={cn("p-6 relative flex flex-col min-h-[460px] md:min-h-0 phosphor-text", styles.areaInfo)}>
 
                             <div className="relative z-10 flex-1 flex flex-col">
                                 <div className="flex flex-col gap-1 mb-6 border-l-2 border-phosphor-amber/50 pl-4">
@@ -153,82 +165,51 @@ const ProjectDeck = ({ projects }: ProjectDeckProps) => {
                             </div>
                         </div>
 
-                        {/* VERTICAL DIVIDER (Desktop only) */}
-                        <div className="hidden md:block w-px bg-chrome-blue/20 relative z-20">
-                            <div className="absolute top-1/2 left-0 -translate-x-1/2 w-1 h-8 bg-chrome-blue/50"></div>
-                        </div>
-
-                        {/* RIGHT: Radar & Controls Sidebar */}
-                        <div className="w-full md:w-64 bg-black/20 flex flex-col border-t border-chrome-blue/20 md:border-t-0 p-4 gap-4 relative z-10">
-
-                            {/* Radar Module */}
-                            <div className="relative w-full aspect-square border border-chrome-blue/20 bg-black/40 rounded-sm overflow-hidden group/radar">
-                                <NavVisualizer
-                                    total={projects.length}
-                                    current={currentIndex}
-                                    className="w-full h-full"
-                                    isOffline={isOffline}
-                                />
-                                {/* Overlay corner markers */}
-                                <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-chrome-blue/50 pointer-events-none"></div>
-                                <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-chrome-blue/50 pointer-events-none"></div>
-                                <div className="absolute bottom-0 left-0 w-2 h-2 border-l border-b border-chrome-blue/50 pointer-events-none"></div>
-                                <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-chrome-blue/50 pointer-events-none"></div>
-
-                                {/* Hidden Simulator Toggle (Hover top right) - Only visible if we have actual projects */}
-                                {projects.length > 0 && (
-                                    <button
-                                        onClick={() => setIsSimulatingOffline(!isSimulatingOffline)}
-                                        className="absolute top-1 right-1 w-4 h-4 bg-transparent z-50 opacity-0 group-hover/radar:opacity-50 hover:!opacity-100 cursor-crosshair"
-                                        title="Toggle Signal Jammer"
-                                    >
-                                        <div className={cn("w-full h-full border border-red-500/50 rounded-full flex items-center justify-center", isSimulatingOffline && "bg-red-500/20")}>
-                                            <div className="w-1 h-1 bg-red-500 rounded-full animate-ping" />
-                                        </div>
-                                    </button>
-                                )}
-                            </div>
-
-                            {/* Control Interface */}
-                            <div className="flex-1 flex flex-col gap-3 relative">
-                                <div className="hidden md:grid grid-cols-2 gap-2">
-                                    <button
-                                        onClick={handlePrev}
-                                        disabled={isOffline}
-                                        className={cn(
-                                            "h-10 border border-chrome-blue/30 hover:bg-chrome-blue/10 text-chrome-blue transition-all group relative overflow-hidden",
-                                            isOffline && "opacity-50 grayscale cursor-not-allowed hover:bg-transparent"
-                                        )}
-                                        aria-label="Previous Project"
-                                    >
-                                        <span className="relative z-10"><FontAwesomeIcon icon={faBackward} /></span>
-                                    </button>
-                                    <button
-                                        onClick={handleNext}
-                                        disabled={isOffline}
-                                        className={cn(
-                                            "h-10 border border-chrome-blue/30 hover:bg-chrome-blue/10 text-chrome-blue transition-all group relative overflow-hidden",
-                                            isOffline && "opacity-50 grayscale cursor-not-allowed hover:bg-transparent"
-                                        )}
-                                        aria-label="Next Project"
-                                    >
-                                        <span className="relative z-10"><FontAwesomeIcon icon={faForward} /></span>
-                                    </button>
-                                </div>
-
-                                <div className="space-y-2 relative z-10">
-                                    {activeProject.repo && (
-                                        <a href={activeProject.repo} target="_blank" rel="noreferrer"
-                                            className="block w-full py-2 px-3 border border-chrome-blue/20 text-[10px] uppercase tracking-wider text-chrome-blue/70 hover:text-phosphor-amber hover:border-phosphor-amber/50 hover:bg-phosphor-amber/5 transition-all flex items-center justify-between group"
-                                        >
-                                            <span className="flex items-center gap-2">
-                                                <FontAwesomeIcon icon={faCode} /> SOURCE_CODE
-                                            </span>
-                                            <span className="opacity-0 group-hover:opacity-100 transition-opacity">{'>>'}</span>
-                                        </a>
+                        {/* GRIP: Control Interface — bottom of the device on mobile, under the lens on desktop */}
+                        <div className={cn("bg-black/20 border-t md:border-t-0 md:border-l border-chrome-blue/20 p-4 flex flex-col gap-3 relative z-10", styles.areaControls)}>
+                            <div className="grid grid-cols-[1fr_auto_1fr] gap-2 items-stretch">
+                                <button
+                                    onClick={handlePrev}
+                                    disabled={isOffline}
+                                    className={cn(
+                                        "h-10 border border-chrome-blue/30 hover:bg-chrome-blue/10 text-chrome-blue transition-all relative overflow-hidden",
+                                        isOffline && "opacity-50 grayscale cursor-not-allowed hover:bg-transparent"
                                     )}
-                                </div>
+                                    aria-label="Previous Project"
+                                >
+                                    <span className="relative z-10"><FontAwesomeIcon icon={faBackward} /></span>
+                                </button>
+                                <span
+                                    className="min-w-[4.5rem] px-2 flex items-center justify-center text-xs font-mono font-bold tracking-widest text-phosphor-amber border border-chrome-blue/20 bg-black/40"
+                                    aria-live="polite"
+                                >
+                                    {isOffline
+                                        ? '--/--'
+                                        : `${String(currentIndex + 1).padStart(2, '0')}/${String(projects.length).padStart(2, '0')}`}
+                                </span>
+                                <button
+                                    onClick={handleNext}
+                                    disabled={isOffline}
+                                    className={cn(
+                                        "h-10 border border-chrome-blue/30 hover:bg-chrome-blue/10 text-chrome-blue transition-all relative overflow-hidden",
+                                        isOffline && "opacity-50 grayscale cursor-not-allowed hover:bg-transparent"
+                                    )}
+                                    aria-label="Next Project"
+                                >
+                                    <span className="relative z-10"><FontAwesomeIcon icon={faForward} /></span>
+                                </button>
                             </div>
+
+                            {activeProject.repo && (
+                                <a href={activeProject.repo} target="_blank" rel="noreferrer"
+                                    className="block w-full py-2 px-3 border border-chrome-blue/20 text-[10px] uppercase tracking-wider text-chrome-blue/70 hover:text-phosphor-amber hover:border-phosphor-amber/50 hover:bg-phosphor-amber/5 transition-all flex items-center justify-between group"
+                                >
+                                    <span className="flex items-center gap-2">
+                                        <FontAwesomeIcon icon={faCode} /> SOURCE_CODE
+                                    </span>
+                                    <span className="opacity-0 group-hover:opacity-100 transition-opacity">{'>>'}</span>
+                                </a>
+                            )}
                         </div>
                     </div>
                 </div>

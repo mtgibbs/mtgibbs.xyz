@@ -4,12 +4,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Personal portfolio website for Matt Gibbs built with Next.js 12, React 17, TypeScript, and Tailwind CSS. The site is a single-page application showcasing professional experience, skills, and contact information.
+Personal portfolio website for Matt Gibbs built with Next.js 16, React 19, TypeScript, and Tailwind CSS. The site is a single-page application showcasing professional experience, skills, and contact information.
+
+**Note:** The primary branch for this repository is `mater` (Latin for "mother"). See `ANTIGRAVITY.md` for branching rules, agent personas, and the retro sci-fi feature roadmap.
 
 ## Development Commands
 
 ```bash
 # Start development server (runs on http://localhost:3000)
+# Requires the 1Password CLI (`op`) — secrets are injected via `op run`
 npm run dev
 
 # Build production bundle
@@ -24,7 +27,9 @@ npm run lint
 
 ## Docker Deployment
 
-The site is deployed to Heroku via Docker containers:
+Pushes to `mater` trigger `.github/workflows/deploy.yml`, which ships prod (Heroku + Cloudflare purge) and publishes a timestamp-tagged image to GHCR. Flux on the pi-cluster (`~/dev/pi-cluster`, `clusters/pi-k3s/mtgibbs-site/`) auto-deploys the newest GHCR tag to https://site.lab.mtgibbs.dev. Pushes to `redesign` publish to GHCR only (lab preview without touching prod).
+
+Manual Heroku deployment:
 
 ```bash
 # Build the Docker image

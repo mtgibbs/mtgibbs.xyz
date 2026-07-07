@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PROTO A — MU/TH/UR</title>
+<style>
+  @font-face { font-family:'Heavitas'; src:url('/fonts/Heavitas.ttf'); }
+  @font-face { font-family:'Nineteen'; src:url('/fonts/NineteenNinetySeven-11XB.ttf'); }
+  :root{
+    --black:#1A1A1A; --card:#F5F0E1; --amber:#FFB000;
+    --orange:#FF4400; --red:#D93636; --blue:#3B5C7D;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    background:var(--black);
+    color:var(--amber);
+    font-family:'Nineteen',monospace;
+    display:flex;flex-direction:column;
+    min-height:100vh;
+  }
+  /* site-wide analog noise + scanlines (kept from v5) */
+  body::before{
+    content:'';position:fixed;inset:0;z-index:40;pointer-events:none;
+    background:repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,0,0,.32) 3px 4px);
+  }
+  body::after{
+    content:'';position:fixed;inset:0;z-index:41;pointer-events:none;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* status bar */
+  .bar{
+    display:flex;justify-content:space-between;gap:16px;
+    padding:14px 26px;font-size:12px;letter-spacing:.34em;
+    color:var(--card);border-bottom:1px solid rgba(255,176,0,.25);
+  }
+  .bar b{color:var(--amber);font-weight:normal}
+  .bar .blink{animation:blink 1.2s steps(1) infinite}
+  @keyframes blink{50%{opacity:.15}}
+
+  /* corner coordinates — sparse chrome */
+  .coord{position:fixed;font-size:10px;letter-spacing:.3em;color:rgba(245,240,225,.35);z-index:2}
+  .c1{left:26px;bottom:20px}.c2{right:26px;bottom:20px}
+
+  /* the interrogative column */
+  main{
+    flex:1;display:flex;align-items:center;justify-content:center;padding:60px 24px;
+  }
+  .inquiry{width:min(760px,92vw);font-size:17px;line-height:2.15;letter-spacing:.04em}
+  .inquiry .q{color:var(--card)}
+  .inquiry .q::before{content:'> ';color:var(--orange)}
+  .inquiry .a{margin:18px 0 44px;white-space:pre-line}
+  .inquiry .sys{font-size:12px;letter-spacing:.3em;color:rgba(255,176,0,.5)}
+  .cursor{display:inline-block;width:.62em;height:1.1em;background:var(--amber);vertical-align:text-bottom;animation:blink 1s steps(1) infinite}
+
+  .hidden{visibility:hidden}
+
+  /* single alert moment — one element wins */
+  .alert{
+    margin-top:10px;display:none;
+    border:2px solid var(--red);color:var(--red);
+    padding:10px 16px;font-size:13px;letter-spacing:.3em;
+    animation:blink 1.6s steps(1) infinite;
+  }
+  .alert.show{display:inline-block}
+
+  @media (prefers-reduced-motion: reduce){
+    .blink,.cursor,.alert{animation:none}
+  }
+</style>
+</head>
+<body>
+  <header class="bar">
+    <span>MU/TH/UR 6000</span>
+    <span><b>INTERFACE 2037</b> READY FOR INQUIRY <span class="blink">▮</span></span>
+    <span>LI-1997</span>
+  </header>
+
+  <main>
+    <div class="inquiry" id="seq">
+      <p class="sys">/// ACCESS: LOREM CLEARANCE — GRANTED</p>
+      <br>
+      <p class="q" data-line>WHAT IS LOREM IPSUM?</p>
+      <p class="a" data-line>IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT.
+SED DO EIUSMOD TEMPOR INCIDIDUNT UT LABORE ET DOLORE
+MAGNA ALIQUA — UT ENIM AD MINIM VENIAM.</p>
+      <p class="q" data-line>REQUEST CLARIFICATION: QUIS NOSTRUD?</p>
+      <p class="a" data-line>EXERCITATION ULLAMCO LABORIS NISI UT ALIQUIP
+EX EA COMMODO CONSEQUAT. STATUS: NOMINAL.</p>
+      <span class="alert" id="alert">UNABLE TO CLARIFY — DOLOR PROTOCOL</span>
+      <p><span class="cursor"></span></p>
+    </div>
+  </main>
+
+  <span class="coord c1">GRID 04 // ROW 22</span>
+  <span class="coord c2">SIG ▮▮▮▮▮▮▮░░ 82%</span>
+
+<script>
+  // line-by-line draw, MU/TH/UR style
+  const lines = [...document.querySelectorAll('[data-line]')];
+  const alertEl = document.getElementById('alert');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) { alertEl.classList.add('show'); }
+  else {
+    lines.forEach(l => l.classList.add('hidden'));
+    let i = 0;
+    (function reveal(){
+      if (i < lines.length) {
+        lines[i++].classList.remove('hidden');
+        setTimeout(reveal, 650);
+      } else {
+        setTimeout(() => alertEl.classList.add('show'), 900);
+      }
+    })();
+  }
+</script>
+</body>
+</html>

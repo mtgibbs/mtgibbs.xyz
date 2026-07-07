@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PROTO B — HAL ARRAY</title>
+<style>
+  @font-face { font-family:'Heavitas'; src:url('/fonts/Heavitas.ttf'); }
+  @font-face { font-family:'Nineteen'; src:url('/fonts/NineteenNinetySeven-11XB.ttf'); }
+  :root{
+    --black:#1A1A1A; --card:#F5F0E1; --amber:#FFB000;
+    --orange:#FF4400; --red:#D93636; --blue:#3B5C7D;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    background:var(--black);color:var(--card);
+    font-family:'Nineteen',monospace;padding:22px;min-height:100vh;
+  }
+  body::before{
+    content:'';position:fixed;inset:0;z-index:40;pointer-events:none;
+    background:repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,0,0,.32) 3px 4px);
+  }
+  body::after{
+    content:'';position:fixed;inset:0;z-index:41;pointer-events:none;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .array{
+    display:grid;gap:14px;max-width:1180px;margin:0 auto;
+    grid-template-columns:repeat(4,1fr);
+    grid-auto-rows:minmax(140px,auto);
+  }
+  @media(max-width:900px){.array{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:520px){.array{grid-template-columns:1fr}}
+
+  .panel{
+    border:1px solid rgba(245,240,225,.22);
+    display:flex;flex-direction:column;overflow:hidden;
+    background:rgba(245,240,225,.015);
+  }
+  .panel:hover{animation:sync .18s steps(2) 1}
+  @keyframes sync{50%{transform:translateY(2px);opacity:.7}}
+
+  /* HAL mnemonic header */
+  .mn{
+    display:flex;align-items:stretch;border-bottom:1px solid rgba(245,240,225,.22);
+  }
+  .mn b{
+    font-family:'Heavitas';font-size:22px;letter-spacing:.06em;
+    padding:8px 14px;color:var(--black);flex:none;
+  }
+  .mn span{
+    align-self:center;padding:0 12px;font-size:10px;letter-spacing:.3em;
+    color:rgba(245,240,225,.6);text-transform:uppercase;
+  }
+  .amb b{background:var(--amber)} .org b{background:var(--orange)}
+  .blu b{background:var(--blue);color:var(--card)} .red b{background:var(--red);color:var(--card)}
+
+  .body{flex:1;padding:14px;font-size:12.5px;line-height:1.9;color:rgba(245,240,225,.85)}
+  .body .dim{color:rgba(245,240,225,.5)}
+  .body .amber{color:var(--amber)}
+  .blink{animation:blink 1.3s steps(1) infinite}
+  @keyframes blink{50%{opacity:.15}}
+
+  .span2{grid-column:span 2}
+  .rows2{grid-row:span 2}
+
+  /* the hero screen — code panel, center of the array */
+  .hero .body{font-size:14px;color:var(--amber);line-height:1.85}
+  .hero .q{color:var(--card)}
+  .cursor{display:inline-block;width:.6em;height:1.05em;background:var(--amber);vertical-align:text-bottom;animation:blink 1s steps(1) infinite}
+
+  /* flat vector diagrams — 2001 nav display energy */
+  svg{display:block;width:100%;height:100%}
+  .diagram{flex:1;min-height:90px;padding:10px}
+
+  table{width:100%;border-collapse:collapse;font-size:11.5px}
+  td{padding:4px 0;border-bottom:1px solid rgba(245,240,225,.12)}
+  td:last-child{text-align:right;color:var(--amber)}
+
+  .bars{display:flex;gap:6px;align-items:flex-end;height:64px;margin-top:8px}
+  .bars i{flex:1;background:var(--blue);display:block}
+  .bars i.hot{background:var(--orange)}
+
+  @media (prefers-reduced-motion: reduce){
+    .blink,.cursor{animation:none}
+    .panel:hover{animation:none}
+  }
+</style>
+</head>
+<body>
+  <div class="array">
+
+    <div class="panel amb"><div class="mn"><b>SYS</b><span>Central Processing</span></div>
+      <div class="body">
+        MEM 0x4F22 <span class="dim">// PARITY OK</span><br>
+        LNK <span class="amber">SECURE</span><br>
+        TMP 38°C <span class="dim">NOMINAL</span><br>
+        <span class="blink amber">▮ REC</span>
+      </div>
+    </div>
+
+    <div class="panel org span2 hero"><div class="mn"><b>COM</b><span>Command Interface — Hero Screen</span></div>
+      <div class="body" id="typer">
+        <span class="q">&gt; LOREM_QUERY: IPSUM DOLOR?</span><br><br>
+        <span id="typed"></span><span class="cursor"></span>
+      </div>
+    </div>
+
+    <div class="panel blu rows2"><div class="mn"><b>NAV</b><span>Trajectory</span></div>
+      <div class="diagram">
+        <svg viewBox="0 0 200 260" fill="none">
+          <circle cx="100" cy="120" r="70" stroke="#3B5C7D" stroke-width="1.5"/>
+          <circle cx="100" cy="120" r="44" stroke="#3B5C7D" stroke-width="1" stroke-dasharray="4 5"/>
+          <ellipse cx="100" cy="120" rx="92" ry="30" stroke="#FFB000" stroke-width="1.5"/>
+          <circle cx="170" cy="105" r="5" fill="#FF4400"/>
+          <path d="M10 240 H190 M10 232 V248 M190 232 V248" stroke="#F5F0E1" stroke-opacity=".5" stroke-width="1.5"/>
+          <circle cx="100" cy="120" r="3" fill="#F5F0E1"/>
+        </svg>
+      </div>
+      <div class="body dim">INCL 12.4° // ECC 0.21<br>PERIAPSIS: LOREM-6</div>
+    </div>
+
+    <div class="panel amb"><div class="mn"><b>ATM</b><span>Environment</span></div>
+      <div class="body">
+        <table>
+          <tr><td>O₂ MIX</td><td>20.9</td></tr>
+          <tr><td>PRESS</td><td>101.3</td></tr>
+          <tr><td>HUM</td><td>44%</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel blu"><div class="mn"><b>VEH</b><span>Payload</span></div>
+      <div class="body"><div class="bars">
+        <i style="height:40%"></i><i style="height:72%"></i><i class="hot" style="height:96%"></i>
+        <i style="height:55%"></i><i style="height:30%"></i><i style="height:64%"></i>
+      </div></div>
+    </div>
+
+    <div class="panel red"><div class="mn"><b>GDE</b><span>Guidance</span></div>
+      <div class="body">
+        MODE <span class="amber">MANUAL</span><br>
+        DRIFT 0.003 <span class="dim">RAD</span><br>
+        <span class="blink" style="color:var(--red)">CAUTION — DOLOR</span>
+      </div>
+    </div>
+
+    <div class="panel amb span2"><div class="mn"><b>LOG</b><span>Event Stream</span></div>
+      <div class="body dim">
+        [14:02:11] IPSUM &gt;&gt; consectetur adipiscing <span class="amber">[OK]</span><br>
+        [14:02:24] DOLOR &gt;&gt; sed do eiusmod tempor <span class="amber">[OK]</span><br>
+        [14:02:37] MAGNA &gt;&gt; ut labore et dolore <span class="amber">[OK]</span>
+      </div>
+    </div>
+
+    <div class="panel blu"><div class="mn"><b>CNT</b><span>Contact</span></div>
+      <div class="body">
+        FREQ 121.5 <span class="dim">MHZ</span><br>
+        UPLINK <span class="amber">OPEN</span><br>
+        <span class="dim">CH 04 // STANDBY</span>
+      </div>
+    </div>
+
+  </div>
+
+<script>
+  const text = "AFFIRMATIVE. SIT AMET CONSECTETUR ADIPISCING ELIT — SED DO EIUSMOD TEMPOR INCIDIDUNT UT LABORE.";
+  const el = document.getElementById('typed');
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { el.textContent = text; }
+  else {
+    let i = 0;
+    (function t(){ if(i <= text.length){ el.textContent = text.slice(0,i++); setTimeout(t, 34); } })();
+  }
+</script>
+</body>
+</html>

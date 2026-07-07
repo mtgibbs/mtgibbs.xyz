@@ -2,7 +2,10 @@ import React from 'react';
 
 const CyberGrid = () => {
     return (
-        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        // Capped to hero height: this used to span the whole page (~16k px of
+        // 3D-transformed, opacity-animated layer composited on every scroll
+        // frame) while only ever being visible behind the hero.
+        <div className="absolute inset-x-0 top-0 h-[110vh] z-0 overflow-hidden pointer-events-none">
             {/* Perspective Grid */}
             <div className="absolute inset-0 bg-transparent"
                 style={{
