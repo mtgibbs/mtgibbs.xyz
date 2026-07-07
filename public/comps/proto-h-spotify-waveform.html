@@ -163,6 +163,55 @@
       <div class="scope" style="height:170px"><canvas data-viz="scope"></canvas></div>
     </div>
 
+    <div class="panel wide" style="padding-bottom:8px">
+      <header>
+        <h2><span>H5+</span> ENCLOSURE STUDIES</h2>
+        <div class="stat">TERMINATION <i>●</i></div>
+      </header>
+      <p>The winning trace, four ways to keep it from floating off the sides of
+         the card. Same signal, different terminations.</p>
+    </div>
+
+    <div class="panel">
+      <header>
+        <h2><span>E1</span> DOT TERMINALS</h2>
+        <div class="stat">FREQ.MOD <i>●</i></div>
+      </header>
+      <p>Two electrodes the signal oscillates between. The trace pins to zero at
+         each dot; the receiving end breathes with the live level.</p>
+      <div class="scope" style="height:110px"><canvas data-viz="e1"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <header>
+        <h2><span>E2</span> END RAILS</h2>
+        <div class="stat">FREQ.MOD <i>●</i></div>
+      </header>
+      <p>Vertical contact rails on both sides — the trace runs terminal to
+         terminal like a strip-chart between pins.</p>
+      <div class="scope" style="height:110px"><canvas data-viz="e2"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <header>
+        <h2><span>E3</span> SOFT FADE</h2>
+        <div class="stat">FREQ.MOD <i>●</i></div>
+      </header>
+      <p>No hardware — the sweep just loses signal at the edges. Quietest option;
+         keeps the card airy.</p>
+      <div class="scope" style="height:110px"><canvas data-viz="e3"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <header>
+        <h2><span>E4</span> SCOPE FRAME</h2>
+        <div class="stat">FREQ.MOD <i>●</i></div>
+      </header>
+      <p>A thin instrument window with sweep ticks — the trace lives inside its
+         own bezel like the star chart lens.</p>
+      <div class="scope" style="height:110px"><canvas data-viz="e4"></canvas></div>
+    </div>
+
   </div>
 
   <div class="footnote">
@@ -228,6 +277,43 @@
 
   // ---- renderers -------------------------------------------------------
   // each: (ctx, w, h, t, store) — store persists per canvas between frames
+
+  // shared phosphor sweep with pluggable termination (H5 enclosure studies)
+  function sweep(ctx, w, h, t, store, o) {
+    const N = 90, cy = h / 2;
+    const x0 = o.inset || 0, x1 = w - (o.inset || 0);
+    if (!store.primed) { ctx.fillStyle = '#1A1A1A'; ctx.fillRect(0, 0, w, h); store.primed = true; }
+    ctx.fillStyle = 'rgba(26,26,26,0.16)';
+    ctx.fillRect(0, 0, w, h);
+    const pts = [];
+    for (let i = 0; i < N; i++) {
+      const x = i / (N - 1);
+      const env = o.env ? o.env(x) : 1;
+      const v = band(x, t);
+      const y = cy + (Math.sin(x * 26 + t * 5.5) * v * h * 0.30
+                    + Math.sin(x * 5 - t * 1.2) * h * 0.06) * env;
+      pts.push([x0 + x * (x1 - x0), y]);
+    }
+    let glow = `rgba(${AMBER},0.30)`, core = `rgba(${AMBER},0.95)`;
+    if (o.fade) {
+      const mk = (a) => {
+        const g = ctx.createLinearGradient(0, 0, w, 0);
+        g.addColorStop(0, `rgba(${AMBER},0)`);
+        g.addColorStop(0.14, `rgba(${AMBER},${a})`);
+        g.addColorStop(0.86, `rgba(${AMBER},${a})`);
+        g.addColorStop(1, `rgba(${AMBER},0)`);
+        return g;
+      };
+      glow = mk(0.30); core = mk(0.95);
+    }
+    tracePath(ctx, pts);
+    ctx.strokeStyle = glow; ctx.lineWidth = 3.5; ctx.stroke();
+    tracePath(ctx, pts);
+    ctx.strokeStyle = core; ctx.lineWidth = 1.4; ctx.stroke();
+    return cy;
+  }
+  // pin the trace to zero amplitude at both ends
+  const pinEnv = (x) => Math.min(1, Math.min(x, 1 - x) * 7);
 
   const RENDER = {
 
@@ -383,6 +469,46 @@
       ctx.strokeStyle = `rgba(${AMBER},0.30)`; ctx.lineWidth = 3.5; ctx.stroke();
       tracePath(ctx, pts);
       ctx.strokeStyle = `rgba(${AMBER},0.95)`; ctx.lineWidth = 1.4; ctx.stroke();
+    },
+
+    e1(ctx, w, h, t, store) {
+      const cy = sweep(ctx, w, h, t, store, { inset: 22, env: pinEnv });
+      // electrodes — TX steady, RX breathes with the live level
+      const lv = band(0.95, t);
+      const dot = (x, r, aGlow) => {
+        ctx.beginPath(); ctx.arc(x, cy, r * 2.4, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${AMBER},${aGlow})`; ctx.fill();
+        ctx.beginPath(); ctx.arc(x, cy, r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${AMBER},0.95)`; ctx.fill();
+      };
+      dot(11, 2.6, 0.18);
+      dot(w - 11, 2.6 + lv * 1.8, 0.14 + lv * 0.25);
+    },
+
+    e2(ctx, w, h, t, store) {
+      const cy = sweep(ctx, w, h, t, store, { inset: 14, env: pinEnv });
+      const rh = h * 0.56;
+      ctx.fillStyle = `rgba(${AMBER},0.8)`;
+      ctx.fillRect(4, cy - rh / 2, 2, rh);
+      ctx.fillRect(w - 6, cy - rh / 2, 2, rh);
+      ctx.fillStyle = `rgba(${AMBER},0.25)`;
+      ctx.fillRect(8, cy - rh / 2, 1, rh);
+      ctx.fillRect(w - 9, cy - rh / 2, 1, rh);
+    },
+
+    e3(ctx, w, h, t, store) {
+      sweep(ctx, w, h, t, store, { fade: true });
+    },
+
+    e4(ctx, w, h, t, store) {
+      sweep(ctx, w, h, t, store, { inset: 12, env: (x) => Math.min(1, Math.min(x, 1 - x) * 10) });
+      ctx.strokeStyle = `rgba(${CARD},0.30)`;
+      ctx.lineWidth = 1;
+      ctx.strokeRect(4.5, 6.5, w - 9, h - 13);
+      // sweep ticks along the bottom rail
+      ctx.fillStyle = `rgba(${CARD},0.25)`;
+      const ticks = Math.floor((w - 9) / 24);
+      for (let i = 1; i < ticks; i++) ctx.fillRect(4.5 + i * 24, h - 10, 1, 4);
     }
   };
 
