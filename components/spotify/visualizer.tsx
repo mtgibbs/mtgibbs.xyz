@@ -185,10 +185,10 @@ const Visualizer: React.FC<VisualizerProps> = ({ trackId, isPlaying, progressMs,
             if (i === 0) ctx.moveTo(inset, y);
             else ctx.lineTo(inset + x * (w - inset * 2), y);
         }
-        ctx.strokeStyle = `rgba(${r},${g},${b},0.28)`;
+        ctx.strokeStyle = `rgba(${r},${g},${b},${isPlaying ? 0.28 : 0.12})`;
         ctx.lineWidth = 3.5;
         ctx.stroke();
-        ctx.strokeStyle = `rgba(${r},${g},${b},${isPlaying ? 0.95 : 0.5})`;
+        ctx.strokeStyle = `rgba(${r},${g},${b},${isPlaying ? 0.95 : 0.3})`;
         ctx.lineWidth = 1.4;
         ctx.stroke();
     };
