@@ -86,6 +86,16 @@ replace SectionTitle again.
 ### 4. LOG event stream — `proto-b-hal.html` LOG panel
 Approved pattern for existing readouts (System Logs etc.):
 `[time] NAME >> detail [OK]` in dim cardboard with amber accents.
+SHIPPED as the SystemLogs telemetry deck (H2+H3 hybrid from
+`proto-h-log-telemetry.html`): census header band (`LOG // EVENT
+STREAM` + verb counts), log stream in the §4 grammar, instrument
+column (24h signal count, 2h-bucket strip chart, repos/last-signal/
+poll/link readouts), commit-subject ticker. Every value derives from
+real GitHub data — fake heartbeats (CORE_TEMP etc.) removed for good.
+The hack-in boot + real git-log dump (PR #106) is preserved. NOTE:
+the events API ships `commits: null` on PushEvents now — the head
+SHA (`@abc1234`) is the honest display, don't resurrect the
+commit-message path without a separate fetch.
 
 ### 5. Motion vocabulary — `proto-d-telemetry.html`
 Flip-digit counters (steps scaleY), self-drawing strip charts
