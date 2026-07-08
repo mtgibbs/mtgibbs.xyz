@@ -25,9 +25,11 @@ const SystemLogs = (): React.ReactNode => {
 
     const [logs, setLogs] = useState<string[]>([]);
     const [isBooting, setIsBooting] = useState(true);
+    const [bootStarted, setBootStarted] = useState(false);
     const [bootProgress, setBootProgress] = useState(0);
     const [lastRead, setLastRead] = useState<string>('');
     const scrollRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     const addLog = useCallback((msg: string) => {
         setLogs(prev => {
@@ -47,9 +49,26 @@ const SystemLogs = (): React.ReactNode => {
         }
     }, [commits]);
 
+    // The boot waits for the terminal to scroll into view, so the hack-in
+    // actually plays in front of the visitor instead of below the fold.
+    useEffect(() => {
+        const el = containerRef.current;
+        if (!el) return;
+        const io = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting) {
+                setBootStarted(true);
+                io.disconnect();
+            }
+        }, { threshold: 0.35 });
+        io.observe(el);
+        return () => io.disconnect();
+    }, []);
+
     // Boot sequence — the "hack in". The repo's real git log gets dumped
     // mid-sequence, resolved from commitsRef once the fetch lands.
     useEffect(() => {
+        if (!bootStarted) return;
+
         const PRE_BOOT = [
             "INITIALIZING KERNEL v4.2.0...",
             "CHECKING NEURAL LINK STATUS...",
@@ -87,7 +106,7 @@ const SystemLogs = (): React.ReactNode => {
         }, 350);
 
         return () => clearInterval(interval);
-    }, [addLog]);
+    }, [bootStarted, addLog]);
 
     // Handle GitHub Data
     useEffect(() => {
@@ -135,11 +154,13 @@ const SystemLogs = (): React.ReactNode => {
                 return `[${date}] SYS_LOG: ${action}`;
             });
 
-            // Only update if we have new events or keep them fresh
+            // Refresh the event stream, but leave the hack-in transcript on
+            // screen above it — it scrolls off naturally via the 20-line cap.
             setLogs(prev => {
-                const filteredPrev = prev.filter(l => !l.includes('SYS_LOG'));
-                const combined = [...newEvents.reverse(), ...filteredPrev.filter(l => l.includes('INF:'))];
-                return combined.slice(-20).sort((a, b) => a.localeCompare(b));
+                const bootLines = prev.filter(l => l.includes('[BOOT]'));
+                const infLines = prev.filter(l => l.includes('INF:'));
+                const stream = [...newEvents, ...infLines].sort((a, b) => a.localeCompare(b));
+                return [...bootLines, ...stream].slice(-20);
             });
         }
     }, [data, isBooting]);
@@ -181,7 +202,7 @@ const SystemLogs = (): React.ReactNode => {
     }, [logs]);
 
     return (
-        <div id="system-logs" className="relative w-full">
+        <div id="system-logs" ref={containerRef} className="relative w-full">
             {/* Background VHS Stripes - Counter-skewed - Full Width */}
             <div className="absolute z-0 top-0 bottom-0 left-1/2 -translate-x-1/2 w-[200vw] transform skew-y-0 sm:skew-y-6 overflow-hidden pointer-events-none">
                 <div className="absolute z-0 inset-x-0 top-0 h-4 bg-phosphor-amber opacity-40"></div>
