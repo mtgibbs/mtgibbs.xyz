@@ -151,7 +151,7 @@ const SystemLogs = (): React.ReactNode => {
         refreshInterval: 30000 // Refresh every 30 seconds
     });
     const { data: commits } = useSWR<IRepoCommit[]>(
-        'https://api.github.com/repos/mtgibbs/mtgibbs.xyz/commits?per_page=4',
+        'https://api.github.com/repos/mtgibbs/mtgibbs.xyz/commits?per_page=8',
         fetcher,
         { revalidateOnFocus: false, revalidateOnReconnect: false }
     );
@@ -189,14 +189,18 @@ const SystemLogs = (): React.ReactNode => {
         [events]
     );
 
-    // Ticker rides on the repo's real commit subjects (same fetch the boot uses)
+    // Ticker rides on the repo's real commit subjects (same fetch the boot
+    // uses); merge commits are ceremony, not signal — skip them
     const tickerText = useMemo(() => {
         const subjects = Array.isArray(commits)
-            ? commits.map((c) => c.commit.message.split('\n')[0].toUpperCase())
+            ? commits
+                .filter((c) => !/^Merge /.test(c.commit.message))
+                .slice(0, 4)
+                .map((c) => `@${c.sha.substring(0, 7)} ${c.commit.message.split('\n')[0]}`)
             : [];
         const items = subjects.length
             ? subjects
-            : events.slice(0, 4).map((e) => `${e.verb} ${e.repo}`.toUpperCase());
+            : events.slice(0, 4).map((e) => `${e.verb} ${e.repo}`);
         if (!items.length) return '>> ESTABLISHING DOWNLINK…';
         return `>> ${items.join(' // ')} // SIGNAL NOMINAL — BE KIND, REWIND `;
     }, [commits, events]);
@@ -205,7 +209,8 @@ const SystemLogs = (): React.ReactNode => {
     const commitsRef = useRef<string[] | null>(null);
     useEffect(() => {
         if (Array.isArray(commits)) {
-            commitsRef.current = commits.map((c) => {
+            // fetch is per_page=8 for the ticker; the boot still dumps HEAD~4
+            commitsRef.current = commits.slice(0, 4).map((c) => {
                 const subject = c.commit.message.split('\n')[0];
                 return `GIT >> ${c.sha.substring(0, 7)} "${subject.substring(0, 44)}${subject.length > 44 ? '...' : ''}"`;
             });

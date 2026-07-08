@@ -299,7 +299,7 @@
 
 .tickerTrack span {
   display: inline-block;
-  animation: tickerScroll 26s linear infinite;
+  animation: tickerScroll 52s linear infinite;
   padding-right: 100%;
 }
 
