@@ -7,11 +7,21 @@ import { useVhs } from '../../context/VhsContext';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
+interface IRepoCommit {
+    sha: string;
+    commit: { message: string };
+}
+
 const SystemLogs = (): React.ReactNode => {
     const { isVhsActive: globalVhsActive } = useVhs();
     const { data, error } = useSWR<IGitHubEvent[]>('https://api.github.com/users/mtgibbs/events/public', fetcher, {
         refreshInterval: 30000 // Refresh every 30 seconds
     });
+    const { data: commits } = useSWR<IRepoCommit[]>(
+        'https://api.github.com/repos/mtgibbs/mtgibbs.xyz/commits?per_page=4',
+        fetcher,
+        { revalidateOnFocus: false, revalidateOnReconnect: false }
+    );
 
     const [logs, setLogs] = useState<string[]>([]);
     const [isBooting, setIsBooting] = useState(true);
@@ -26,28 +36,55 @@ const SystemLogs = (): React.ReactNode => {
         });
     }, []);
 
-    // Boot sequence
+    // Latest real commits, formatted as git log lines for the boot dump
+    const commitsRef = useRef<string[] | null>(null);
     useEffect(() => {
-        const bootSteps = [
+        if (Array.isArray(commits)) {
+            commitsRef.current = commits.map((c) => {
+                const subject = c.commit.message.split('\n')[0];
+                return `GIT >> ${c.sha.substring(0, 7)} "${subject.substring(0, 44)}${subject.length > 44 ? '...' : ''}"`;
+            });
+        }
+    }, [commits]);
+
+    // Boot sequence — the "hack in". The repo's real git log gets dumped
+    // mid-sequence, resolved from commitsRef once the fetch lands.
+    useEffect(() => {
+        const PRE_BOOT = [
             "INITIALIZING KERNEL v4.2.0...",
             "CHECKING NEURAL LINK STATUS...",
             "NEURAL LINK: ESTABLISHED",
+            "RESOLVING HOST github.com >> OK",
+            "HANDSHAKE >> RSA-4096 ACCEPTED",
+            "PROBING REPO >> mtgibbs/mtgibbs.xyz",
+            "TAILING GIT_LOG >> HEAD~4...",
+        ];
+        const POST_BOOT = [
+            "LOG_DUMP >> COMPLETE",
             "SCANNING GITHUB_QUANTUM_STREAM...",
             "DECRYPTING ACTIVITY LOGS...",
+            "AUTH_GATE >> BYPASSED",
             "SYSTEM_READY >> ACCESS_GRANTED"
         ];
 
+        // Snapshot the git lines once, the moment the dump step arrives
+        let gitLines: string[] | null = null;
         let step = 0;
         const interval = setInterval(() => {
-            if (step < bootSteps.length) {
-                addLog(`[BOOT] ${bootSteps[step]}`);
-                setBootProgress(((step + 1) / bootSteps.length) * 100);
+            if (step >= PRE_BOOT.length && gitLines === null) {
+                gitLines = commitsRef.current
+                    ?? ["GIT_LOG >> 0 ENTRIES (STREAM_ENCRYPTED)"];
+            }
+            const steps = [...PRE_BOOT, ...(gitLines ?? []), ...POST_BOOT];
+            if (step < steps.length) {
+                addLog(`[BOOT] ${steps[step]}`);
+                setBootProgress(((step + 1) / steps.length) * 100);
                 step++;
             } else {
                 clearInterval(interval);
                 setTimeout(() => setIsBooting(false), 500);
             }
-        }, 400);
+        }, 350);
 
         return () => clearInterval(interval);
     }, [addLog]);
