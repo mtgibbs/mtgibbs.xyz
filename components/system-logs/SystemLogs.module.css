@@ -301,6 +301,8 @@
   display: inline-block;
   animation: tickerScroll 52s linear infinite;
   padding-right: 100%;
+  /* own compositor layer — main-thread paints must not stutter the scroll */
+  will-change: transform;
 }
 
 @keyframes tickerScroll {

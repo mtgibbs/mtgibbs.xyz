@@ -138,7 +138,7 @@ const LiveReadouts = ({ lastEventAt, repoCount, isError, hasData }: {
             {rows.map(([label, value, valueClass]) => (
                 <div key={label} className="flex items-baseline justify-between gap-2 py-1 font-mono">
                     <span className="text-[10px] tracking-[0.28em] text-faded-cardboard/60">{label}</span>
-                    <span className={cn('text-sm tracking-[0.14em]', valueClass)}>{value}</span>
+                    <span className={cn('text-sm tracking-[0.14em] tabular-nums', valueClass)}>{value}</span>
                 </div>
             ))}
         </div>
@@ -302,7 +302,7 @@ const SystemLogs = (): React.ReactNode => {
             <div className={cn(
                 "relative z-10 w-full overflow-hidden border transition-colors duration-500",
                 "border-faded-cardboard/25 hover:border-faded-cardboard/40",
-                "bg-magnetic-black/90 backdrop-blur-sm", // Semi-transparent to let stripes through
+                "bg-magnetic-black/90", // Semi-transparent to let stripes through; no backdrop-filter (perf)
                 styles.crtContainer,
                 globalVhsActive && styles.vhsSync // Add class to reduce interference
             )}>
