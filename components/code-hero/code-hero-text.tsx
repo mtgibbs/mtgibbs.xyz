@@ -21,7 +21,7 @@ const _INTERRUPT_TEXT = `
 ^C
 [SIG_OVERRIDE] :: REMOTE_SESSION_ATTACHED
 >> origin: pi-k3s.lab.mtgibbs.dev // agent harness
->> agent: claude-fable-5 // auth: mtgibbs
+>> agent: hot-coder (qwen) // via opencode // auth: mtgibbs
 >> AGENT HAS THE CONN // operator monitoring
 `;
 
