@@ -20,8 +20,9 @@ const _INTERRUPT_TEXT = `
 
 ^C
 [SIG_OVERRIDE] :: REMOTE_SESSION_ATTACHED
+>> origin: pi-k3s.lab.mtgibbs.dev // agent harness
 >> agent: claude-fable-5 // auth: mtgibbs
->> "i've got it from here."
+>> AGENT HAS THE CONN // operator monitoring
 `;
 
 // Shown until the live git log lands (or if the API is rate-limited)
@@ -31,14 +32,20 @@ const _FALLBACK_GIT_LOG = [
     'ad05a15 ci: wire lab preview channel (prod stays frozen)',
 ];
 
-const buildAiText = (gitLines: string[]) => `
+const buildAiText = (gitLines: string[]) => {
+    const headSha = gitLines[0]?.split(' ')[0] || 'HEAD';
+    return `
 $ git log --oneline origin/mater
 ${gitLines.map((l) => `  ${l}`).join('\n')}
+
+$ flux get ks mtgibbs-site --context pi-k3s
+  ✔ applied :: mater@${headSha} >> site.lab.mtgibbs.dev
 
 $ systemctl status mtgibbs.service
   ● active (running) :: building teams & software
   └─ operator: matt // fleet: engaged
 `;
+};
 
 const getTimeoutDelay = (delay: number, drift: number) => {
     let driftTime = Math.floor(Math.random() * drift) + 1;
