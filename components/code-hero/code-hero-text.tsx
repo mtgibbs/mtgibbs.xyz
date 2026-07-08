@@ -1,12 +1,20 @@
 import cn from 'classnames';
 import React, { useEffect } from 'react';
+import useSWR from 'swr';
 
 interface CodeHeroTextProps {
     codeText: string;
 }
 
+interface IRepoCommit {
+    sha: string;
+    commit: { message: string };
+}
+
+const fetcher = (url: string) => fetch(url).then((r) => r.json());
+
 // How much of Matt's code gets typed before the agent takes the keyboard
-const _HUMAN_CHAR_LIMIT = 100;
+const _HUMAN_CHAR_LIMIT = 240;
 
 const _INTERRUPT_TEXT = `
 
@@ -16,11 +24,16 @@ const _INTERRUPT_TEXT = `
 >> "i've got it from here."
 `;
 
-const _AI_TEXT = `
-$ git log --oneline origin/redesign
-  31aca0b chore: allow playwright mcp for the design loop
-  c22cb57 docs: distill DESIGN_PHILOSOPHY.md for v6
-  ad05a15 ci: wire lab preview channel (prod stays frozen)
+// Shown until the live git log lands (or if the API is rate-limited)
+const _FALLBACK_GIT_LOG = [
+    '31aca0b chore: allow playwright mcp for the design loop',
+    'c22cb57 docs: distill DESIGN_PHILOSOPHY.md for v6',
+    'ad05a15 ci: wire lab preview channel (prod stays frozen)',
+];
+
+const buildAiText = (gitLines: string[]) => `
+$ git log --oneline origin/mater
+${gitLines.map((l) => `  ${l}`).join('\n')}
 
 $ systemctl status mtgibbs.service
   ● active (running) :: building teams & software
@@ -34,8 +47,22 @@ const getTimeoutDelay = (delay: number, drift: number) => {
 }
 
 const CodeHeroText = ({ codeText }: CodeHeroTextProps): React.ReactNode => {
+    // Same key as SystemLogs, so SWR dedupes to one request per page
+    const { data: commits } = useSWR<IRepoCommit[]>(
+        'https://api.github.com/repos/mtgibbs/mtgibbs.xyz/commits?per_page=4',
+        fetcher,
+        { revalidateOnFocus: false, revalidateOnReconnect: false }
+    );
+    const gitLines = Array.isArray(commits)
+        ? commits.slice(0, 3).map((c) => {
+            const subject = c.commit.message.split('\n')[0];
+            return `${c.sha.substring(0, 7)} ${subject.substring(0, 48)}${subject.length > 48 ? '...' : ''}`;
+        })
+        : _FALLBACK_GIT_LOG;
+
     const humanText = codeText.substring(0, _HUMAN_CHAR_LIMIT);
-    const fullText = humanText + _INTERRUPT_TEXT + _AI_TEXT;
+    const aiText = buildAiText(gitLines);
+    const fullText = humanText + _INTERRUPT_TEXT + aiText;
     const interruptStart = humanText.length;
     const aiStart = interruptStart + _INTERRUPT_TEXT.length;
 
@@ -59,7 +86,7 @@ const CodeHeroText = ({ codeText }: CodeHeroTextProps): React.ReactNode => {
         // Matt types at human speed; a held breath before the takeover;
         // the banner hammers in; the agent types inhumanly fast
         const delay = index < interruptStart
-            ? getTimeoutDelay(85, 15)
+            ? getTimeoutDelay(70, 15)
             : index === interruptStart
                 ? 900
                 : index < aiStart
