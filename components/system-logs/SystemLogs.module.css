@@ -247,3 +247,86 @@
   /* Slower, subtler flicker */
   opacity: 0.2;
 }
+
+/* v6 telemetry deck (DESIGN.md §4/§5) — composited-only motion */
+
+.lineIn {
+  animation: lineIn 0.22s steps(3) both;
+}
+
+@keyframes lineIn {
+  0% {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+
+  66% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* strip chart: stroke-dashoffset draws once and holds (§5) */
+.trace {
+  fill: none;
+  stroke: #FFB000;
+  stroke-width: 1.8;
+  stroke-dasharray: 900;
+  stroke-dashoffset: 900;
+  animation: traceDraw 5s linear forwards;
+}
+
+@keyframes traceDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.chartGrid {
+  background:
+    repeating-linear-gradient(0deg, rgba(245, 240, 225, 0.08) 0 1px, transparent 1px 16px),
+    repeating-linear-gradient(90deg, rgba(245, 240, 225, 0.08) 0 1px, transparent 1px 25px);
+}
+
+.tickerTrack {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.tickerTrack span {
+  display: inline-block;
+  animation: tickerScroll 52s linear infinite;
+  padding-right: 100%;
+  /* own compositor layer — main-thread paints must not stutter the scroll */
+  will-change: transform;
+}
+
+@keyframes tickerScroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lineIn {
+    animation: none;
+  }
+
+  .trace {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+
+  .tickerTrack span {
+    animation: none;
+    padding-right: 0;
+  }
+}

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PROTO H — LOG / TELEMETRY</title>
+<style>
+  @font-face { font-family:'Heavitas'; src:url('/fonts/Heavitas.ttf'); }
+  @font-face { font-family:'Nineteen'; src:url('/fonts/NineteenNinetySeven-11XB.ttf'); }
+  :root{
+    --black:#1A1A1A; --card:#F5F0E1; --amber:#FFB000;
+    --orange:#FF4400; --red:#D93636; --blue:#3B5C7D;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    background:var(--black);color:var(--card);
+    font-family:'Nineteen',monospace;padding:26px 22px 80px;min-height:100vh;
+  }
+  body::before{
+    content:'';position:fixed;inset:0;z-index:40;pointer-events:none;
+    background:repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,0,0,.32) 3px 4px);
+  }
+  body::after{
+    content:'';position:fixed;inset:0;z-index:41;pointer-events:none;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .wrap{max-width:1120px;margin:0 auto}
+
+  /* comp chrome — not part of the design */
+  .compnote{
+    font-size:10px;letter-spacing:.34em;text-transform:uppercase;
+    color:rgba(245,240,225,.42);margin:54px 0 12px;
+  }
+  .compnote:first-child{margin-top:0}
+  .compnote em{font-style:normal;color:var(--amber)}
+
+  /* phosphor treatment — STATIC shadow, terminal surfaces only */
+  .phos{
+    text-shadow:
+      0 0 1px currentColor,
+      .6px 0 0 rgba(255,68,0,.28),
+      -.6px 0 0 rgba(59,92,125,.30),
+      0 0 7px rgba(255,176,0,.22);
+  }
+
+  .blink{animation:blink 1.3s steps(1) infinite}
+  @keyframes blink{50%{opacity:.15}}
+  .lineIn{animation:lineIn .22s steps(3) both}
+  @keyframes lineIn{0%{opacity:0;transform:translateY(2px)}66%{opacity:.5}100%{opacity:1;transform:none}}
+
+  /* shared log line grammar: [time] NAME >> detail [OK] */
+  .logline{
+    font-size:12.5px;line-height:2.05;color:rgba(245,240,225,.62);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .logline .t{color:rgba(245,240,225,.45)}
+  .logline .verb{color:var(--card)}
+  .logline .ok{color:var(--amber)}
+  .logline .err{color:var(--red)}
+  .logline .hot{color:var(--amber)}
+  .cursor{display:inline-block;width:.6em;height:1.05em;background:var(--amber);vertical-align:text-bottom;animation:blink 1s steps(1) infinite}
+
+  /* ---------- H1 : HAL LOG PANEL ---------- */
+  .panel{
+    border:1px solid rgba(245,240,225,.22);
+    background:rgba(245,240,225,.015);
+    display:flex;flex-direction:column;overflow:hidden;
+  }
+  .mn{display:flex;align-items:stretch;border-bottom:1px solid rgba(245,240,225,.22)}
+  .mn b{
+    font-family:'Heavitas';font-size:22px;letter-spacing:.06em;
+    padding:8px 14px;background:var(--amber);color:var(--black);flex:none;
+  }
+  .mn span{
+    align-self:center;padding:0 12px;font-size:10px;letter-spacing:.3em;
+    color:rgba(245,240,225,.6);text-transform:uppercase;
+  }
+  .mn .clock{
+    margin-left:auto;align-self:center;padding:0 14px;font-size:11px;
+    letter-spacing:.18em;color:var(--amber);border-left:1px solid rgba(245,240,225,.22);
+    align-self:stretch;display:flex;align-items:center;white-space:nowrap;
+  }
+  @media(max-width:520px){
+    .mn span{letter-spacing:.18em;padding:6px 10px}
+    .mn .clock{padding:0 9px;font-size:10px;letter-spacing:.08em}
+  }
+  .h1-body{padding:14px 16px;display:flex;flex-direction:column;justify-content:flex-end;height:340px;overflow:hidden}
+  .h1-foot{
+    border-top:1px solid rgba(245,240,225,.15);padding:9px 16px;
+    display:flex;gap:22px;flex-wrap:wrap;
+    font-size:10px;letter-spacing:.22em;color:rgba(245,240,225,.55);text-transform:uppercase;
+  }
+  .h1-foot b{font-weight:normal;color:var(--amber)}
+
+  /* ---------- H2 : TELEMETRY DECK ---------- */
+  .deck{border:1px solid rgba(245,240,225,.25)}
+  .deck-grid{display:grid;grid-template-columns:1.55fr 1fr}
+  .deck-grid>*{min-width:0}
+  @media(max-width:840px){.deck-grid{grid-template-columns:1fr}}
+  .deck-log{border-right:1px solid rgba(245,240,225,.25);display:flex;flex-direction:column}
+  @media(max-width:840px){.deck-log{border-right:none;border-bottom:1px solid rgba(245,240,225,.25)}}
+  .deck-log .h1-body{height:372px}
+  .instr{display:flex;flex-direction:column}
+  .instr .cell{padding:14px 18px;border-bottom:1px solid rgba(245,240,225,.15)}
+  .instr .cell:last-child{border-bottom:none}
+  .lbl{font-size:10px;letter-spacing:.3em;color:rgba(245,240,225,.6);text-transform:uppercase;margin-bottom:8px}
+  .bignum{font-family:'Heavitas';font-size:44px;color:var(--amber);line-height:1;letter-spacing:.04em}
+  .bignum small{font-family:'Nineteen',monospace;font-size:11px;color:rgba(245,240,225,.55);letter-spacing:.22em;margin-left:10px}
+  .chartbox{position:relative}
+  .chartbox svg{display:block;width:100%;height:84px}
+  .chartbox .grid{
+    position:absolute;inset:26px 18px 14px;pointer-events:none;
+    background:
+      repeating-linear-gradient(0deg, rgba(245,240,225,.08) 0 1px, transparent 1px 21px),
+      repeating-linear-gradient(90deg, rgba(245,240,225,.08) 0 1px, transparent 1px 25px);
+  }
+  .trace{fill:none;stroke:var(--amber);stroke-width:1.8;stroke-dasharray:900;stroke-dashoffset:900;animation:draw 5s linear forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  .ro{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:12px;letter-spacing:.14em;padding:5px 0}
+  .ro b{font-weight:normal;color:rgba(245,240,225,.6);font-size:10.5px;letter-spacing:.28em}
+  .ro .v{color:var(--amber);font-size:14px}
+  .ticker{
+    border-top:1px solid rgba(245,240,225,.25);
+    padding:11px 18px;font-size:11.5px;letter-spacing:.1em;color:rgba(245,240,225,.66);
+    white-space:nowrap;overflow:hidden;
+  }
+  .ticker span{display:inline-block;animation:scroll 26s linear infinite;padding-right:100%}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+
+  /* ---------- H3 : SIGNAL MANIFEST ---------- */
+  .manifest{border:1px solid rgba(245,240,225,.25)}
+  .man-head{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;
+    border-bottom:1px solid rgba(245,240,225,.25);padding:14px 18px;
+  }
+  .man-head h2{font-family:'Heavitas';font-size:clamp(1.05rem,2.6vw,1.5rem);letter-spacing:.05em;font-weight:normal}
+  .man-head h2 em{font-style:normal;color:var(--amber)}
+  .census{font-size:10.5px;letter-spacing:.24em;color:rgba(245,240,225,.6);text-transform:uppercase}
+  .census b{font-weight:normal;color:var(--amber)}
+  .man-cols,.man-row{
+    display:grid;grid-template-columns:92px 168px 84px 1fr 52px;gap:0 14px;align-items:baseline;
+    padding:7px 18px;
+  }
+  .man-cols{
+    font-size:9.5px;letter-spacing:.3em;color:rgba(245,240,225,.5);text-transform:uppercase;
+    border-bottom:1px solid rgba(245,240,225,.25);padding-top:10px;padding-bottom:10px;
+  }
+  .man-row{
+    font-size:12px;color:rgba(245,240,225,.62);
+    border-bottom:1px solid rgba(245,240,225,.09);
+  }
+  .man-row:last-child{border-bottom:none}
+  .man-row .c-t{color:rgba(245,240,225,.45)}
+  .man-row .c-o{color:rgba(245,240,225,.78)}
+  .man-row .c-e{color:var(--card)}
+  .man-row .c-d{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .man-row .c-s{color:var(--amber);text-align:right}
+  .man-row.newest .c-t,.man-row.newest .c-o,.man-row.newest .c-e,.man-row.newest .c-d{color:var(--amber)}
+  @media(max-width:700px){
+    .man-cols{grid-template-columns:92px 1fr 52px}
+    .man-cols .h-o,.man-cols .h-d{display:none}
+    .man-row{grid-template-columns:92px 1fr 52px;row-gap:3px}
+    .man-row .c-e{grid-column:2;grid-row:1}
+    .man-row .c-s{grid-column:3;grid-row:1}
+    .man-row .c-o{grid-column:1 / -1;grid-row:2;font-size:11px;color:rgba(245,240,225,.52)}
+    .man-row .c-d{grid-column:1 / -1;grid-row:3;white-space:normal;font-size:11px;color:rgba(245,240,225,.66)}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .blink,.cursor,.lineIn,.digitflip{animation:none}
+    .lineIn{opacity:1}
+    .trace{animation:none;stroke-dashoffset:0}
+    .ticker span{animation:none;display:inline;padding-right:0}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="compnote">PROTO H — LOG / TELEMETRY RESTYLE — <em>3 VARIANTS</em> — <span id="src">SOURCE: BAKED SAMPLE</span></div>
+
+  <!-- ============ H1 : HAL LOG PANEL ============ -->
+  <div class="compnote">H1 // HAL LOG PANEL — approved §4 grammar, minimal chrome</div>
+  <div class="panel">
+    <div class="mn"><b>LOG</b><span>Event Stream — GitHub Downlink</span><span class="clock" id="clock1">--:--:--</span></div>
+    <div class="h1-body phos" id="h1-lines"></div>
+    <div class="h1-foot">
+      <span>BUFFER <b id="f-buf">0/20</b></span>
+      <span>LAST SIGNAL <b id="f-last">T-00:00:00</b></span>
+      <span>NEXT POLL <b id="f-poll">30</b></span>
+      <span><b class="blink">▮ REC</b></span>
+    </div>
+  </div>
+
+  <!-- ============ H2 : TELEMETRY DECK ============ -->
+  <div class="compnote">H2 // TELEMETRY DECK — log + §5 instruments, all values derived from real events</div>
+  <div class="deck">
+    <div class="deck-grid">
+      <div class="deck-log">
+        <div class="mn"><b>LOG</b><span>Event Stream</span></div>
+        <div class="h1-body phos" id="h2-lines"></div>
+      </div>
+      <div class="instr">
+        <div class="cell">
+          <div class="lbl">Events // 24H Window</div>
+          <div class="bignum" id="i-count">00<small>SIGNALS</small></div>
+        </div>
+        <div class="cell chartbox">
+          <div class="lbl">Activity — 2H Buckets</div>
+          <div class="grid" role="presentation"></div>
+          <svg viewBox="0 0 300 60" preserveAspectRatio="none" aria-label="activity strip chart">
+            <polyline class="trace" id="i-trace" points=""/>
+          </svg>
+        </div>
+        <div class="cell">
+          <div class="ro"><b>REPOS TOUCHED</b><span class="v" id="i-repos">0</span></div>
+          <div class="ro"><b>LAST SIGNAL</b><span class="v" id="i-last">T-00:00:00</span></div>
+          <div class="ro"><b>NEXT POLL</b><span class="v" id="i-poll">30</span></div>
+          <div class="ro"><b>LINK</b><span class="v" id="i-link">CACHED</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="ticker"><span id="i-ticker">&gt;&gt; AWAITING DOWNLINK</span></div>
+  </div>
+
+  <!-- ============ H3 : SIGNAL MANIFEST ============ -->
+  <div class="compnote">H3 // SIGNAL MANIFEST — line-printer columns + census header</div>
+  <div class="manifest">
+    <div class="man-head">
+      <h2>LOG <em>// SIGNAL MANIFEST</em></h2>
+      <div class="census" id="m-census">—</div>
+    </div>
+    <div class="man-cols">
+      <span>Time UTC</span><span class="h-o">Origin</span><span>Event</span><span class="h-d">Detail</span><span style="text-align:right">St</span>
+    </div>
+    <div id="m-rows" class="phos"></div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var mins = function(m){ return new Date(Date.now() - m*60000); };
+
+  // Baked sample — plausible real activity (shapes match api.github.com/users/mtgibbs/events/public)
+  var events = [
+    {t:mins(4),    verb:'PUSH',   repo:'mtgibbs/mtgibbs.xyz',    detail:'(mater) "feat(content): AI-initiatives copy + star chart factions"', st:'OK'},
+    {t:mins(22),   verb:'PUSH',   repo:'mtgibbs/pi-cluster',     detail:'(main) "flux: bump mtgibbs-site image tag"', st:'OK'},
+    {t:mins(41),   verb:'PR',     repo:'mtgibbs/mtgibbs.xyz',    detail:'merged: "feat: AI-initiatives copy" #101', st:'OK'},
+    {t:mins(129),  verb:'PUSH',   repo:'mtgibbs/mtgibbs.xyz',    detail:'(redesign) "feat(deck): handheld-scanner layout"', st:'OK'},
+    {t:mins(187),  verb:'CREATE', repo:'mtgibbs/mtgibbs.xyz',    detail:'branch: feat/ai-initiatives-copy', st:'OK'},
+    {t:mins(304),  verb:'STAR',   repo:'anthropics/claude-code', detail:'starred repository', st:'OK'},
+    {t:mins(468),  verb:'PUSH',   repo:'mtgibbs/pi-cluster-mcp', detail:'(main) "fix: lazy tool registration for unifi"', st:'OK'},
+    {t:mins(659),  verb:'COMMENT',repo:'mtgibbs/pi-cluster',     detail:'on #34 "loki retention"', st:'OK'},
+    {t:mins(841),  verb:'PUSH',   repo:'mtgibbs/mtgibbs.xyz',    detail:'(mater) "docs: DESIGN.md — section headers sacred"', st:'OK'},
+    {t:mins(1013), verb:'PR',     repo:'mtgibbs/mtgibbs.xyz',    detail:'opened: "redesign" #100', st:'OK'},
+    {t:mins(1290), verb:'PUSH',   repo:'mtgibbs/mtgibbs.xyz',    detail:'(redesign) "feat(deck): star chart lens"', st:'OK'},
+    {t:mins(1554), verb:'PUSH',   repo:'mtgibbs/pi-cluster',     detail:'(main) "monitoring: scrape mtgibbs-site"', st:'OK'}
+  ];
+  var live = false;
+
+  function hhmmss(d){
+    return String(d.getUTCHours()).padStart(2,'0') + ':' +
+           String(d.getUTCMinutes()).padStart(2,'0') + ':' +
+           String(d.getUTCSeconds()).padStart(2,'0');
+  }
+
+  function lineHTML(e){
+    return '<span class="t">[' + hhmmss(e.t) + ']</span> ' +
+           '<span class="verb">' + e.verb + '</span> &gt;&gt; ' +
+           '<span class="hot">' + e.repo.replace('mtgibbs/','') + '</span> ' +
+           e.detail.replace(/&/g,'&amp;').replace(/</g,'&lt;') +
+           ' <span class="' + (e.st==='OK'?'ok':'err') + '">[' + e.st + ']</span>';
+  }
+
+  function renderStream(el, list, n){
+    el.innerHTML = '';
+    var slice = list.slice(0, n).reverse();
+    slice.forEach(function(e, i){
+      var div = document.createElement('div');
+      div.className = 'logline' + (reduced ? '' : ' lineIn');
+      if (!reduced) div.style.animationDelay = (i * 55) + 'ms';
+      div.innerHTML = lineHTML(e);
+      el.appendChild(div);
+    });
+    var cur = document.createElement('div');
+    cur.className = 'logline';
+    cur.innerHTML = '<span class="t">&gt;</span> <span class="cursor"></span>';
+    el.appendChild(cur);
+  }
+
+  function renderManifest(list){
+    var rows = document.getElementById('m-rows');
+    rows.innerHTML = '';
+    list.slice(0, 10).forEach(function(e, i){
+      var div = document.createElement('div');
+      div.className = 'man-row' + (i===0 ? ' newest' : '') + (reduced ? '' : ' lineIn');
+      if (!reduced) div.style.animationDelay = (i * 45) + 'ms';
+      div.innerHTML =
+        '<span class="c-t">' + hhmmss(e.t) + '</span>' +
+        '<span class="c-o">' + e.repo + '</span>' +
+        '<span class="c-e">' + e.verb + '</span>' +
+        '<span class="c-d">' + e.detail.replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</span>' +
+        '<span class="c-s">' + (i===0 ? '<span class="blink">▮</span> ' : '') + e.st + '</span>';
+      rows.appendChild(div);
+    });
+    var census = {};
+    list.forEach(function(e){ census[e.verb] = (census[e.verb]||0) + 1; });
+    document.getElementById('m-census').innerHTML = Object.keys(census).map(function(k){
+      return k + ' <b>' + String(census[k]).padStart(2,'0') + '</b>';
+    }).join(' &nbsp;·&nbsp; ');
+  }
+
+  function renderInstruments(list){
+    var now = Date.now();
+    var day = list.filter(function(e){ return now - e.t.getTime() < 86400000; });
+    document.getElementById('i-count').innerHTML = String(day.length).padStart(2,'0') + '<small>SIGNALS</small>';
+    var repos = {};
+    list.forEach(function(e){ repos[e.repo] = 1; });
+    document.getElementById('i-repos').textContent = Object.keys(repos).length;
+    document.getElementById('i-link').textContent = live ? 'LIVE' : 'CACHED';
+
+    // 12 × 2h buckets, oldest → newest
+    var buckets = [];
+    for (var b = 0; b < 12; b++) buckets.push(0);
+    day.forEach(function(e){
+      var age = now - e.t.getTime();
+      var idx = 11 - Math.min(11, Math.floor(age / 7200000));
+      buckets[idx]++;
+    });
+    var max = Math.max.apply(null, buckets.concat([1]));
+    var pts = buckets.map(function(v, i){
+      return (i * (300/11)).toFixed(1) + ',' + (54 - (v/max)*44).toFixed(1);
+    }).join(' ');
+    document.getElementById('i-trace').setAttribute('points', pts);
+
+    var seen = {};
+    var msgs = [];
+    list.forEach(function(e){
+      var m = e.detail.match(/"(.+)"/);
+      var s = (e.verb + ' ' + e.repo.replace('mtgibbs/','') + (m ? ' — ' + m[1] : e.detail ? ' ' + e.detail : '')).toUpperCase();
+      if (!seen[s] && msgs.length < 5) { seen[s] = 1; msgs.push(s); }
+    });
+    document.getElementById('i-ticker').innerHTML =
+      '&gt;&gt; ' + msgs.join(' // ') + ' // SIGNAL NOMINAL — BE KIND, REWIND &gt;&gt;';
+  }
+
+  function renderAll(){
+    renderStream(document.getElementById('h1-lines'), events, 12);
+    renderStream(document.getElementById('h2-lines'), events, 13);
+    renderManifest(events);
+    renderInstruments(events);
+  }
+  renderAll();
+
+  // ticking chrome — real clock, real signal age, real poll countdown
+  var poll = 30;
+  setInterval(function(){
+    var now = new Date();
+    document.getElementById('clock1').textContent = hhmmss(now) + ' UTC';
+    var age = Math.max(0, Math.floor((now - events[0].t) / 1000));
+    var h = String(Math.floor(age/3600)).padStart(2,'0'),
+        m = String(Math.floor(age%3600/60)).padStart(2,'0'),
+        s = String(age%60).padStart(2,'0');
+    var t = 'T-' + h + ':' + m + ':' + s;
+    document.getElementById('f-last').textContent = t;
+    document.getElementById('i-last').textContent = t;
+    document.getElementById('f-buf').textContent = Math.min(events.length,20) + '/20';
+    poll--;
+    if (poll < 0) { poll = 29; if (live) refetch(); }
+    document.getElementById('f-poll').textContent = String(poll).padStart(2,'0');
+    document.getElementById('i-poll').textContent = String(poll).padStart(2,'0');
+  }, 1000);
+
+  // live downlink — real events replace the baked sample when reachable
+  function mapEvent(ev){
+    var repo = ev.repo && ev.repo.name || 'unknown';
+    var p = ev.payload || {};
+    var out = { t:new Date(ev.created_at), repo:repo, st:'OK' };
+    switch (ev.type) {
+      case 'PushEvent':
+        // events API ships commits:null now — head SHA is the honest signal
+        out.verb = 'PUSH';
+        var br = (p.ref||'').replace('refs/heads/','');
+        var msg = p.commits && p.commits[0] && p.commits[0].message;
+        out.detail = '(' + br + ') ' + (msg ? '"' + msg.split('\n')[0].slice(0,52) + '"' : '@' + String(p.head||'').slice(0,7));
+        break;
+      case 'PullRequestEvent':
+        out.verb = 'PR';
+        out.detail = (p.action||'') + ': "' + (p.pull_request && p.pull_request.title || '#'+p.number) + '"';
+        break;
+      case 'CreateEvent':
+        out.verb = 'CREATE'; out.detail = (p.ref_type||'') + ': ' + (p.ref||'root'); break;
+      case 'DeleteEvent':
+        out.verb = 'DELETE'; out.detail = (p.ref_type||'') + ': ' + (p.ref||''); break;
+      case 'WatchEvent':
+        out.verb = 'STAR'; out.detail = 'starred repository'; break;
+      case 'IssueCommentEvent':
+        out.verb = 'COMMENT'; out.detail = 'on #' + (p.issue && p.issue.number || '?'); break;
+      case 'IssuesEvent':
+        out.verb = 'ISSUE'; out.detail = (p.action||'') + ': "' + (p.issue && p.issue.title || '') + '"'; break;
+      default:
+        out.verb = ev.type.replace('Event','').toUpperCase(); out.detail = '';
+    }
+    return out;
+  }
+  function refetch(){
+    fetch('https://api.github.com/users/mtgibbs/events/public')
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(data){
+        if (!data || !data.length) return;
+        events = data.slice(0, 20).map(mapEvent);
+        live = true;
+        document.getElementById('src').textContent = 'SOURCE: LIVE DOWNLINK';
+        renderAll();
+      })
+      .catch(function(){ /* baked sample stands */ });
+  }
+  refetch();
+})();
+</script>
+</body>
+</html>

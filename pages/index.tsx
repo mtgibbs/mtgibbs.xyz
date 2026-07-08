@@ -103,7 +103,7 @@ const Home: NextPage<HomeProps> = ({ pinnedProjects, repoCatalog }) => {
 
         </section>
 
-        <section className="relative z-10 w-full bg-magnetic-black px-8 sm:px-16 xl:px-24 py-12">
+        <section className="relative z-10 w-full bg-magnetic-black px-8 sm:px-16 xl:px-24 pt-4 pb-20">
           <div className="container mx-auto max-w-4xl">
             <SystemLogs />
           </div>
