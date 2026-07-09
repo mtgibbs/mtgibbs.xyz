@@ -60,13 +60,16 @@ export const GPUProvider = ({ children }: { children: ReactNode }) => {
                 console.warn('WebGL detection failed', e);
             }
 
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            // Judge by GPU, not by form factor — the v6 phosphor stack is
+            // static gradients + one composited opacity animation, and modern
+            // phone GPUs (Apple A-series, Adreno) eat that for free. The old
+            // blanket mobile→low gate blanked the whole CRT look on phones.
             const isIntel = detectedRenderer.toLowerCase().includes('intel');
             const isApple = detectedRenderer.toLowerCase().includes('apple');
             const isNvidia = detectedRenderer.toLowerCase().includes('nvidia');
             const isRadeon = detectedRenderer.toLowerCase().includes('radeon') || detectedRenderer.toLowerCase().includes('amd');
 
-            if (isMobile || isIntel) {
+            if (isIntel) {
                 detectedTier = 'low';
             } else if (isApple || isNvidia || isRadeon) {
                 detectedTier = 'high';
