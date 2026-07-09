@@ -373,15 +373,35 @@ a {
   transition: filter 0.3s ease;
 }
 
+/* Phosphor stack tunables (DESIGN.md §1). Values are the shipped look;
+   the dev tuner (?tune on localhost) writes these live. */
+:root {
+  --pt-core-blur: 1px;            /* glyph fuzz radius */
+  --pt-fringe-x: 0.6px;           /* misconvergence offset */
+  --pt-fringe-warm-a: 0.34;       /* red fringe alpha */
+  --pt-fringe-cool-a: 0.30;       /* blue fringe alpha */
+  --pt-bloom-r: 6px;              /* amber bloom radius */
+  --pt-bloom-a: 0.40;             /* amber bloom alpha */
+  --pt-grain-a: 0.10;             /* base grain opacity */
+  --pt-grain-vhs-a: 0.15;         /* grain opacity under VHS */
+  --pt-scan-a: 0.12;              /* scanline darkness (VHS) */
+  --pt-mask-a: 1;                 /* slot-mask triad strength multiplier (VHS) */
+  --pt-veil-lo: 0.45;             /* breathing veil floor (VHS) */
+  --pt-veil-hi: 1;                /* breathing veil peak (VHS) */
+  --pt-veil-s: 0.46s;             /* veil breath period */
+  --pt-roll-a: 0.07;              /* roll-bar peak brightness (VHS) */
+  --pt-roll-s: 9s;                /* roll-bar sweep period */
+}
+
 /* tight pixel fuzz: misconvergence fringe + phosphor bloom, painted once.
    SCOPED to terminal surfaces only — site-wide blurred text-shadow made
    every newly-rasterized scroll region repaint every glyph 4x. */
 .phosphor-text {
   text-shadow:
-    0 0 1px currentColor,
-    0.6px 0 1px rgba(255, 70, 50, 0.34),
-    -0.6px 0 1px rgba(70, 130, 255, 0.30),
-    0 0 6px rgba(255, 176, 0, 0.40);
+    0 0 var(--pt-core-blur) currentColor,
+    var(--pt-fringe-x) 0 1px rgba(255, 70, 50, var(--pt-fringe-warm-a)),
+    calc(-1 * var(--pt-fringe-x)) 0 1px rgba(70, 130, 255, var(--pt-fringe-cool-a)),
+    0 0 var(--pt-bloom-r) rgba(255, 176, 0, var(--pt-bloom-a));
 }
 
 /* flicker lives on the ::after veil (composited overlay), not the wrapper —
@@ -399,21 +419,21 @@ a {
   right: 0;
   /* slot-mask phosphor triads + scanlines — static layer */
   background:
-    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.12) 50%),
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, var(--pt-scan-a)) 50%),
     repeating-linear-gradient(90deg,
-      rgba(255, 80, 40, 0.045) 0 1px,
-      rgba(120, 255, 120, 0.035) 1px 2px,
-      rgba(80, 120, 255, 0.045) 2px 3px);
+      rgba(255, 80, 40, calc(0.045 * var(--pt-mask-a))) 0 1px,
+      rgba(120, 255, 120, calc(0.035 * var(--pt-mask-a))) 1px 2px,
+      rgba(80, 120, 255, calc(0.045 * var(--pt-mask-a))) 2px 3px);
   z-index: 9999;
   background-size: 100% 3px, 3px 100%;
   pointer-events: none;
-  animation: phosphor-veil 0.46s steps(3) infinite;
+  animation: phosphor-veil var(--pt-veil-s) steps(3) infinite;
 }
 
 @keyframes phosphor-veil {
-  0%, 100% { opacity: 0.7; }
-  33% { opacity: 1; }
-  66% { opacity: 0.45; }
+  0%, 100% { opacity: calc((var(--pt-veil-lo) + var(--pt-veil-hi)) / 2); }
+  33% { opacity: var(--pt-veil-hi); }
+  66% { opacity: var(--pt-veil-lo); }
 }
 
 /* roll bar — transform-only sweep, shown while VHS is active */
@@ -428,11 +448,11 @@ a {
   display: none;
   background: linear-gradient(180deg,
     transparent,
-    rgba(255, 176, 0, 0.04) 45%,
-    rgba(245, 240, 225, 0.07) 50%,
-    rgba(255, 176, 0, 0.04) 55%,
+    rgba(255, 176, 0, calc(var(--pt-roll-a) * 0.57)) 45%,
+    rgba(245, 240, 225, var(--pt-roll-a)) 50%,
+    rgba(255, 176, 0, calc(var(--pt-roll-a) * 0.57)) 55%,
     transparent);
-  animation: phosphor-roll 9s linear infinite;
+  animation: phosphor-roll var(--pt-roll-s) linear infinite;
 }
 
 .vhs-active .phosphor-roll {
@@ -505,7 +525,7 @@ a {
   height: 100%;
   z-index: 10000;
   pointer-events: none;
-  opacity: 0.10;
+  opacity: var(--pt-grain-a);
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cfilter id='g'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 .69  0 0 0 0 0  0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='90' height='90' filter='url(%23g)'/%3E%3C/svg%3E"),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cg fill='%23FFB000' fill-opacity='.10'%3E%3Crect x='0' y='0' width='1' height='1'/%3E%3Crect x='4' y='2' width='1' height='1'/%3E%3Crect x='2' y='5' width='1' height='1'/%3E%3Crect x='6' y='6' width='1' height='1'/%3E%3Crect x='3' y='1' width='1' height='1'/%3E%3Crect x='7' y='3' width='1' height='1'/%3E%3Crect x='1' y='7' width='1' height='1'/%3E%3Crect x='5' y='4' width='1' height='1'/%3E%3C/g%3E%3C/svg%3E");
@@ -515,7 +535,7 @@ a {
 /* static under VHS too — the 5.5Hz spray animation stacked with the veil
    and roll was one full-screen composite too many */
 .vhs-active .tracking-noise {
-  opacity: 0.15;
+  opacity: var(--pt-grain-vhs-a);
 }
 
 .animate-terminal-glow {
