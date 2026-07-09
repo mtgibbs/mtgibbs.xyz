@@ -52,7 +52,7 @@ const SectionTitle = ({ title, color = 'orange', classKey = 'MK_II' }: SectionTi
             <div className={cn("absolute -top-4 -left-4 w-8 h-8 border-l-2 border-t-2 opacity-50 transition-all group-hover:w-full group-hover:h-full group-hover:opacity-100 duration-500", theme.border)} />
 
             <h2 className={cn(
-                "relative text-xl md:text-2xl font-bold bg-magnetic-black bg-opacity-95 backdrop-blur-sm",
+                "relative text-xl md:text-2xl font-bold bg-magnetic-black bg-opacity-95",
                 "px-8 py-4 sm:px-12 sm:py-6",
                 "min-w-[280px] sm:min-w-[400px]", // Enforce consistent width
                 "border-y-2 sm:border-2",

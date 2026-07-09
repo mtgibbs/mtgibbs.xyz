@@ -15,7 +15,7 @@ const SpotifyCard = () => {
             rel="noopener noreferrer"
             href={data?.isPlaying ? data.songUrl : 'https://open.spotify.com/user/neqy50tgt2erx1cp1p78qhqke?si=d68ae12657624d4a'}
             className={cn(
-                "relative flex items-center p-4 space-x-4 transition-shadow hover:shadow-lg border rounded-xl w-72 backdrop-blur-md",
+                "relative flex items-center p-4 space-x-4 transition-shadow hover:shadow-lg border rounded-xl w-72",
                 data?.isPlaying
                     ? "border-white/10 bg-magnetic-black/90 hover:border-signal-orange/40"
                     : "border-static-grey/50 bg-magnetic-black/90 opacity-80"
