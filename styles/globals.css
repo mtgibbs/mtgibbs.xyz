@@ -544,18 +544,12 @@ a {
   text-shadow: 0 0 2px currentColor, 0 0 8px rgba(255, 176, 0, 0.55);
 }
 
-/* Low Power Mode Optimizations */
-body.low-power .animate-terminal-glow {
-  animation: none !important;
-  text-shadow: 0 0 2px rgba(0, 30, 255, 0.5);
-}
-
+/* Low Power Mode: keep the STATIC phosphor look (scanlines, slot mask,
+   grain — fixed gradients, near-free), drop only the animated life
+   (breathing veil, roll bar). Phones deserve the CRT too. */
 body.low-power .vhs-active::after {
-  display: none !important;
-}
-
-body.low-power .tracking-noise {
-  display: none !important;
+  animation: none !important;
+  opacity: 0.7;
 }
 
 body.low-power .phosphor-roll {
@@ -581,19 +575,12 @@ body.low-power * {
       transparent 8px);
 }
 
-/* Accessibility: Reduced Motion */
+/* Accessibility: Reduced Motion — freeze the phosphor, don't flatten it.
+   Static scanlines/slot mask/grain stay; the veil breath and roll sweep stop. */
 @media (prefers-reduced-motion: reduce) {
-  .animate-terminal-glow {
-    animation: none !important;
-    text-shadow: 0 0 2px rgba(0, 30, 255, 0.5);
-  }
-
   .vhs-active::after {
-    display: none !important;
-  }
-
-  .tracking-noise {
-    display: none !important;
+    animation: none !important;
+    opacity: 0.7;
   }
 
   .phosphor-roll {
