@@ -59,7 +59,7 @@ const ProjectDeck = ({ projects, catalog }: ProjectDeckProps) => {
                 <div className={cn(
                     "relative z-10 w-full flex flex-col min-h-[400px]",
                     "border border-chrome-blue/30 rounded-md shadow-[0_0_20px_rgba(0,186,255,0.05)]",
-                    "bg-magnetic-black/90 backdrop-blur-md",
+                    "bg-magnetic-black/90", // no backdrop-filter — large blur regions re-sample on every scroll frame
                     styles.crtContainer
                 )}>
                     {/* Unified Header Bar */}

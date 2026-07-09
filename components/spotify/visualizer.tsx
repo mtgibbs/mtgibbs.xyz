@@ -56,6 +56,7 @@ const Visualizer: React.FC<VisualizerProps> = ({ trackId, isPlaying, progressMs,
     const bandsRef = useRef<number[]>(new Array(BANDS).fill(0.12));
     const colorRef = useRef({ ...MOOD_IDLE });
     const visibleRef = useRef(true);
+    const lastRgbRef = useRef('');
     const sizeRef = useRef({ w: 0, h: 0 });
     const frameCountRef = useRef(0);
 
@@ -213,14 +214,21 @@ const Visualizer: React.FC<VisualizerProps> = ({ trackId, isPlaying, progressMs,
         const rgb = `${Math.round(c.r)},${Math.round(c.g)},${Math.round(c.b)}`;
         const tx = dotTxRef.current;
         const rx = dotRxRef.current;
-        if (tx) {
-            tx.style.backgroundColor = `rgb(${rgb})`;
-            tx.style.boxShadow = `0 0 5px rgba(${rgb},0.55)`;
+        // color/shadow are paint — only write them when the mood actually
+        // moved; the RX transform is composited and can update every frame
+        if (rgb !== lastRgbRef.current) {
+            lastRgbRef.current = rgb;
+            if (tx) {
+                tx.style.backgroundColor = `rgb(${rgb})`;
+                tx.style.boxShadow = `0 0 5px rgba(${rgb},0.55)`;
+            }
+            if (rx) {
+                rx.style.backgroundColor = `rgb(${rgb})`;
+                rx.style.boxShadow = `0 0 5px rgba(${rgb},0.55)`;
+            }
         }
         if (rx) {
             const level = bandsRef.current[BANDS - 1];
-            rx.style.backgroundColor = `rgb(${rgb})`;
-            rx.style.boxShadow = `0 0 5px rgba(${rgb},0.55)`;
             rx.style.transform = `scale(${(1 + level * 0.7).toFixed(3)})`;
         }
     };
@@ -236,8 +244,6 @@ const Visualizer: React.FC<VisualizerProps> = ({ trackId, isPlaying, progressMs,
             frameCountRef.current += 1;
             // Throttle to 30fps on low power mode
             if (stateRef.current.isLowPower && frameCountRef.current % 2 !== 0) return;
-            // Sleep while the footer is offscreen
-            if (!visibleRef.current) return;
 
             step();
             draw(Date.now() / 1000, false);
@@ -251,13 +257,16 @@ const Visualizer: React.FC<VisualizerProps> = ({ trackId, isPlaying, progressMs,
         const start = () => {
             cancelAnimationFrame(requestRef.current);
             if (reduced.matches) stillFrame();
-            else requestRef.current = requestAnimationFrame(animate);
+            else if (visibleRef.current) requestRef.current = requestAnimationFrame(animate);
         };
         start();
         reduced.addEventListener('change', start);
 
+        // Offscreen = no scheduled frames at all (not an early-return that
+        // still wakes 60x/s); the observer restarts the loop on re-entry
         const io = new IntersectionObserver(([entry]) => {
             visibleRef.current = entry.isIntersecting;
+            start();
         }, { rootMargin: '48px' });
         if (containerRef.current) io.observe(containerRef.current);
 

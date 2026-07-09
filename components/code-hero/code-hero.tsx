@@ -88,7 +88,7 @@ const CodeHero = ({ titleText, secondText, secondTextDesktop }: CodeHeroProps): 
                     title="Click to load random source file"
                     className={cn(
                         "relative z-10 h-96 p-4 sm:mx-2 md:mx-4 lg:mx-6 sm:rounded-none overflow-hidden cursor-pointer group transition-colors duration-300",
-                        "bg-magnetic-black/90 backdrop-blur-sm border-4 border-phosphor-amber shadow-[6px_6px_0px_0px_#3B5C7D] hover:border-signal-orange hover:shadow-[6px_6px_0px_0px_#D93636]",
+                        "bg-magnetic-black/90 border-4 border-phosphor-amber shadow-[6px_6px_0px_0px_#3B5C7D] hover:border-signal-orange hover:shadow-[6px_6px_0px_0px_#D93636]",
                         styles.crt,
                         globalVhsActive && styles.vhsSync
                     )}>
