@@ -373,18 +373,19 @@ a {
   transition: filter 0.3s ease;
 }
 
-/* Phosphor stack tunables (DESIGN.md §1). Values are the shipped look;
-   the dev tuner (?tune on localhost) writes these live. */
+/* Phosphor stack tunables (DESIGN.md §1) — values dialed by Matt on the
+   PHOSPHOR CAL. deck against prod, 2026-07-09. The Konami egg writes
+   these live; ?tune auto-opens it on dev builds. */
 :root {
   --pt-core-blur: 1px;            /* glyph fuzz radius */
   --pt-fringe-x: 0.6px;           /* misconvergence offset */
-  --pt-fringe-warm-a: 0.34;       /* red fringe alpha */
-  --pt-fringe-cool-a: 0.30;       /* blue fringe alpha */
-  --pt-bloom-r: 6px;              /* amber bloom radius */
-  --pt-bloom-a: 0.40;             /* amber bloom alpha */
-  --pt-grain-a: 0.10;             /* base grain opacity */
-  --pt-grain-vhs-a: 0.15;         /* grain opacity under VHS */
-  --pt-scan-a: 0.12;              /* scanline darkness (VHS) */
+  --pt-fringe-warm-a: 0;          /* red fringe alpha — tuned OUT; cool-only convergence */
+  --pt-fringe-cool-a: 0.24;       /* blue fringe alpha */
+  --pt-bloom-r: 3px;              /* amber bloom radius — tight halo, not haze */
+  --pt-bloom-a: 0.4;              /* amber bloom alpha */
+  --pt-grain-a: 0.14;             /* base grain opacity */
+  --pt-grain-vhs-a: 0.04;         /* grain opacity under VHS — veil carries the texture */
+  --pt-scan-a: 0.17;              /* scanline darkness (VHS) */
   --pt-mask-a: 1;                 /* slot-mask triad strength multiplier (VHS) */
   --pt-veil-lo: 0.45;             /* breathing veil floor (VHS) */
   --pt-veil-hi: 1;                /* breathing veil peak (VHS) */

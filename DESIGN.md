@@ -25,9 +25,16 @@ no paper, no plastic bezels, no objects — screens only.
 Replaces the current Alec-Lownes-style filter. The rule: **glyph fuzz is
 static, life is composited.**
 - Tight pixel fuzz via STATIC `text-shadow`: `0 0 1px currentColor` +
-  `±0.6px` red/blue misconvergence fringe + `0 0 7px` amber bloom.
+  `±0.6px` misconvergence fringe + tight amber bloom.
   Painted once — never animate `text-shadow` (the old filter's perf sin:
   it repaints every glyph every frame).
+- CALIBRATED 2026-07-09: source of truth is the `--pt-*` block in
+  `globals.css :root`, dialed by Matt on the PHOSPHOR CAL. deck (the
+  Konami egg, ↑↑↓↓←→←→BA). Signature choices: red fringe zeroed
+  (cool-only convergence), bloom 3px, grain up at rest (0.14) but
+  nearly off under VHS (0.04) where the veil carries the texture,
+  scanlines darkened to 0.17. Re-tune via the egg + COPY CSS; don't
+  hand-edit values from memory.
 - Fine warm grain (SVG turbulence tile, static) + slot-mask triads (3px
   repeating gradient, static) + roll-bar sweep (`transform`-only) +
   breathing veil (full-screen `opacity` steps — the cheap replacement for
