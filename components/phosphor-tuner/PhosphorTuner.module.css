@@ -1,0 +1,73 @@
+/* CRT power-on: collapse from a bright horizontal line, mechanical steps.
+   Composited only (transform/opacity) per DESIGN.md motion rules. */
+.powerOn {
+  transform-origin: center;
+  animation: crtOn 0.42s steps(5, end) both;
+}
+
+@keyframes crtOn {
+  0% {
+    transform: scaleY(0.015) scaleX(0.35);
+    opacity: 0;
+  }
+
+  25% {
+    transform: scaleY(0.02) scaleX(1.06);
+    opacity: 1;
+  }
+
+  60% {
+    transform: scaleY(0.55) scaleX(1);
+  }
+
+  82% {
+    transform: scaleY(1.05);
+  }
+
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+/* the flash of the tube catching */
+.powerOn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 176, 0, 0.35);
+  pointer-events: none;
+  animation: tubeFlash 0.5s steps(3, end) both;
+}
+
+@keyframes tubeFlash {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.knobIn {
+  animation: knobIn 0.16s steps(2) both;
+}
+
+@keyframes knobIn {
+  from {
+    opacity: 0;
+    transform: translateX(5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .powerOn,
+  .powerOn::before,
+  .knobIn {
+    animation: none;
+  }
+
+  .powerOn::before {
+    opacity: 0;
+  }
+}

@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import cn from 'classnames';
+import { useKonami } from '../../hooks/use-konami';
+import styles from './PhosphorTuner.module.css';
 
 interface IPhosphorKnob {
     cssVar: string;
@@ -36,18 +39,39 @@ const readCurrent = (): Record<string, number> => {
     return out;
 };
 
+// Konami-gated calibration deck: ↑↑↓↓←→←→BA opens it anywhere;
+// ?tune still auto-opens it on dev builds.
 const PhosphorTuner = (): React.ReactNode => {
     const router = useRouter();
+    const [isOpen, setIsOpen] = useState(false);
     const [values, setValues] = useState<Record<string, number> | null>(null);
     const [copied, setCopied] = useState(false);
 
-    const active = router.isReady && 'tune' in router.query;
+    const open = useCallback(() => {
+        console.log('%cPHOSPHOR CALIBRATION DECK >> ACCESS_GRANTED', 'color:#FFB000;font-family:monospace');
+        setIsOpen(true);
+    }, []);
+
+    useKonami(open);
 
     useEffect(() => {
-        if (active) setValues(readCurrent());
-    }, [active]);
+        if (process.env.NODE_ENV === 'development' && router.isReady && 'tune' in router.query) {
+            setIsOpen(true);
+        }
+    }, [router.isReady, router.query]);
 
-    if (process.env.NODE_ENV !== 'development' || !active || !values) return null;
+    useEffect(() => {
+        if (isOpen) setValues(readCurrent());
+    }, [isOpen]);
+
+    useEffect(() => {
+        if (!isOpen) return;
+        const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setIsOpen(false); };
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+    }, [isOpen]);
+
+    if (!isOpen || !values) return null;
 
     const apply = (knob: IPhosphorKnob, raw: number) => {
         document.documentElement.style.setProperty(knob.cssVar, `${raw}${knob.unit}`);
@@ -70,14 +94,31 @@ const PhosphorTuner = (): React.ReactNode => {
     };
 
     return (
-        <div className="fixed top-3 right-3 z-[10001] w-64 border border-phosphor-amber/50 bg-magnetic-black/95 font-mono text-[10px] text-faded-cardboard select-none">
+        <div
+            role="dialog"
+            aria-label="Phosphor calibration deck"
+            className={cn(
+                'fixed top-3 right-3 z-[10001] w-64 border border-phosphor-amber/50 bg-magnetic-black/95 font-mono text-[10px] text-faded-cardboard select-none',
+                styles.powerOn
+            )}
+        >
             <div className="flex items-center justify-between border-b border-phosphor-amber/40 px-3 py-1.5">
-                <span className="tracking-[0.24em] text-phosphor-amber">PHOSPHOR TUNER</span>
-                <span className="text-faded-cardboard/50">DEV</span>
+                <span className="tracking-[0.24em] text-phosphor-amber">PHOSPHOR CAL.</span>
+                <button
+                    onClick={() => setIsOpen(false)}
+                    aria-label="Close calibration deck"
+                    className="px-1 text-faded-cardboard/60 hover:text-tracking-red tracking-[0.1em]"
+                >
+                    [X]
+                </button>
             </div>
             <div className="max-h-[70vh] overflow-y-auto px-3 py-2">
-                {KNOBS.map((k) => (
-                    <label key={k.cssVar} className="block py-1">
+                {KNOBS.map((k, i) => (
+                    <label
+                        key={k.cssVar}
+                        className={cn('block py-1', styles.knobIn)}
+                        style={{ animationDelay: `${420 + i * 30}ms` }}
+                    >
                         <span className="flex justify-between tracking-[0.14em] text-faded-cardboard/70">
                             {k.label}
                             <span className="text-phosphor-amber tabular-nums">{values[k.cssVar]}{k.unit}</span>
@@ -110,7 +151,7 @@ const PhosphorTuner = (): React.ReactNode => {
                 </button>
             </div>
             <div className="border-t border-faded-cardboard/15 px-3 py-1.5 text-faded-cardboard/45">
-                · VHS knobs need the VHS toggle ON
+                · VHS knobs need the VHS toggle ON · ESC closes
             </div>
         </div>
     );
