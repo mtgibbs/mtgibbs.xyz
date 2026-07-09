@@ -27,7 +27,7 @@ npm run lint
 
 ## Docker Deployment
 
-Pushes to `mater` trigger `.github/workflows/deploy.yml`, which ships prod (Heroku + Cloudflare purge) and publishes a timestamp-tagged image to GHCR. Flux on the pi-cluster (`~/dev/pi-cluster`, `clusters/pi-k3s/mtgibbs-site/`) auto-deploys the newest GHCR tag to https://site.lab.mtgibbs.dev. Pushes to `redesign` publish to GHCR only (lab preview without touching prod).
+Pushes to `mater` trigger `.github/workflows/deploy.yml`, which ships prod (Heroku + Cloudflare purge) and publishes a timestamp-tagged image to GHCR. Flux on the pi-cluster (`~/dev/pi-cluster`, `clusters/pi-k3s/mtgibbs-site/`) auto-deploys the newest GHCR tag to https://site.lab.mtgibbs.dev. Pushes to `test-lab` publish to GHCR only (lab preview without touching prod) — preview any branch with `git push origin <branch>:test-lab --force`. Note: a later `mater` push mints a newer tag and flips the lab back to prod's build.
 
 Manual Heroku deployment:
 

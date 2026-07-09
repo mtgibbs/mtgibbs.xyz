@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - mater
-      - redesign
+      - test-lab
       - 'ci/github-actions'
   workflow_dispatch:
 
@@ -24,7 +24,8 @@ jobs:
 
   heroku-deploy:
     name: Deploy to Heroku
-    # Prod ships only from mater; redesign builds go to GHCR for the lab preview
+    # Prod ships only from mater; test-lab builds go to GHCR for the lab preview.
+    # To preview any branch on the lab: git push origin <branch>:test-lab --force
     if: github.ref == 'refs/heads/mater'
     needs: prepare
     runs-on: ubuntu-latest
