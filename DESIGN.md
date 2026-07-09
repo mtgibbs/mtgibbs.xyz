@@ -4,6 +4,8 @@ The confirmed visual direction for the v6 redesign, distilled from the
 shape brief and prototype rounds (2026-07-04). `DESIGN_PHILOSOPHY.md` is
 superseded where it conflicts (its "zine/collage/marker" language was
 drift); `.antigravity/prompts/design-agent.md` remains the DNA source.
+Session history + prior-art index (every comp, decision, and PR):
+`V6_RECAP.md`.
 
 ## Direction
 
